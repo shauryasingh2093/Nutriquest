@@ -1,0 +1,143 @@
+[
+  {
+    "id": "1767526865063",
+    "email": "test@example.com",
+    "name": "Test User",
+    "password": "$2a$10$fAPhsz0neqqKjlFRksuEZelE8./PkXFzGIhd5eFZR1WWNJ9Umlwxy",
+    "createdAt": "2026-01-04T11:41:05.063Z",
+    "xp": 550,
+    "level": 1,
+    "streak": 4,
+    "achievements": [
+      {
+        "id": "first-lesson",
+        "name": "First Steps",
+        "icon": "🎯"
+      }
+    ],
+    "completedLessons": [
+      "dsa-arrays",
+      "databases-db-intro",
+      "databases-sql-basics",
+      "databases-sql-advanced"
+    ]
+  },
+  {
+    "id": "1767536106972",
+    "email": "shaurya.singh.s133@gmail.com",
+    "name": "shaurya singh",
+    "password": "$2a$10$cio80AMBrzEaN96WASLVF.cN4jcyrXFqGM8kPWwlH/5HiN1ZDg2EG",
+    "createdAt": "2026-01-04T14:15:06.972Z",
+    "xp": 0,
+    "level": 1,
+    "streak": 0,
+    "achievements": [],
+    "completedLessons": []
+  },
+  {
+    "id": "1767617279232",
+    "email": "xirep34175@nab4.com",
+    "name": "arya",
+    "password": "$2a$10$bItoiI/BaVf9BFTDv72dgeAfv35SglFuVS1gF9C5Owgg5KKRvDttC",
+    "createdAt": "2026-01-05T12:47:59.232Z",
+    "xp": 1300,
+    "level": 2,
+    "streak": 8,
+    "achievements": [
+      {
+        "id": "first-lesson",
+        "name": "First Steps",
+        "icon": "🎯"
+      },
+      {
+        "id": "7-day-streak",
+        "name": "Week Warrior",
+        "icon": "🔥"
+      }
+    ],
+    "completedLessons": [
+      "dsa-arrays",
+      "dsa-linked-lists",
+      "dsa-stacks-queues",
+      "dsa-graphs",
+      "dsa-sorting",
+      "dsa-trees",
+      "web-dev-html-basics",
+      "web-dev-css-styling"
+    ]
+  },
+  {
+    "id": "1767620362768",
+    "email": "losisit161@arinuse.com",
+    "name": "uihuh",
+    "password": "$2a$10$nHWT6LpADCNBOZmR15KZM..SuBMpoxNJsUDbENNQKfz81EfpuTL3C",
+    "createdAt": "2026-01-05T13:39:22.768Z",
+    "xp": 0,
+    "level": 1,
+    "streak": 0,
+    "achievements": [],
+    "completedLessons": []
+  },
+  {
+    "id": "1767706745168",
+    "email": "testuser123@example.com",
+    "name": "Test User",
+    "password": "$2a$10$s2XzUW1pr/ihqefzX5TkoeDYAScYTTp6.le7vpxhB3zYjM7SIaaNu",
+    "createdAt": "2026-01-06T13:39:05.169Z",
+    "xp": 0,
+    "level": 1,
+    "streak": 0,
+    "achievements": [],
+    "completedLessons": []
+  },
+  {
+    "id": "1767708383359",
+    "email": "dohawi4870@egvoo.com",
+    "name": "uihuh",
+    "password": "$2a$10$UU.UoOaevfUa73BjYGq70OLMl7Jy7a5VHefL7bEv0BIM2w80VxjJm",
+    "createdAt": "2026-01-06T14:06:23.359Z",
+    "xp": 830,
+    "level": 1,
+    "streak": 2,
+    "achievements": [
+      {
+        "id": "first-lesson",
+        "name": "First Steps",
+        "icon": "🎯"
+      },
+      {
+        "id": "5-lessons",
+        "name": "Getting Started",
+        "icon": "🌱",
+        "description": "Complete 5 lessons",
+        "unlockedAt": "2026-01-06T17:18:40.119Z"
+      }
+    ],
+    "completedLessons": [
+      "dsa-arrays",
+      "dsa-linked-lists",
+      "dsa-stacks-queues",
+      "dsa-trees",
+      "web-dev-html-basics",
+      "web-dev-css-styling"
+    ],
+    "stageProgress": {
+      "web-dev-html-basics": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "web-dev-css-styling": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "web-dev-javascript": {
+        "read": true,
+        "practice": true,
+        "notes": false
+      }
+    },
+    "lastActivityDate": "2026-01-07T09:45:02.063Z"
+  }
+]

@@ -1,0 +1,308 @@
+[
+    {
+        "id": "dsa",
+        "title": "Data Structures & Algorithms",
+        "description": "Master fundamental data structures and algorithmic thinking",
+        "icon": "🌳",
+        "color": "#7FB069",
+        "difficulty": "Intermediate",
+        "estimatedHours": 120,
+        "rating": 4,
+        "lessons": [
+            {
+                "id": "arrays",
+                "title": "Arrays & Strings",
+                "xp": 100,
+                "type": "lesson"
+            },
+            {
+                "id": "linked-lists",
+                "title": "Linked Lists",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "stacks-queues",
+                "title": "Stacks & Queues",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "trees",
+                "title": "Trees & BST",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "graphs",
+                "title": "Graphs",
+                "xp": 250,
+                "type": "lesson"
+            },
+            {
+                "id": "sorting",
+                "title": "Sorting Algorithms",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "searching",
+                "title": "Searching Algorithms",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "dp",
+                "title": "Dynamic Programming",
+                "xp": 300,
+                "type": "lesson"
+            }
+        ]
+    },
+    {
+        "id": "web-dev",
+        "title": "Web Development",
+        "description": "Build modern, responsive web applications from scratch",
+        "icon": "🌐",
+        "color": "#6A9FB5",
+        "difficulty": "Beginner",
+        "estimatedHours": 100,
+        "rating": 5,
+        "lessons": [
+            {
+                "id": "html-basics",
+                "title": "HTML Fundamentals",
+                "xp": 100,
+                "type": "lesson"
+            },
+            {
+                "id": "css-styling",
+                "title": "CSS & Styling",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "javascript",
+                "title": "JavaScript Basics",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "dom",
+                "title": "DOM Manipulation",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "react",
+                "title": "React Fundamentals",
+                "xp": 250,
+                "type": "lesson"
+            },
+            {
+                "id": "apis",
+                "title": "Working with APIs",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "deployment",
+                "title": "Deployment & Hosting",
+                "xp": 150,
+                "type": "lesson"
+            }
+        ]
+    },
+    {
+        "id": "databases",
+        "title": "Database Systems",
+        "description": "Learn SQL, NoSQL, and database design principles",
+        "icon": "🗄️",
+        "color": "#F4A261",
+        "difficulty": "Intermediate",
+        "estimatedHours": 80,
+        "rating": 4,
+        "lessons": [
+            {
+                "id": "db-intro",
+                "title": "Database Fundamentals",
+                "xp": 100,
+                "type": "lesson"
+            },
+            {
+                "id": "sql-basics",
+                "title": "SQL Basics",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "sql-advanced",
+                "title": "Advanced SQL",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "nosql",
+                "title": "NoSQL Databases",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "design",
+                "title": "Database Design",
+                "xp": 250,
+                "type": "lesson"
+            },
+            {
+                "id": "optimization",
+                "title": "Query Optimization",
+                "xp": 200,
+                "type": "lesson"
+            }
+        ]
+    },
+    {
+        "id": "python",
+        "title": "Python Programming",
+        "description": "Master Python from basics to advanced concepts",
+        "icon": "🐍",
+        "color": "#E76F51",
+        "difficulty": "Beginner",
+        "estimatedHours": 90,
+        "rating": 5,
+        "lessons": [
+            {
+                "id": "python-basics",
+                "title": "Python Basics",
+                "xp": 100,
+                "type": "lesson"
+            },
+            {
+                "id": "data-types",
+                "title": "Data Types & Structures",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "functions",
+                "title": "Functions & Modules",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "oop",
+                "title": "Object-Oriented Programming",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "file-io",
+                "title": "File I/O & Exceptions",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "libraries",
+                "title": "Popular Libraries",
+                "xp": 200,
+                "type": "lesson"
+            }
+        ]
+    },
+    {
+        "id": "system-design",
+        "title": "System Design",
+        "description": "Design scalable and reliable distributed systems",
+        "icon": "🏗️",
+        "color": "#D4A5A5",
+        "difficulty": "Advanced",
+        "estimatedHours": 150,
+        "rating": 4,
+        "lessons": [
+            {
+                "id": "fundamentals",
+                "title": "System Design Fundamentals",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "scalability",
+                "title": "Scalability Principles",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "load-balancing",
+                "title": "Load Balancing",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "caching",
+                "title": "Caching Strategies",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "microservices",
+                "title": "Microservices Architecture",
+                "xp": 250,
+                "type": "lesson"
+            },
+            {
+                "id": "case-studies",
+                "title": "Real-World Case Studies",
+                "xp": 300,
+                "type": "lesson"
+            }
+        ]
+    },
+    {
+        "id": "machine-learning",
+        "title": "Machine Learning",
+        "description": "Introduction to ML algorithms and applications",
+        "icon": "🤖",
+        "color": "#8B6F47",
+        "difficulty": "Advanced",
+        "estimatedHours": 140,
+        "rating": 5,
+        "lessons": [
+            {
+                "id": "ml-intro",
+                "title": "Introduction to ML",
+                "xp": 150,
+                "type": "lesson"
+            },
+            {
+                "id": "supervised",
+                "title": "Supervised Learning",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "unsupervised",
+                "title": "Unsupervised Learning",
+                "xp": 200,
+                "type": "lesson"
+            },
+            {
+                "id": "neural-networks",
+                "title": "Neural Networks",
+                "xp": 250,
+                "type": "lesson"
+            },
+            {
+                "id": "deep-learning",
+                "title": "Deep Learning Basics",
+                "xp": 300,
+                "type": "lesson"
+            },
+            {
+                "id": "projects",
+                "title": "ML Projects",
+                "xp": 250,
+                "type": "lesson"
+            }
+        ]
+    }
+]

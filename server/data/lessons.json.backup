@@ -1,0 +1,254 @@
+{
+    "web-dev": {
+        "html-basics": {
+            "id": "html-basics",
+            "title": "HTML Fundamentals",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 30,
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "HTML (HyperText Markup Language) is the standard language used to create and structure content on the World Wide Web. Every website you see is built with HTML as its foundation. It tells the browser what to display and how to organize the content.",
+                    "sections": [
+                        {
+                            "title": "What is HTML?",
+                            "content": "HTML works through the use of elements, also called tags. These tags are written inside angle brackets (< >) and often come in pairs: an opening tag and a closing tag. For example, <p> is the opening tag for a paragraph, and </p> is the closing tag. Together, they tell the browser to render a block of text as a paragraph.",
+                            "example": {
+                                "code": "<!DOCTYPE html>\\n<html>\\n  <head>\\n    <title>My First Page</title>\\n  </head>\\n  <body>\\n    <h1>Welcome to HTML!</h1>\\n    <p>This is a paragraph.</p>\\n  </body>\\n</html>",
+                                "explanation": "This is a basic HTML document structure. The <!DOCTYPE html> declaration defines the document type, <html> is the root element, <head> contains metadata, and <body> contains the visible content."
+                            }
+                        },
+                        {
+                            "title": "HTML Elements and Tags",
+                            "content": "HTML elements are the building blocks of web pages. Each element has a specific purpose: headings (<h1> to <h6>) create titles, paragraphs (<p>) contain text, links (<a>) navigate to other pages, and images (<img>) display pictures.",
+                            "keyPoints": [
+                                "Tags are written in angle brackets: <tagname>",
+                                "Most tags come in pairs: opening <p> and closing </p>",
+                                "Some tags are self-closing: <img /> or <br />",
+                                "Elements can be nested inside each other",
+                                "Proper nesting is crucial for valid HTML"
+                            ]
+                        },
+                        {
+                            "title": "Common HTML Tags",
+                            "content": "Let's explore the most frequently used HTML tags that you'll encounter in almost every web page.",
+                            "example": {
+                                "code": "<h1>Main Heading</h1>\\n<h2>Subheading</h2>\\n<p>This is a paragraph with <strong>bold text</strong> and <em>italic text</em>.</p>\\n<a href=\\"https: //example.com\\">Click here</a>\\n<img src=\\"image.jpg\\" alt=\\"Description\\" />\\n<ul>\\n  <li>List item 1</li>\\n  <li>List item 2</li>\\n</ul>",
+                                "explanation": "This example shows headings (h1, h2), a paragraph with formatting (strong, em), a link (a), an image (img), and an unordered list (ul with li items)."
+                            }
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 30,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 10,
+                            "question": "What is the full form of HTML?",
+                            "options": [
+                                "HyperText Markup Language",
+                                "HighText Machine Language",
+                                "HyperTool Multi Language",
+                                "Home Tool Markup Language"
+                            ],
+                            "correctAnswer": 0,
+                            "explanation": "HTML stands for HyperText Markup Language. 'HyperText' refers to links that connect web pages, and 'Markup' refers to the way tags are used to define elements within a document."
+                        },
+                        {
+                            "id": "q2",
+                            "difficulty": "easy",
+                            "xpReward": 10,
+                            "question": "Which tag is used to create a paragraph in HTML?",
+                            "options": [
+                                "<paragraph>",
+                                "<p>",
+                                "<para>",
+                                "<text>"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The <p> tag is used to define a paragraph in HTML. It's one of the most commonly used tags for structuring text content."
+                        },
+                        {
+                            "id": "q3",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "What does the <a> tag represent?",
+                            "options": [
+                                "Article",
+                                "Anchor (link)",
+                                "Animation",
+                                "Audio"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The <a> tag stands for 'anchor' and is used to create hyperlinks. It allows users to navigate from one page to another or to different sections within the same page."
+                        },
+                        {
+                            "id": "q4",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "Which of these is a self-closing tag?",
+                            "options": [
+                                "<p>",
+                                "<div>",
+                                "<img />",
+                                "<h1>"
+                            ],
+                            "correctAnswer": 2,
+                            "explanation": "The <img /> tag is self-closing, meaning it doesn't need a separate closing tag. It's used to embed images and includes attributes like 'src' for the image source and 'alt' for alternative text."
+                        },
+                        {
+                            "id": "q5",
+                            "difficulty": "hard",
+                            "xpReward": 30,
+                            "question": "What is the purpose of the <!DOCTYPE html> declaration?",
+                            "options": [
+                                "To define the document type and version",
+                                "To create a comment",
+                                "To link a stylesheet",
+                                "To add a title"
+                            ],
+                            "correctAnswer": 0,
+                            "explanation": "The <!DOCTYPE html> declaration tells the browser that this is an HTML5 document. It must be the very first line in your HTML file and helps the browser render the page correctly."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "You've learned the fundamentals of HTML! HTML is the backbone of every website, using tags to structure content. Remember: tags come in pairs, elements can be nested, and proper structure is essential.",
+                    "keyTakeaways": [
+                        "HTML uses tags in angle brackets to define elements",
+                        "Most tags have opening and closing pairs",
+                        "Common tags include <h1>, <p>, <a>, <img>, and <ul>",
+                        "The <!DOCTYPE html> declaration is required for HTML5",
+                        "Proper nesting and structure are crucial for valid HTML"
+                    ]
+                }
+            },
+            "totalXP": 50,
+            "unlockRequirement": null
+        },
+        "css-styling": {
+            "id": "css-styling",
+            "title": "CSS & Styling",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 35,
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "CSS (Cascading Style Sheets) is the language used to style and layout web pages. While HTML provides the structure, CSS makes it beautiful by controlling colors, fonts, spacing, and positioning.",
+                    "sections": [
+                        {
+                            "title": "What is CSS?",
+                            "content": "CSS allows you to separate content from presentation. You can change the entire look of a website by modifying just the CSS file, without touching the HTML. This makes maintenance easier and keeps your code organized.",
+                            "example": {
+                                "code": "/* CSS Syntax */\\nselector {\\n  property: value;\\n}\\n\\n/* Example */\\np {\\n  color: blue;\\n  font-size: 16px;\\n  margin: 10px;\\n}",
+                                "explanation": "CSS uses selectors to target HTML elements, then applies style properties. Here, all <p> elements will have blue text, 16px font size, and 10px margin."
+                            }
+                        },
+                        {
+                            "title": "CSS Selectors",
+                            "content": "Selectors are patterns used to select the elements you want to style. There are several types: element selectors (p, h1), class selectors (.classname), ID selectors (#idname), and more advanced selectors.",
+                            "keyPoints": [
+                                "Element selector: targets all elements of a type (e.g., p, h1)",
+                                "Class selector: targets elements with a specific class (.btn)",
+                                "ID selector: targets a unique element (#header)",
+                                "Universal selector: targets all elements (*)",
+                                "Selectors can be combined for specificity"
+                            ],
+                            "example": {
+                                "code": "/* Element selector */\\nh1 {\\n  color: navy;\\n}\\n\\n/* Class selector */\\n.highlight {\\n  background-color: yellow;\\n}\\n\\n/* ID selector */\\n#main-title {\\n  font-size: 32px;\\n}\\n\\n/* Combining selectors */\\np.intro {\\n  font-weight: bold;\\n}",
+                                "explanation": "Different selector types allow you to target elements precisely. Classes can be reused, IDs should be unique, and you can combine selectors for more specific targeting."
+                            }
+                        },
+                        {
+                            "title": "The Box Model",
+                            "content": "Every HTML element is essentially a box. The CSS box model describes how these boxes are structured with content, padding, border, and margin.",
+                            "example": {
+                                "code": ".box {\\n  width: 200px;\\n  height: 100px;\\n  padding: 20px;\\n  border: 2px solid black;\\n  margin: 10px;\\n}",
+                                "explanation": "This creates a box with 200px width, 100px height, 20px padding inside, a 2px border, and 10px margin outside. The total width = width + padding + border + margin."
+                            }
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 40,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 10,
+                            "question": "What does CSS stand for?",
+                            "options": [
+                                "Creative Style Sheets",
+                                "Cascading Style Sheets",
+                                "Computer Style Sheets",
+                                "Colorful Style Sheets"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "CSS stands for Cascading Style Sheets. 'Cascading' refers to the way styles can inherit and override each other based on specificity and order."
+                        },
+                        {
+                            "id": "q2",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "Which selector targets elements with class='button'?",
+                            "options": [
+                                "#button",
+                                ".button",
+                                "button",
+                                "*button"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The dot (.) prefix is used for class selectors. So .button targets all elements with class='button'. The # is for IDs, plain text is for element selectors."
+                        },
+                        {
+                            "id": "q3",
+                            "difficulty": "hard",
+                            "xpReward": 30,
+                            "question": "In the box model, what is the correct order from inside to outside?",
+                            "options": [
+                                "Margin, Border, Padding, Content",
+                                "Content, Padding, Border, Margin",
+                                "Content, Border, Padding, Margin",
+                                "Padding, Content, Border, Margin"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The box model order from inside to outside is: Content (the actual content), Padding (space around content), Border (surrounds padding), and Margin (space outside border)."
+                        },
+                        {
+                            "id": "q4",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "Which property is used to change the text color?",
+                            "options": [
+                                "text-color",
+                                "font-color",
+                                "color",
+                                "text-style"
+                            ],
+                            "correctAnswer": 2,
+                            "explanation": "The 'color' property is used to set the text color in CSS. Despite its simple name, it specifically controls text color, not background or border colors."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "Great work mastering CSS basics! You now understand how to style web pages using selectors, properties, and the box model. CSS is what makes websites beautiful and user-friendly.",
+                    "keyTakeaways": [
+                        "CSS separates content (HTML) from presentation (styles)",
+                        "Selectors target elements: element, .class, #id",
+                        "The box model: content → padding → border → margin",
+                        "CSS properties control colors, fonts, spacing, and layout",
+                        "Cascading means styles can inherit and override each other"
+                    ]
+                }
+            },
+            "totalXP": 60,
+            "unlockRequirement": "html-basics"
+        }
+    }
+}

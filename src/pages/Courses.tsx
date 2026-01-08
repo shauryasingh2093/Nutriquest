@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import api from '../utils/api';
+import { Course } from '../types';
 
-export default function Courses() {
-    const [courses, setCourses] = useState([]);
+const Courses: React.FC = () => {
+    const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [favorites, setFavorites] = useState(() => {
+    const [favorites, setFavorites] = useState<(string | number)[]>(() => {
         const saved = localStorage.getItem('nutriquest_favorites');
         return saved ? JSON.parse(saved) : [];
     });
@@ -23,7 +24,6 @@ export default function Courses() {
     const fetchCourses = async () => {
         try {
             const response = await api.get('/courses');
-            // Assuming the API returns courses
             setCourses(response.data.courses || []);
         } catch (error) {
             console.error('Error fetching courses:', error);
@@ -32,7 +32,7 @@ export default function Courses() {
         }
     };
 
-    const toggleFavorite = (e, courseId) => {
+    const toggleFavorite = (e: React.MouseEvent, courseId: string | number) => {
         e.preventDefault();
         e.stopPropagation();
         setFavorites(prev =>
@@ -42,7 +42,7 @@ export default function Courses() {
         );
     };
 
-    const courseColors = {
+    const courseColors: Record<string, string> = {
         'HTML': 'bg-[#A8BDC9]',
         'CSS': 'bg-[#A58E84]',
         'JavaScript': 'bg-[#8E8B82]',
@@ -50,7 +50,7 @@ export default function Courses() {
         'Introduction to HTML': 'bg-[#A8BDC9]',
     };
 
-    const courseIcons = {
+    const courseIcons: Record<string, JSX.Element> = {
         'HTML': (
             <div className="relative w-full h-full flex items-center justify-center">
                 <div className="absolute inset-0 bg-white/40 rounded-full shadow-inner border border-white/30 blur-[1px]"></div>
@@ -184,7 +184,7 @@ export default function Courses() {
                             <input
                                 type="text"
                                 placeholder="Search roadmap..."
-                                className="w-full py-4 pl-14 pr-6 rounded-2xl bg-white border-2 border-black/10 text-lg text-[#555555] outline-none shadow-sm focus:border-[#A8BDC9] transition-all font-medium"
+                                className="w-full py-4 pl-14 pr-6 rounded-[24px] bg-white border-2 border-black/5 text-lg text-[#555555] outline-none shadow-md focus:border-[#A8BDC9] transition-all font-bold"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -236,7 +236,7 @@ export default function Courses() {
                                             key={star}
                                             src="/star.png"
                                             alt="Star"
-                                            className={`w-4 h-4 ${star > (course.rating || 4) ? 'opacity-30 grayscale' : ''}`}
+                                            className={`w-4 h-4 ${star > 4 ? 'opacity-30 grayscale' : ''}`}
                                         />
                                     ))}
                                 </div>
@@ -253,7 +253,7 @@ export default function Courses() {
                                         Total XP: {course.lessons?.reduce((sum, lesson) => sum + (lesson.xp || 0), 0) || 1500}
                                     </div>
                                     <div className="bg-[#FFFFCC] px-3 py-1 rounded-full text-[10px] font-bold text-[#7F6E68] whitespace-nowrap">
-                                        ⏱ {course.estimatedHours || 10}h
+                                        ⏱ 10h
                                     </div>
                                     <div className="bg-[#A8D8F4] px-3 py-1 rounded-full text-[10px] font-bold text-[#7F6E68] whitespace-nowrap">
                                         {course.lessons?.length || 4} levels
@@ -271,4 +271,6 @@ export default function Courses() {
             </main>
         </div>
     );
-}
+};
+
+export default Courses;

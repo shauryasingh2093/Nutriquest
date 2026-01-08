@@ -1,21 +1,34 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { Achievement } from '../types';
 
-export default function AchievementUnlock({ achievement, onClose }) {
+interface AchievementUnlockProps {
+    achievement: Partial<Achievement> & { icon: string; name: string };
+    onClose: () => void;
+}
+
+const AchievementUnlock: React.FC<AchievementUnlockProps> = ({ achievement, onClose }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         // Slide in
-        setTimeout(() => setIsVisible(true), 100);
+        const slideInTimer = setTimeout(() => setIsVisible(true), 100);
 
         // Auto-dismiss after 3 seconds
-        const timer = setTimeout(() => {
+        const dismissTimer = setTimeout(() => {
             setIsVisible(false);
             setTimeout(onClose, 300);
         }, 3000);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(slideInTimer);
+            clearTimeout(dismissTimer);
+        };
     }, [onClose]);
+
+    const handleClose = () => {
+        setIsVisible(false);
+        setTimeout(onClose, 300);
+    };
 
     return (
         <div style={{
@@ -31,17 +44,14 @@ export default function AchievementUnlock({ achievement, onClose }) {
                     <div style={styles.description}>{achievement.description}</div>
                 )}
             </div>
-            <button onClick={() => {
-                setIsVisible(false);
-                setTimeout(onClose, 300);
-            }} style={styles.closeButton}>
+            <button onClick={handleClose} style={styles.closeButton}>
                 ✕
             </button>
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         position: 'fixed',
         top: '100px',
@@ -96,11 +106,4 @@ const styles = {
     }
 };
 
-AchievementUnlock.propTypes = {
-    achievement: PropTypes.shape({
-        icon: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string
-    }).isRequired,
-    onClose: PropTypes.func.isRequired
-};
+export default AchievementUnlock;

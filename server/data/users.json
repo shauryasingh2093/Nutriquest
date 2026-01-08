@@ -139,5 +139,65 @@
       }
     },
     "lastActivityDate": "2026-01-07T09:45:02.063Z"
+  },
+  {
+    "id": "1767787819604",
+    "email": "shaurya.020singh@gmail.com",
+    "name": "shaurya singh",
+    "password": "$2a$10$UbO3J3o.A6xG/BmkpZmZh.FjpqLuxb0LlaXbiuLgcp6F7FaLstRIq",
+    "createdAt": "2026-01-07T12:10:19.605Z",
+    "xp": 390,
+    "level": 1,
+    "streak": 2,
+    "achievements": [
+      {
+        "id": "first-lesson",
+        "name": "First Steps",
+        "icon": "🎯",
+        "description": "Complete your first lesson",
+        "unlockedAt": "2026-01-07T13:15:09.944Z"
+      }
+    ],
+    "completedLessons": [
+      "web-dev-html-basics",
+      "web-dev-css-styling",
+      "machine-learning-ml-intro",
+      "databases-db-intro"
+    ],
+    "stageProgress": {
+      "web-dev-html-basics": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "web-dev-css-styling": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "machine-learning-ml-intro": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "databases-db-intro": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      }
+    },
+    "lastActivityDate": "2026-01-08T11:02:45.172Z"
+  },
+  {
+    "id": "1767870701348",
+    "email": "test@test.com",
+    "name": "test",
+    "password": "$2a$10$hFsCU0zh46KVimwASB.hFe5z0eCD7vOXscySQRWAthbGNooY0IOVq",
+    "createdAt": "2026-01-08T11:11:41.348Z",
+    "xp": 0,
+    "level": 1,
+    "streak": 0,
+    "achievements": [],
+    "completedLessons": []
   }
 ]

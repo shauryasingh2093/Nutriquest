@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function Signup() {
+const Signup: React.FC = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -13,9 +13,9 @@ export default function Signup() {
     const [loading, setLoading] = useState(false);
     const { signup, socialLogin } = useAuth();
     const navigate = useNavigate();
-    const [socialLoading, setSocialLoading] = useState(null);
+    const [socialLoading, setSocialLoading] = useState<string | null>(null);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
@@ -23,20 +23,19 @@ export default function Signup() {
         setError('');
     };
 
-    const handleSocialLogin = async (provider) => {
+    const handleSocialLogin = async (provider: 'google' | 'apple') => {
         setError('');
-        setSocialLoading(provider);
+        setSocialLoading(provider === 'google' ? 'Google' : 'Apple');
         try {
             await socialLogin(provider);
-            navigate('/courses');
-        } catch (err) {
+            // Redirection is handled by Clerk's authenticateWithRedirect
+        } catch (err: any) {
             setError(err.message || `Failed to login with ${provider}`);
-        } finally {
             setSocialLoading(null);
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
@@ -50,7 +49,7 @@ export default function Signup() {
         try {
             await signup(formData.name, formData.email, formData.password);
             navigate('/courses');
-        } catch (err) {
+        } catch (err: any) {
             setError(err.response?.data?.error || 'Failed to create account');
         } finally {
             setLoading(false);
@@ -73,7 +72,7 @@ export default function Signup() {
 
                 <div className="flex flex-col gap-3.5 w-full max-w-[380px] mb-8">
                     <button
-                        onClick={() => handleSocialLogin('Google')}
+                        onClick={() => handleSocialLogin('google')}
                         disabled={loading || !!socialLoading}
                         className="bg-white border-1.5 border-auth-brown rounded-xl p-[11px] flex items-center justify-center gap-3 font-bold text-base cursor-pointer text-auth-brown hover:bg-gray-50 transition-colors shadow-sm disabled:opacity-50"
                     >
@@ -81,7 +80,7 @@ export default function Signup() {
                         {socialLoading === 'Google' ? 'Connecting...' : 'Continue with Google'}
                     </button>
                     <button
-                        onClick={() => handleSocialLogin('Apple')}
+                        onClick={() => handleSocialLogin('apple')}
                         disabled={loading || !!socialLoading}
                         className="bg-white border-1.5 border-auth-brown rounded-xl p-[11px] flex items-center justify-center gap-3 font-bold text-base cursor-pointer text-auth-brown hover:bg-gray-50 transition-colors shadow-sm disabled:opacity-50"
                     >
@@ -152,7 +151,9 @@ export default function Signup() {
             </div>
         </div>
     );
-}
+};
+
+export default Signup;
 
 
 

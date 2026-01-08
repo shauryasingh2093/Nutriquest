@@ -1,17 +1,33 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Question } from '../types';
 
-export default function QuizQuestion({ question, questionNumber, totalQuestions, onAnswer, selectedAnswer, showFeedback }) {
-    const [hoveredOption, setHoveredOption] = useState(null);
+interface QuizQuestionProps {
+    question: Question;
+    questionNumber: number;
+    totalQuestions: number;
+    onAnswer: (index: number) => void;
+    selectedAnswer: number | null;
+    showFeedback: boolean;
+}
 
-    const handleOptionClick = (index) => {
+const QuizQuestion: React.FC<QuizQuestionProps> = ({
+    question,
+    questionNumber,
+    totalQuestions,
+    onAnswer,
+    selectedAnswer,
+    showFeedback
+}) => {
+    const [hoveredOption, setHoveredOption] = useState<number | null>(null);
+
+    const handleOptionClick = (index: number) => {
         if (!showFeedback) {
             onAnswer(index);
         }
     };
 
-    const getOptionStyle = (index) => {
-        const baseStyle = {
+    const getOptionStyle = (index: number): React.CSSProperties => {
+        const baseStyle: React.CSSProperties = {
             padding: '1rem 1.5rem',
             margin: '0.75rem 0',
             borderRadius: '12px',
@@ -76,38 +92,17 @@ export default function QuizQuestion({ question, questionNumber, totalQuestions,
                 }}>
                     Question {questionNumber} of {totalQuestions}
                 </span>
-                <div style={{
-                    width: '100%',
-                    height: '4px',
-                    backgroundColor: 'var(--color-bg-tertiary)',
-                    borderRadius: '2px',
-                    marginTop: '0.5rem',
-                    overflow: 'hidden'
-                }}>
+                <div style={styles.progressTrack}>
                     <div style={{
-                        width: `${(questionNumber / totalQuestions) * 100}%`,
-                        height: '100%',
-                        backgroundColor: 'var(--color-accent-primary)',
-                        transition: 'width 0.5s ease',
-                        borderRadius: '2px'
+                        ...styles.progressBar,
+                        width: `${(questionNumber / totalQuestions) * 100}%`
                     }} />
                 </div>
             </div>
 
             {/* Question */}
-            <div style={{
-                backgroundColor: 'var(--color-white)',
-                padding: '2rem',
-                borderRadius: '16px',
-                boxShadow: 'var(--shadow-md)',
-                marginBottom: '2rem'
-            }}>
-                <h3 style={{
-                    fontSize: '1.25rem',
-                    marginBottom: '1.5rem',
-                    color: 'var(--color-text-primary)',
-                    lineHeight: '1.6'
-                }}>
+            <div style={styles.questionCard}>
+                <h3 style={styles.questionTitle}>
                     {question.question}
                 </h3>
 
@@ -177,19 +172,36 @@ export default function QuizQuestion({ question, questionNumber, totalQuestions,
             )}
         </div>
     );
-}
-
-QuizQuestion.propTypes = {
-    question: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        question: PropTypes.string.isRequired,
-        options: PropTypes.arrayOf(PropTypes.string).isRequired,
-        correctAnswer: PropTypes.number.isRequired,
-        explanation: PropTypes.string.isRequired
-    }).isRequired,
-    questionNumber: PropTypes.number.isRequired,
-    totalQuestions: PropTypes.number.isRequired,
-    onAnswer: PropTypes.func.isRequired,
-    selectedAnswer: PropTypes.number,
-    showFeedback: PropTypes.bool.isRequired
 };
+
+const styles: { [key: string]: React.CSSProperties } = {
+    progressTrack: {
+        width: '100%',
+        height: '4px',
+        backgroundColor: 'var(--color-bg-tertiary)',
+        borderRadius: '2px',
+        marginTop: '0.5rem',
+        overflow: 'hidden'
+    },
+    progressBar: {
+        height: '100%',
+        backgroundColor: 'var(--color-accent-primary)',
+        transition: 'width 0.5s ease',
+        borderRadius: '2px'
+    },
+    questionCard: {
+        backgroundColor: 'var(--color-white)',
+        padding: '2rem',
+        borderRadius: '16px',
+        boxShadow: 'var(--shadow-md)',
+        marginBottom: '2rem'
+    },
+    questionTitle: {
+        fontSize: '1.25rem',
+        marginBottom: '1.5rem',
+        color: 'var(--color-text-primary)',
+        lineHeight: '1.6'
+    }
+};
+
+export default QuizQuestion;

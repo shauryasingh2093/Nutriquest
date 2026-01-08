@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StageIndicator from '../components/StageIndicator';
@@ -12,28 +12,38 @@ import LevelStump from '../components/LevelStump';
 import MascotCharacter from '../components/MascotCharacter';
 import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
+import { Course, Lesson, Achievement, StageProgress } from '../types';
 
-export default function Roadmap() {
-    const { courseId } = useParams();
-    const [course, setCourse] = useState(null);
-    const [lessons, setLessons] = useState([]);
+interface MascotPos {
+    x: number;
+    y: number;
+    isMoving?: boolean;
+    type?: string;
+}
+
+const Roadmap: React.FC = () => {
+    const { courseId } = useParams<{ courseId: string }>();
+    const [course, setCourse] = useState<Course | null>(null);
+    const [lessons, setLessons] = useState<Lesson[]>([]);
     const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
-    const [currentStage, setCurrentStage] = useState('read');
-    const [stageProgress, setStageProgress] = useState({});
-    const [lessonContent, setLessonContent] = useState(null);
+    const [currentStage, setCurrentStage] = useState<'read' | 'practice' | 'notes'>('read');
+    const [stageProgress, setStageProgress] = useState<Record<string, StageProgress>>({});
+    const [lessonContent, setLessonContent] = useState<Lesson | null>(null);
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [answers, setAnswers] = useState([]);
+    const [answers, setAnswers] = useState<number[]>([]);
     const [showFeedback, setShowFeedback] = useState(false);
     const [showXPBurst, setShowXPBurst] = useState(false);
     const [earnedXP, setEarnedXP] = useState(0);
     const [showLevelUp, setShowLevelUp] = useState(false);
-    const [mascotPos, setMascotPos] = useState({ x: 50, y: 40, isMoving: false });
-    const [achievements, setAchievements] = useState([]);
+    const [mascotPos, setMascotPos] = useState<MascotPos>({ x: 50, y: 40, isMoving: false });
+    const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [loading, setLoading] = useState(true);
     const { user, updateUser } = useAuth();
 
     useEffect(() => {
-        fetchCourseData();
+        if (courseId) {
+            fetchCourseData();
+        }
     }, [courseId]);
 
     const fetchCourseData = async () => {
@@ -46,10 +56,10 @@ export default function Roadmap() {
                 setStageProgress(user.stageProgress);
             }
 
-            // Find first incomplete lesson
-            const firstUnlockedIndex = courseRes.data.course.lessons.findIndex((_, idx) => isLessonUnlockedByIndex(idx, user?.stageProgress || {}));
+            const firstUnlockedIndex = courseRes.data.course.lessons.findIndex((_: any, idx: number) =>
+                isLessonUnlockedByIndex(idx, user?.stageProgress || {}, courseRes.data.course.lessons)
+            );
 
-            // Actually find the first lesson that is NOT fully completed
             let targetIndex = firstUnlockedIndex >= 0 ? firstUnlockedIndex : 0;
             for (let i = 0; i < courseRes.data.course.lessons.length; i++) {
                 const key = `${courseId}-${courseRes.data.course.lessons[i].id}`;
@@ -69,16 +79,16 @@ export default function Roadmap() {
         }
     };
 
-    const isLessonUnlockedByIndex = (index, progress) => {
+    const isLessonUnlockedByIndex = (index: number, progress: Record<string, StageProgress>, lessonsList: Lesson[]) => {
         if (index === 0) return true;
-        const prevLesson = lessons[index - 1];
+        const prevLesson = lessonsList[index - 1];
         if (!prevLesson) return false;
         const key = `${courseId}-${prevLesson.id}`;
         const prevProgress = progress[key] || {};
         return prevProgress.read && prevProgress.practice && prevProgress.notes;
     };
 
-    const fetchLessonContent = async (lessonId, currentProg = stageProgress) => {
+    const fetchLessonContent = async (lessonId: string, currentProg = stageProgress) => {
         try {
             const response = await api.get(`/lessons/${courseId}/${lessonId}`);
             setLessonContent(response.data.lesson);
@@ -95,14 +105,14 @@ export default function Roadmap() {
         }
     };
 
-    const handleStoneClick = async (lesson, lessonIndex, stage) => {
+    const handleStoneClick = async (lesson: Lesson, lessonIndex: number, stage: 'read' | 'practice' | 'notes') => {
         if (!isLessonUnlocked(lessonIndex)) return;
 
         const progress = getStageCompletion(lesson.id);
         const stageIndex = ['read', 'practice', 'notes'].indexOf(stage);
 
         if (stageIndex > 0) {
-            const prevStage = ['read', 'practice', 'notes'][stageIndex - 1];
+            const prevStage = ['read', 'practice', 'notes'][stageIndex - 1] as 'read' | 'practice' | 'notes';
             if (!progress[prevStage]) return;
         }
 
@@ -114,7 +124,7 @@ export default function Roadmap() {
         await fetchLessonContent(lesson.id);
     };
 
-    const handleCompleteStage = async (stage, xp) => {
+    const handleCompleteStage = async (stage: 'read' | 'practice' | 'notes', xp: number) => {
         const lessonId = lessons[currentLessonIndex].id;
 
         try {
@@ -144,7 +154,7 @@ export default function Roadmap() {
                     if (currentLessonIndex < lessons.length - 1) {
                         const nextIndex = currentLessonIndex + 1;
                         setCurrentLessonIndex(nextIndex);
-                        setCurrentStage('read'); // Reset to read for next lesson
+                        setCurrentStage('read');
                         fetchLessonContent(lessons[nextIndex].id, response.data.user.stageProgress);
                         setCurrentQuestion(0);
                         setAnswers([]);
@@ -160,7 +170,7 @@ export default function Roadmap() {
         }
     };
 
-    const handleAnswer = (answerIndex) => {
+    const handleAnswer = (answerIndex: number) => {
         const newAnswers = [...answers];
         newAnswers[currentQuestion] = answerIndex;
         setAnswers(newAnswers);
@@ -168,10 +178,10 @@ export default function Roadmap() {
     };
 
     const handleNextQuestion = () => {
-        if (currentQuestion < lessonContent.stages.practice.questions.length - 1) {
+        if (lessonContent?.stages?.practice && currentQuestion < lessonContent.stages.practice.questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
             setShowFeedback(false);
-        } else {
+        } else if (lessonContent?.stages?.practice) {
             const totalXP = lessonContent.stages.practice.questions.reduce((sum, q, i) => {
                 return answers[i] === q.correctAnswer ? sum + q.xpReward : sum;
             }, 0);
@@ -179,10 +189,10 @@ export default function Roadmap() {
         }
     };
 
-    const getLessonKey = (lessonId) => `${courseId}-${lessonId}`;
+    const getLessonKey = (lessonId: string) => `${courseId}-${lessonId}`;
 
-    const calculatePath = (count) => {
-        const path = [];
+    const calculatePath = (count: number) => {
+        const path: MascotPos[] = [];
         const baseCenter = 50;
         const offset = 20;
         const verticalSpacing = 400;
@@ -219,7 +229,7 @@ export default function Roadmap() {
             let targetPosIndex = 0;
 
             if (levelIdx === 0 && !progress.read && currentStage === 'read') {
-                targetPosIndex = 0; // START
+                targetPosIndex = 0;
             } else {
                 targetPosIndex = levelIdx * 4 + stageIdx + 1;
             }
@@ -247,17 +257,17 @@ export default function Roadmap() {
         }
     }, [mascotPos.y, loading]);
 
-    const getStageCompletion = (lessonId) => {
+    const getStageCompletion = (lessonId: string): StageProgress => {
         const key = getLessonKey(lessonId);
         return stageProgress[key] || { read: false, practice: false, notes: false };
     };
 
-    const isLessonUnlocked = (index) => {
+    const isLessonUnlocked = (index: number): boolean => {
         if (index === 0) return true;
         const prevLesson = lessons[index - 1];
         if (!prevLesson) return false;
         const prevProgress = getStageCompletion(prevLesson.id);
-        return prevProgress.read && prevProgress.practice && prevProgress.notes;
+        return !!(prevProgress.read && prevProgress.practice && prevProgress.notes);
     };
 
     if (loading || !course) {
@@ -304,7 +314,7 @@ export default function Roadmap() {
                                     completedStages={currentProgress}
                                 />
 
-                                {currentStage === 'read' && (
+                                {currentStage === 'read' && lessonContent.stages?.read && (
                                     <div style={styles.lessonContent}>
                                         <h2 style={{ fontSize: '1.75rem', color: '#8B4513', marginBottom: '1.5rem' }}>{lessonContent.title}</h2>
                                         <p style={styles.intro}>{lessonContent.stages.read.introduction}</p>
@@ -333,7 +343,7 @@ export default function Roadmap() {
                                         ))}
                                         <div style={styles.footer}>
                                             <button
-                                                onClick={() => handleCompleteStage('read', lessonContent.stages.read.xp)}
+                                                onClick={() => handleCompleteStage('read', lessonContent.stages!.read!.xp)}
                                                 style={styles.nextButton}
                                             >
                                                 Complete Reading (+{lessonContent.stages.read.xp} XP) →
@@ -342,14 +352,14 @@ export default function Roadmap() {
                                     </div>
                                 )}
 
-                                {currentStage === 'practice' && (
+                                {currentStage === 'practice' && lessonContent.stages?.practice && (
                                     <div style={styles.lessonContent}>
                                         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                                             <h3 style={styles.quizTitle}>Practice Questions</h3>
                                             <p style={styles.quizSubtitle}>Question {currentQuestion + 1} of {lessonContent.stages.practice.questions.length}</p>
                                         </div>
                                         {(() => {
-                                            const question = lessonContent.stages.practice.questions[currentQuestion];
+                                            const question = lessonContent.stages!.practice!.questions[currentQuestion];
                                             return (
                                                 <>
                                                     <QuizDifficulty difficulty={question.difficulty} />
@@ -365,7 +375,7 @@ export default function Roadmap() {
                                                                     borderColor: showFeedback ? (index === question.correctAnswer ? '#28a745' : (index === answers[currentQuestion] ? '#dc3545' : '#ddd')) : (answers[currentQuestion] === index ? '#2196F3' : '#ddd'),
                                                                     cursor: showFeedback ? 'default' : 'pointer',
                                                                     transform: !showFeedback && answers[currentQuestion] === index ? 'scale(1.02)' : 'none'
-                                                                }}
+                                                                } as React.CSSProperties}
                                                             >
                                                                 {option}
                                                                 {showFeedback && index === question.correctAnswer && <span style={{ marginLeft: 'auto', color: '#28a745', fontWeight: 'bold' }}>✓</span>}
@@ -383,7 +393,7 @@ export default function Roadmap() {
                                                                 onClick={handleNextQuestion}
                                                                 style={styles.nextButton}
                                                             >
-                                                                {currentQuestion < lessonContent.stages.practice.questions.length - 1 ? 'Next Question →' : 'Finish Practice →'}
+                                                                {currentQuestion < lessonContent.stages!.practice!.questions.length - 1 ? 'Next Question →' : 'Finish Practice →'}
                                                             </button>
                                                         )}
                                                     </div>
@@ -393,12 +403,12 @@ export default function Roadmap() {
                                     </div>
                                 )}
 
-                                {currentStage === 'notes' && (
+                                {currentStage === 'notes' && lessonContent.stages?.notes && (
                                     <div style={styles.lessonContent}>
                                         <NotesStage
                                             summary={lessonContent.stages.notes.summary}
                                             keyTakeaways={lessonContent.stages.notes.keyTakeaways}
-                                            onComplete={() => handleCompleteStage('notes', lessonContent.stages.notes.xp)}
+                                            onComplete={() => handleCompleteStage('notes', lessonContent.stages!.notes!.xp)}
                                         />
                                     </div>
                                 )}
@@ -431,10 +441,10 @@ export default function Roadmap() {
                             return (
                                 <div key={lesson.id}>
                                     {/* Stages (Stepping Stones) */}
-                                    {['read', 'practice', 'notes'].map((stage, stageIndex) => {
+                                    {(['read', 'practice', 'notes'] as const).map((stage, stageIndex) => {
                                         const stageCompleted = lessonProgress[stage];
                                         const stageActive = isCurrentLesson && currentStage === stage;
-                                        const stageLocked = !isUnlocked || (stageIndex > 0 && !lessonProgress[['read', 'practice', 'notes'][stageIndex - 1]]);
+                                        const stageLocked = !isUnlocked || (stageIndex > 0 && !lessonProgress[(['read', 'practice', 'notes'] as const)[stageIndex - 1]]);
                                         const pos = path[lessonIndex * 4 + stageIndex + 1];
 
                                         return (
@@ -451,7 +461,7 @@ export default function Roadmap() {
                                             >
                                                 <SteppingStone
                                                     stage={stage}
-                                                    isCompleted={stageCompleted}
+                                                    isCompleted={!!stageCompleted}
                                                     isActive={stageActive}
                                                     isLocked={stageLocked}
                                                     onClick={() => !stageLocked && handleStoneClick(lesson, lessonIndex, stage)}
@@ -475,7 +485,7 @@ export default function Roadmap() {
                                                     levelNumber={lessonIndex + 1}
                                                     lessonTitle={lesson.title}
                                                     totalXP={lesson.xp}
-                                                    isCompleted={isCompleted}
+                                                    isCompleted={!!isCompleted}
                                                     isUnlocked={isLessonUnlocked(lessonIndex + 1)}
                                                 />
                                             </div>
@@ -509,15 +519,15 @@ export default function Roadmap() {
 
             {/* Global Overlays */}
             {showXPBurst && <XPBurst xp={earnedXP} onComplete={() => setShowXPBurst(false)} />}
-            {showLevelUp && <LevelUpModal level={user?.level} onClose={() => setShowLevelUp(false)} />}
+            {showLevelUp && <LevelUpModal level={user?.level || 1} onClose={() => setShowLevelUp(false)} />}
             {achievements.map((achievement) => (
                 <AchievementUnlock key={achievement.id} achievement={achievement} onClose={() => setAchievements(achievements.filter(a => a.id !== achievement.id))} />
             ))}
         </div>
     );
-}
+};
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
     container: { display: 'flex', flex: 1, backgroundColor: '#FAF3E0', overflow: 'hidden' },
     leftPanel: { flex: '0 0 55%', backgroundColor: '#FFF8DC', display: 'flex', flexDirection: 'column', borderRight: '3px solid #DEB887', overflowY: 'auto' },
     header: { padding: '1.5rem 2rem', borderBottom: '2px solid #DEB887' },
@@ -544,7 +554,7 @@ const styles = {
     option: { padding: '1rem 1.5rem', marginBottom: '0.75rem', border: '2px solid', borderRadius: '12px', transition: 'all 0.3s ease', display: 'flex', alignItems: 'center', fontSize: '1rem', backgroundColor: 'white' },
     feedbackBox: { marginTop: '1rem', padding: '1rem', backgroundColor: '#fff3cd', borderRadius: '8px', border: '2px solid #ffc107' },
     footer: { padding: '1.5rem 0', borderTop: '2px solid #DEB887', display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' },
-    nextButton: { padding: '0.85rem 2.5rem', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: '700', cursor: 'pointer', transition: 'all 0.3s ease', boxShadow: '0 6px 12px rgba(139, 69, 19, 0.3)', ':hover': { transform: 'translateY(-2px)', boxShadow: '0 8px 16px rgba(139, 69, 19, 0.4)' } },
+    nextButton: { padding: '0.85rem 2.5rem', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: '700', cursor: 'pointer', transition: 'all 0.3s ease', boxShadow: '0 6px 12px rgba(139, 69, 19, 0.3)' },
     rightPanel: {
         flex: '0 0 45%',
         backgroundImage: 'url(/playground.png)',
@@ -579,3 +589,5 @@ if (typeof document !== 'undefined') {
         document.head.appendChild(style);
     }
 }
+
+export default Roadmap;

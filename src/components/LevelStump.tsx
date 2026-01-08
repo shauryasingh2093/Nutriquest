@@ -1,6 +1,47 @@
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
-export default function LevelStump({ levelNumber, lessonTitle, totalXP, isCompleted, isUnlocked }) {
+interface LevelStumpProps {
+    levelNumber: number;
+    lessonTitle?: string;
+    totalXP: number;
+    isCompleted?: boolean;
+    isUnlocked?: boolean;
+}
+
+const LevelStump: React.FC<LevelStumpProps> = ({
+    levelNumber,
+    lessonTitle,
+    totalXP,
+    isCompleted = false,
+    isUnlocked = false
+}) => {
+    useEffect(() => {
+        if (!document.querySelector('style[data-level-stump]')) {
+            const styleSheet = document.createElement("style");
+            styleSheet.setAttribute('data-level-stump', 'true');
+            styleSheet.textContent = `
+                @keyframes popIn {
+                    0% {
+                        transform: scale(0);
+                        opacity: 0;
+                    }
+                    50% {
+                        transform: scale(1.2);
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+                @keyframes float {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-10px); }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+    }, []);
+
     return (
         <div style={{
             ...styles.container,
@@ -54,9 +95,9 @@ export default function LevelStump({ levelNumber, lessonTitle, totalXP, isComple
             )}
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         position: 'relative',
         display: 'flex',
@@ -84,7 +125,7 @@ const styles = {
     },
     acornOnStump: {
         position: 'absolute',
-        top: '10px', // Keeping original top as no specific offset value was provided in the snippet
+        top: '10px',
         width: '40px',
         height: '40px',
         zIndex: 2,
@@ -113,6 +154,12 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
+    },
+    startTitle: {
+        fontSize: '1.5rem',
+        fontWeight: '900',
+        color: 'white',
+        textShadow: '2px 2px 0px rgba(0,0,0,0.5)'
     },
     levelLabel: {
         fontSize: '1.25rem',
@@ -162,36 +209,4 @@ const styles = {
     }
 };
 
-// Add keyframes
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-    @keyframes popIn {
-        0% {
-            transform: scale(0);
-            opacity: 0;
-        }
-        50% {
-            transform: scale(1.2);
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-`;
-if (!document.querySelector('style[data-level-stump]')) {
-    styleSheet.setAttribute('data-level-stump', 'true');
-    document.head.appendChild(styleSheet);
-}
-
-LevelStump.propTypes = {
-    levelNumber: PropTypes.number.isRequired,
-    totalXP: PropTypes.number.isRequired,
-    isCompleted: PropTypes.bool,
-    isUnlocked: PropTypes.bool
-};
-
-LevelStump.defaultProps = {
-    isCompleted: false,
-    isUnlocked: false
-};
+export default LevelStump;

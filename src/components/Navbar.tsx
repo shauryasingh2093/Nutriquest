@@ -1,17 +1,18 @@
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function Navbar() {
+const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const handleLogout = () => {
+    const handleLogout = (): void => {
         logout();
         navigate('/');
     };
 
-    const isActive = (path) => location.pathname === path;
+    const isActive = (path: string): boolean => location.pathname === path;
 
     if (!user) {
         return null;
@@ -73,30 +74,42 @@ export default function Navbar() {
                     <div className="flex items-center gap-6">
 
                         {/* XP Badge */}
-                        <div className="bg-[#333333] text-white px-4 py-2 rounded-lg flex flex-col gap-1 shadow-inner min-w-[120px]">
-                            <div className="flex items-center gap-2 font-bold text-sm">
-                                <img src="/star.png" alt="XP" className="w-5 h-5 shrink-0" />
-                                <span>{user.xp || 0} XP</span>
+                        <Link to="/achievements" className="no-underline">
+                            <div className="bg-[#333333] text-white px-3 py-2 rounded-lg flex flex-col gap-1 shadow-inner min-w-[120px] h-[44px] justify-center transition-all hover:scale-[1.02] cursor-pointer border border-white/5 group">
+                                <div className="flex items-center gap-2 font-bold text-[10px] leading-none">
+                                    <img src="/star.png" alt="XP" className="w-3.5 h-3.5 shrink-0 object-contain" />
+                                    <span className="tracking-tight uppercase opacity-80">{user.xp || 0} XP</span>
+                                </div>
+                                <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                                    <div
+                                        className="bg-gradient-to-r from-yellow-400 to-yellow-200 h-full rounded-full shadow-[0_0_8px_rgba(250,204,21,0.2)] transition-all duration-1000 ease-out"
+                                        style={{ width: `${Math.min((user.xp % 1000) / 10, 100)}%` }}
+                                    ></div>
+                                </div>
                             </div>
-                            <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                <div
-                                    className="bg-yellow-400 h-full rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)] transition-all duration-1000 ease-out"
-                                    style={{ width: `${Math.min((user.xp % 1000) / 10, 100)}%` }}
-                                ></div>
-                            </div>
-                        </div>
+                        </Link>
 
                         {/* Streak Badge */}
-                        <div className="bg-[#333333] text-white px-4 py-1.5 rounded-lg flex items-center gap-2 font-bold text-sm shadow-inner">
-                            <img src="/fire flame.png" alt="Streak" className="w-5 h-5" />
-                            <span>{user.streak || 0} day streak</span>
-                        </div>
+                        <Link to="/achievements" className="no-underline">
+                            <div className="bg-[#333333] text-white px-3 py-2 rounded-lg flex flex-col gap-1 shadow-inner min-w-[120px] h-[44px] justify-center transition-all hover:scale-[1.02] cursor-pointer border border-white/5 group">
+                                <div className="flex items-center gap-2 font-bold text-[10px] leading-none">
+                                    <img src="/fire flame.png" alt="Streak" className="w-3.5 h-3.5 shrink-0 object-contain" />
+                                    <span className="tracking-tight uppercase opacity-80 whitespace-nowrap">{user.streak || 0} Day Streak</span>
+                                </div>
+                                <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                                    <div
+                                        className="bg-gradient-to-r from-orange-500 to-orange-300 h-full rounded-full shadow-[0_0_8px_rgba(249,115,22,0.2)] transition-all duration-1000 ease-out"
+                                        style={{ width: `${Math.min(((user.streak || 0) / 7) * 100, 100)}%` }}
+                                    ></div>
+                                </div>
+                            </div>
+                        </Link>
 
                         {/* Profile Icon with Dropdown */}
                         <div className="relative group">
                             <Link to="/profile">
                                 <div className="w-10 h-10 rounded-full bg-[#A8BDC9] border-2 border-white flex items-center justify-center cursor-pointer hover:scale-110 transition-transform overflow-hidden shadow-sm">
-                                    <img src={user.avatar || "/progress.png"} alt="Profile" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Squirrel'; }} />
+                                    <img src={user.avatar || "/progress.png"} alt="Profile" className="w-full h-full object-cover" onError={(e: any) => { e.target.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Squirrel'; }} />
                                 </div>
                             </Link>
 
@@ -128,3 +141,5 @@ export default function Navbar() {
         </nav>
     );
 }
+
+export default Navbar;

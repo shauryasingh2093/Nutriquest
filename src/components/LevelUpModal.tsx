@@ -1,10 +1,74 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-export default function LevelUpModal({ level, onClose }) {
-    const [showConfetti, setShowConfetti] = useState(true);
+interface LevelUpModalProps {
+    level: number;
+    onClose: () => void;
+}
+
+interface ConfettiPiece {
+    id: number;
+    left: number;
+    delay: number;
+    duration: number;
+    color: string;
+}
+
+const LevelUpModal: React.FC<LevelUpModalProps> = ({ level, onClose }) => {
+    const [showConfetti] = useState(true);
 
     useEffect(() => {
+        if (!document.querySelector('style[data-level-up-modal]')) {
+            const styleSheet = document.createElement("style");
+            styleSheet.setAttribute('data-level-up-modal', 'true');
+            styleSheet.textContent = `
+                @keyframes scaleIn {
+                    0% {
+                        transform: scale(0.5);
+                        opacity: 0;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+                
+                @keyframes pulse {
+                    0%, 100% {
+                        transform: scale(1);
+                    }
+                    50% {
+                        transform: scale(1.05);
+                    }
+                }
+                
+                @keyframes bounce {
+                    0%, 100% {
+                        transform: translateY(0);
+                    }
+                    50% {
+                        transform: translateY(-20px);
+                    }
+                }
+                
+                @keyframes confettiFall {
+                    to {
+                        transform: translateY(100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+                
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+
         // Auto-close after 4 seconds
         const timer = setTimeout(() => {
             onClose();
@@ -36,10 +100,10 @@ export default function LevelUpModal({ level, onClose }) {
             </div>
         </div>
     );
-}
+};
 
-function Confetti() {
-    const pieces = Array.from({ length: 50 }, (_, i) => ({
+const Confetti: React.FC = () => {
+    const pieces: ConfettiPiece[] = Array.from({ length: 50 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
         delay: Math.random() * 0.5,
@@ -63,9 +127,9 @@ function Confetti() {
             ))}
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     overlay: {
         position: 'fixed',
         top: 0,
@@ -80,7 +144,7 @@ const styles = {
         animation: 'fadeIn 0.3s ease'
     },
     modal: {
-        backgroundColor: 'var(--color-white)',
+        backgroundColor: 'white', // Changed from var(--color-white) for safety, though var might still work
         borderRadius: '24px',
         padding: '3rem 2rem',
         maxWidth: '500px',
@@ -120,7 +184,6 @@ const styles = {
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text'
     },
     title: {
         fontSize: '2.5rem',
@@ -129,11 +192,10 @@ const styles = {
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text'
     },
     subtitle: {
         fontSize: '1.25rem',
-        color: 'var(--color-text-secondary)',
+        color: '#666', // Changed from var(--color-text-secondary)
         margin: '0 0 1rem 0'
     },
     mascot: {
@@ -143,7 +205,7 @@ const styles = {
     },
     message: {
         fontSize: '1.0625rem',
-        color: 'var(--color-text-secondary)',
+        color: '#666', // Changed from var(--color-text-secondary)
         lineHeight: '1.6',
         margin: 0
     },
@@ -166,57 +228,4 @@ const styles = {
     }
 };
 
-// Add these keyframe animations to your global CSS
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-    @keyframes scaleIn {
-        0% {
-            transform: scale(0.5);
-            opacity: 0;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.05);
-        }
-    }
-    
-    @keyframes bounce {
-        0%, 100% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-    
-    @keyframes confettiFall {
-        to {
-            transform: translateY(100vh) rotate(360deg);
-            opacity: 0;
-        }
-    }
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(styleSheet);
-
-LevelUpModal.propTypes = {
-    level: PropTypes.number.isRequired,
-    onClose: PropTypes.func.isRequired
-};
+export default LevelUpModal;

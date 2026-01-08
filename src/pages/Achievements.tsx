@@ -1,16 +1,22 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 
-export default function Achievements() {
+interface Badge {
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    unlocked: boolean;
+}
+
+const Achievements: React.FC = () => {
     const { user } = useAuth();
     if (!user) return null;
 
-    // Helper to check if an achievement is unlocked
-    const isUnlocked = (id) => (user.achievements || []).some(a => a.id === id);
+    const isUnlocked = (id: string) => (user.achievements || []).some(a => a.id === id);
 
-    // Badge definitions synced with backend
-    const badges = [
+    const badges: Badge[] = [
         {
             id: 'first-lesson',
             name: 'First Steps',
@@ -123,7 +129,7 @@ export default function Achievements() {
                                 <div className="w-20 h-20 bg-[#7F8C9A] rounded-full flex items-center justify-center mb-3">
                                     <img src="/star.png" alt="XP" className="w-12 h-12" />
                                 </div>
-                                <p className="text-white/80 text-sm font-bold mb-1">{user.xp || 1250}</p>
+                                <p className="text-white/80 text-sm font-bold mb-1">{user.xp}</p>
                                 <p className="text-white text-base font-bold">Total XP</p>
                             </div>
                         </div>
@@ -177,4 +183,6 @@ export default function Achievements() {
             </div>
         </div>
     );
-}
+};
+
+export default Achievements;

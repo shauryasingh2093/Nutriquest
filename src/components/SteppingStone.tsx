@@ -1,11 +1,54 @@
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
-export default function SteppingStone({ stage, isCompleted, isActive, isLocked, onClick }) {
-    const stageLabels = {
+interface SteppingStoneProps {
+    stage: 'read' | 'practice' | 'notes';
+    isCompleted?: boolean;
+    isActive?: boolean;
+    isLocked?: boolean;
+    onClick?: () => void;
+}
+
+const SteppingStone: React.FC<SteppingStoneProps> = ({
+    stage,
+    isCompleted = false,
+    isActive = false,
+    isLocked = false,
+    onClick = () => { }
+}) => {
+    const stageLabels: Record<'read' | 'practice' | 'notes', string> = {
         read: 'READ',
         practice: 'QUIZ',
         notes: 'NOTES'
     };
+
+    useEffect(() => {
+        if (!document.querySelector('style[data-stepping-stone]')) {
+            const styleSheet = document.createElement("style");
+            styleSheet.setAttribute('data-stepping-stone', 'true');
+            styleSheet.textContent = `
+                @keyframes glowPulse {
+                    0%, 100% {
+                        box-shadow: 0 0 20px rgba(255, 213, 79, 0.6), 0 4px 12px rgba(0,0,0,0.2);
+                    }
+                    50% {
+                        box-shadow: 0 0 30px rgba(255, 213, 79, 0.9), 0 4px 12px rgba(0,0,0,0.2);
+                    }
+                }
+                
+                @keyframes twinkle {
+                    0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+                    50% { opacity: 0.5; transform: scale(1.2) rotate(180deg); }
+                }
+
+                @keyframes pulse {
+                    0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.5; }
+                    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
+                    100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.5; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+    }, []);
 
     return (
         <div
@@ -47,9 +90,9 @@ export default function SteppingStone({ stage, isCompleted, isActive, isLocked, 
             )}
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         position: 'relative',
         width: '140px',
@@ -101,39 +144,4 @@ const styles = {
     }
 };
 
-// Add keyframes
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-    @keyframes glowPulse {
-        0%, 100% {
-            box-shadow: 0 0 20px rgba(255, 213, 79, 0.6), 0 4px 12px rgba(0,0,0,0.2);
-        }
-        50% {
-            box-shadow: 0 0 30px rgba(255, 213, 79, 0.9), 0 4px 12px rgba(0,0,0,0.2);
-        }
-    }
-    
-    @keyframes twinkle {
-        0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        50% { opacity: 0.5; transform: scale(1.2) rotate(180deg); }
-    }
-`;
-if (!document.querySelector('style[data-stepping-stone]')) {
-    styleSheet.setAttribute('data-stepping-stone', 'true');
-    document.head.appendChild(styleSheet);
-}
-
-SteppingStone.propTypes = {
-    stage: PropTypes.oneOf(['read', 'practice', 'notes']).isRequired,
-    isCompleted: PropTypes.bool,
-    isActive: PropTypes.bool,
-    isLocked: PropTypes.bool,
-    onClick: PropTypes.func
-};
-
-SteppingStone.defaultProps = {
-    isCompleted: false,
-    isActive: false,
-    isLocked: false,
-    onClick: () => { }
-};
+export default SteppingStone;

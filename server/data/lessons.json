@@ -250,5 +250,259 @@
             "totalXP": 60,
             "unlockRequirement": "html-basics"
         }
+    },
+    "dsa": {
+        "arrays": {
+            "id": "arrays",
+            "title": "Arrays & Strings",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 45,
+            "stages": {
+                "read": {
+                    "xp": 20,
+                    "introduction": "Arrays and Strings are the most fundamental data structures in computer science. They represent linear collections of data stored in contiguous memory locations.",
+                    "sections": [
+                        {
+                            "title": "Understanding Arrays",
+                            "content": "An array is a collection of elements identified by index or key. Elements are stored in contiguous memory, allowing for constant-time access by index.",
+                            "example": {
+                                "code": "const numbers = [1, 2, 3, 4, 5];\nconsole.log(numbers[0]); // Output: 1",
+                                "explanation": "This is a basic array declaration in JavaScript and accessing the first element using index 0."
+                            }
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 50,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 25,
+                            "question": "What is the time complexity of accessing an element in an array by its index?",
+                            "options": [
+                                "O(1)",
+                                "O(n)",
+                                "O(log n)",
+                                "O(n²)"
+                            ],
+                            "correctAnswer": 0,
+                            "explanation": "Accessing by index is O(1) because the memory address can be calculated directly."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "You've mastered the basics of Arrays and Strings! Remember that contiguous memory is the key to their performance.",
+                    "keyTakeaways": [
+                        "Arrays use contiguous memory",
+                        "Index-based access is O(1)",
+                        "Strings are often treated as arrays of characters"
+                    ]
+                }
+            },
+            "totalXP": 100
+        }
+    },
+    "databases": {
+        "db-intro": {
+            "id": "db-intro",
+            "title": "Database Fundamentals",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 30,
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "Databases are organized collections of structured information, or data, typically stored electronically in a computer system.",
+                    "sections": [
+                        {
+                            "title": "What is a DBMS?",
+                            "content": "A Database Management System (DBMS) is the software that interacts with end users, applications, and the database itself to capture and analyze the data."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 40,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 40,
+                            "question": "What does SQL stand for?",
+                            "options": [
+                                "Structured Query Language",
+                                "Simple Query Level",
+                                "System Quality Logic",
+                                "Standard Query List"
+                            ],
+                            "correctAnswer": 0,
+                            "explanation": "SQL stands for Structured Query Language, the standard language for relational database management."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "Databases are essential for modern applications. You've started your journey into data management!",
+                    "keyTakeaways": [
+                        "A DBMS manages the database",
+                        "SQL is the primary language for relational DBs",
+                        "Data persistence is the main goal"
+                    ]
+                }
+            },
+            "totalXP": 60
+        }
+    },
+    "python": {
+        "python-basics": {
+            "id": "python-basics",
+            "title": "Python Basics",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 30,
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "Python is a high-level, interpreted programming language known for its readability and versatility. It's used in web dev, AI, data science, and more.",
+                    "sections": [
+                        {
+                            "title": "Indentation Matters",
+                            "content": "Unlike many other languages, Python uses indentation to define blocks of code, making it exceptionally clean and readable."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 40,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 40,
+                            "question": "How do you print 'Hello' in Python?",
+                            "options": [
+                                "console.log('Hello')",
+                                "print('Hello')",
+                                "echo 'Hello'",
+                                "printf('Hello')"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The print() function is used to output text in Python."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "Python's simplicity is its strength. You're now ready to write your first scripts!",
+                    "keyTakeaways": [
+                        "Readability is a core philosophy",
+                        "Indentation is part of the syntax",
+                        "Broad application in modern tech"
+                    ]
+                }
+            },
+            "totalXP": 60
+        }
+    },
+    "system-design": {
+        "fundamentals": {
+            "id": "fundamentals",
+            "title": "System Design Fundamentals",
+            "type": "lesson",
+            "difficulty": "advanced",
+            "estimatedMinutes": 60,
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "System Design is the process of defining the architecture, components, modules, interfaces, and data for a system to satisfy specified requirements.",
+                    "sections": [
+                        {
+                            "title": "Scalability",
+                            "content": "Scalability is the capability of a system to handle a growing amount of work, or its potential to be enlarged to accommodate that growth."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 60,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "hard",
+                            "xpReward": 60,
+                            "question": "What is Horizontal Scaling?",
+                            "options": [
+                                "Increasing the power of a single server",
+                                "Adding more servers to the pool",
+                                "Using a faster database",
+                                "Optimizing code performance"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "Horizontal scaling means adding more machines into your pool of resources."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Designing systems at scale requires thinking about trade-offs. You've taken the first step toward becoming an architect!",
+                    "keyTakeaways": [
+                        "Vertical vs Horizontal scaling",
+                        "Load balancing is critical",
+                        "Availability vs Consistency (CAP theorem)"
+                    ]
+                }
+            },
+            "totalXP": 130
+        }
+    },
+    "machine-learning": {
+        "ml-intro": {
+            "id": "ml-intro",
+            "title": "Introduction to ML",
+            "type": "lesson",
+            "difficulty": "advanced",
+            "estimatedMinutes": 50,
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Machine Learning is a subset of AI that focuses on building systems that learn from data and improve their performance over time without being explicitly programmed.",
+                    "sections": [
+                        {
+                            "title": "Types of ML",
+                            "content": "The main types of machine learning are Supervised Learning, Unsupervised Learning, and Reinforcement Learning."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 60,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "medium",
+                            "xpReward": 60,
+                            "question": "What is Supervised Learning?",
+                            "options": [
+                                "Learning from unlabeled data",
+                                "Learning from labeled data with inputs and targets",
+                                "Learning through trial and error",
+                                "Learning from real-time user feedback"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "Supervised learning uses a training set to teach models to yield the desired output."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "ML is transforming how we solve complex problems. You've started exploring the world of intelligent algorithms!",
+                    "keyTakeaways": [
+                        "Data is the foundation of ML",
+                        "The goal is prediction or decision making",
+                        "Models improve with more/better data"
+                    ]
+                }
+            },
+            "totalXP": 130
+        }
     }
 }

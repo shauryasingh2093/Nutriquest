@@ -1,13 +1,24 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
-export default function QuizDifficulty({ difficulty }) {
-    const config = {
-        easy: { acorns: 1, color: '#8BC34A', label: 'Easy', xp: 10 },
-        medium: { acorns: 2, color: '#FF9800', label: 'Medium', xp: 20 },
-        hard: { acorns: 3, color: '#F44336', label: 'Hard', xp: 30 }
+interface QuizDifficultyProps {
+    difficulty: 'Easy' | 'Medium' | 'Hard';
+}
+
+interface DifficultyConfig {
+    acorns: number;
+    color: string;
+    label: string;
+    xp: number;
+}
+
+const QuizDifficulty: React.FC<QuizDifficultyProps> = ({ difficulty }) => {
+    const config: Record<'Easy' | 'Medium' | 'Hard', DifficultyConfig> = {
+        Easy: { acorns: 1, color: '#8BC34A', label: 'Easy', xp: 10 },
+        Medium: { acorns: 2, color: '#FF9800', label: 'Medium', xp: 20 },
+        Hard: { acorns: 3, color: '#F44336', label: 'Hard', xp: 30 }
     };
 
-    const { acorns, color, label, xp } = config[difficulty] || config.easy;
+    const { acorns, color, label, xp } = config[difficulty] || config.Easy;
 
     return (
         <div style={{ ...styles.container, borderColor: color }}>
@@ -20,9 +31,9 @@ export default function QuizDifficulty({ difficulty }) {
             <span style={styles.xp}>+{xp} XP</span>
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         display: 'inline-flex',
         alignItems: 'center',
@@ -51,6 +62,4 @@ const styles = {
     }
 };
 
-QuizDifficulty.propTypes = {
-    difficulty: PropTypes.oneOf(['easy', 'medium', 'hard']).isRequired
-};
+export default QuizDifficulty;

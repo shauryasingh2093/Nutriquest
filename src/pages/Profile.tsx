@@ -1,81 +1,91 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import api from '../utils/api';
+import { Course } from '../types';
 
-export default function Profile() {
+interface FormData {
+    name: string;
+    email: string;
+}
+
+interface HeatmapDay {
+    active: boolean;
+    id: number;
+}
+
+const Profile: React.FC = () => {
     const { user, updateUser } = useAuth();
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({
-        name: user.name,
-        email: user.email
+    const [formData, setFormData] = useState<FormData>({
+        name: user?.name || '',
+        email: user?.email || ''
     });
-    const [favoriteCourses, setFavoriteCourses] = useState([]);
-    const [historyCourses, setHistoryCourses] = useState([]);
+    const [favoriteCourses, setFavoriteCourses] = useState<Course[]>([]);
+    const [historyCourses, setHistoryCourses] = useState<Course[]>([]);
     const [loadingFavs, setLoadingFavs] = useState(true);
     const [loadingHistory, setLoadingHistory] = useState(true);
     const [completedCoursesCount, setCompletedCoursesCount] = useState(0);
 
     useEffect(() => {
-        const fetchAndFilterData = async () => {
-            if (!user) return;
-            try {
-                const response = await api.get('/courses');
-                const allCourses = response.data.courses || [];
-
-                // Process Favorites
-                const savedFavIds = JSON.parse(localStorage.getItem('nutriquest_favorites') || '[]');
-                const filteredFavs = allCourses.filter(course => savedFavIds.includes(course.id));
-                setFavoriteCourses(filteredFavs);
-
-                // Process History
-                const savedHistoryIds = JSON.parse(localStorage.getItem('nutriquest_history') || '[]');
-                const filteredHistory = savedHistoryIds
-                    .map(id => allCourses.find(course => course.id === id))
-                    .filter(Boolean);
-                setHistoryCourses(filteredHistory);
-
-                // Calculate truly completed courses (all lessons finished)
-                const completed = allCourses.filter(course => {
-                    const lessons = course.lessons || [];
-                    if (lessons.length === 0) return false;
-                    return lessons.every(lesson =>
-                        user.completedLessons?.includes(lesson.id) ||
-                        user.completedLessons?.includes(`${course.id}-${lesson.id}`)
-                    );
-                }).length;
-                setCompletedCoursesCount(completed);
-
-            } catch (error) {
-                console.error('Error fetching course data:', error);
-            } finally {
-                setLoadingFavs(false);
-                setLoadingHistory(false);
-            }
-        };
-
-        fetchAndFilterData();
+        if (user) {
+            setFormData({
+                name: user.name,
+                email: user.email
+            });
+            fetchAndFilterData();
+        }
     }, [user]);
+
+    const fetchAndFilterData = async () => {
+        if (!user) return;
+        try {
+            const response = await api.get('/courses');
+            const allCourses: Course[] = response.data.courses || [];
+
+            // Process Favorites
+            const savedFavIds: string[] = JSON.parse(localStorage.getItem('nutriquest_favorites') || '[]');
+            const filteredFavs = allCourses.filter(course => savedFavIds.includes(course.id));
+            setFavoriteCourses(filteredFavs);
+
+            // Process History
+            const savedHistoryIds: string[] = JSON.parse(localStorage.getItem('nutriquest_history') || '[]');
+            const filteredHistory = savedHistoryIds
+                .map(id => allCourses.find(course => course.id === id))
+                .filter((course): course is Course => !!course);
+            setHistoryCourses(filteredHistory);
+
+            // Calculate truly completed courses (all lessons finished)
+            const completed = allCourses.filter(course => {
+                const lessons = course.lessons || [];
+                if (lessons.length === 0) return false;
+                return lessons.every(lesson =>
+                    user.completedLessons?.includes(lesson.id) ||
+                    user.completedLessons?.includes(`${course.id}-${lesson.id}`)
+                );
+            }).length;
+            setCompletedCoursesCount(completed);
+
+        } catch (error) {
+            console.error('Error fetching course data:', error);
+        } finally {
+            setLoadingFavs(false);
+            setLoadingHistory(false);
+        }
+    };
 
     if (!user) return <div className="min-h-screen bg-[#F5EFE1] flex items-center justify-center font-bold">Loading profile...</div>;
 
-    const handleChange = (e) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
 
-    const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         updateUser({
             ...user,
@@ -85,12 +95,12 @@ export default function Profile() {
         setIsEditing(false);
     };
 
-    const handleAvatarChange = (e) => {
-        const file = e.target.files[0];
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                const base64String = reader.result;
+                const base64String = reader.result as string;
                 updateUser({
                     ...user,
                     avatar: base64String
@@ -102,7 +112,7 @@ export default function Profile() {
 
     // Dynamic data for heat map based on streak (as requested by user)
     const streakCount = user.streak || 0;
-    const heatmapDays = Array.from({ length: 108 }, (_, i) => ({
+    const heatmapDays: HeatmapDay[] = Array.from({ length: 108 }, (_, i) => ({
         active: i < streakCount,
         id: i
     }));
@@ -128,7 +138,7 @@ export default function Profile() {
                                 src={user.avatar || "/progress.png"}
                                 alt="Profile Large"
                                 className="w-full h-full object-cover"
-                                onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Squirrel'; }}
+                                onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Squirrel'; }}
                             />
                         </div>
                         <div className="absolute -right-16 top-1/2 -translate-y-1/2 bg-[#5DAD54] text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg border-2 border-[#F5EFE1] whitespace-nowrap z-40">
@@ -142,7 +152,7 @@ export default function Profile() {
                             className="hidden"
                         />
                         <button
-                            onClick={() => fileInputRef.current.click()}
+                            onClick={() => fileInputRef.current?.click()}
                             className="absolute bottom-2 right-2 bg-[#333333] p-2.5 rounded-full shadow-lg hover:scale-110 transition-all border border-white/20 active:scale-95 cursor-pointer z-30"
                         >
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -428,4 +438,6 @@ export default function Profile() {
             </main>
         </div>
     );
-}
+};
+
+export default Profile;

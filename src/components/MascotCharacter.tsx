@@ -1,7 +1,21 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-export default function MascotCharacter({ position, expression, message }) {
+interface MascotCharacterProps {
+    position: {
+        isMoving?: boolean;
+        x: number;
+        y: number;
+        type?: string;
+    };
+    expression?: 'happy' | 'celebrating' | 'encouraging' | 'thinking' | 'neutral';
+    message?: string;
+}
+
+const MascotCharacter: React.FC<MascotCharacterProps> = ({
+    position = { isMoving: false, x: 50, y: 0 },
+    expression = 'neutral',
+    message = ''
+}) => {
     const [showMessage, setShowMessage] = useState(false);
 
     useEffect(() => {
@@ -25,7 +39,7 @@ export default function MascotCharacter({ position, expression, message }) {
                     style={{
                         ...styles.mascot,
                         filter: position.isMoving ? 'drop-shadow(0 0 15px #FFD54F)' : 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-                    }}
+                    } as React.CSSProperties}
                 />
             </div>
 
@@ -55,7 +69,7 @@ export default function MascotCharacter({ position, expression, message }) {
     );
 }
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
     container: {
         position: 'relative',
         display: 'inline-block'
@@ -116,41 +130,31 @@ const styles = {
 };
 
 // Add keyframes
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-    @keyframes mascotBounce {
-        0%, 100% { transform: translateY(0); }
-        25% { transform: translateY(-20px); }
-        50% { transform: translateY(-10px); }
-        75% { transform: translateY(-15px); }
-    }
-    
-    @keyframes dustFloat {
-        0% {
-            opacity: 1;
-            transform: translate(0, 0) scale(1);
+if (typeof document !== 'undefined') {
+    const styleSheet = document.createElement("style");
+    styleSheet.textContent = `
+        @keyframes mascotBounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-20px); }
+            50% { transform: translateY(-10px); }
+            75% { transform: translateY(-15px); }
         }
-        100% {
-            opacity: 0;
-            transform: translate(calc(var(--x, 0) * 20px), -30px) scale(0.5);
+        
+        @keyframes dustFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--x, 0) * 20px), -30px) scale(0.5);
+            }
         }
+    `;
+    if (!document.querySelector('style[data-mascot]')) {
+        styleSheet.setAttribute('data-mascot', 'true');
+        document.head.appendChild(styleSheet);
     }
-`;
-if (!document.querySelector('style[data-mascot]')) {
-    styleSheet.setAttribute('data-mascot', 'true');
-    document.head.appendChild(styleSheet);
 }
 
-MascotCharacter.propTypes = {
-    position: PropTypes.shape({
-        isMoving: PropTypes.bool
-    }),
-    expression: PropTypes.oneOf(['happy', 'celebrating', 'encouraging', 'thinking', 'neutral']),
-    message: PropTypes.string
-};
-
-MascotCharacter.defaultProps = {
-    position: { isMoving: false },
-    expression: 'neutral',
-    message: ''
-};
+export default MascotCharacter;

@@ -1,19 +1,26 @@
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import QuizQuestion from './QuizQuestion';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
+import { Lesson, QuizResults } from '../types';
 
-export default function LessonViewer({ courseId, lessonId, onClose, onComplete }) {
-    const [lesson, setLesson] = useState(null);
+interface LessonViewerProps {
+    courseId: string;
+    lessonId: string;
+    onClose: () => void;
+    onComplete: (results: QuizResults | null) => void;
+}
+
+const LessonViewer: React.FC<LessonViewerProps> = ({ courseId, lessonId, onClose, onComplete }) => {
+    const [lesson, setLesson] = useState<Lesson | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentSection, setCurrentSection] = useState(0);
     const [showQuiz, setShowQuiz] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [answers, setAnswers] = useState([]);
+    const [answers, setAnswers] = useState<number[]>([]);
     const [showFeedback, setShowFeedback] = useState(false);
     const [quizComplete, setQuizComplete] = useState(false);
-    const [quizResults, setQuizResults] = useState(null);
+    const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -32,7 +39,8 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
     };
 
     const handleNextSection = () => {
-        if (currentSection < lesson.content.sections.length - 1) {
+        if (!lesson) return;
+        if (currentSection < lesson.stages.read.sections.length) {
             setCurrentSection(currentSection + 1);
         } else {
             setShowQuiz(true);
@@ -45,7 +53,7 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
         }
     };
 
-    const handleAnswer = (answerIndex) => {
+    const handleAnswer = (answerIndex: number) => {
         const newAnswers = [...answers];
         newAnswers[currentQuestion] = answerIndex;
         setAnswers(newAnswers);
@@ -53,7 +61,8 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
     };
 
     const handleNextQuestion = () => {
-        if (currentQuestion < lesson.quiz.questions.length - 1) {
+        if (!lesson) return;
+        if (currentQuestion < lesson.stages.practice.questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
             setShowFeedback(false);
         } else {
@@ -130,16 +139,16 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
                                         {lesson.title}
                                     </h3>
                                     <p style={{ fontSize: '1.125rem', lineHeight: '1.8', color: 'var(--color-text-secondary)' }}>
-                                        {lesson.content.introduction}
+                                        {lesson.stages.read.introduction}
                                     </p>
                                 </div>
                             )}
 
                             {/* Section Content */}
-                            {currentSection > 0 && currentSection <= lesson.content.sections.length && (
+                            {currentSection > 0 && currentSection <= lesson.stages.read.sections.length && (
                                 <div style={styles.section}>
                                     {(() => {
-                                        const section = lesson.content.sections[currentSection - 1];
+                                        const section = lesson.stages.read.sections[currentSection - 1];
                                         return (
                                             <>
                                                 <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--color-accent-primary)' }}>
@@ -192,17 +201,17 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
                                 </p>
                             </div>
                             <QuizQuestion
-                                question={lesson.quiz.questions[currentQuestion]}
+                                question={lesson.stages.practice.questions[currentQuestion]}
                                 questionNumber={currentQuestion + 1}
-                                totalQuestions={lesson.quiz.questions.length}
+                                totalQuestions={lesson.stages.practice.questions.length}
                                 onAnswer={handleAnswer}
-                                selectedAnswer={answers[currentQuestion]}
+                                selectedAnswer={answers[currentQuestion] !== undefined ? answers[currentQuestion] : null}
                                 showFeedback={showFeedback}
                             />
                         </div>
                     )}
 
-                    {quizComplete && (
+                    {quizComplete && quizResults && (
                         <div style={{ textAlign: 'center', padding: '2rem', animation: 'fadeIn 0.5s ease' }}>
                             <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
                                 {quizResults.score >= 70 ? '🎉' : '📚'}
@@ -241,21 +250,21 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
                                 </button>
                             )}
                             <button onClick={handleNextSection} className="btn btn-primary" style={{ marginLeft: 'auto' }}>
-                                {currentSection < lesson.content.sections.length ? 'Next →' : 'Start Quiz →'}
+                                {currentSection < lesson.stages.read.sections.length ? 'Next →' : 'Start Quiz →'}
                             </button>
                         </>
                     )}
                     {showQuiz && !quizComplete && showFeedback && (
                         <button onClick={handleNextQuestion} className="btn btn-primary" style={{ marginLeft: 'auto' }}>
-                            {currentQuestion < lesson.quiz.questions.length - 1 ? 'Next Question →' : 'Finish Quiz'}
+                            {currentQuestion < lesson.stages.practice.questions.length - 1 ? 'Next Question →' : 'Finish Quiz'}
                         </button>
                     )}
-                    {quizComplete && quizResults.passed && (
+                    {quizComplete && quizResults && quizResults.passed && (
                         <button onClick={handleCompleteLesson} className="btn btn-primary" style={{ margin: '0 auto' }}>
                             Complete Lesson & Earn {lesson.xp} XP! 🎯
                         </button>
                     )}
-                    {quizComplete && !quizResults.passed && (
+                    {quizComplete && quizResults && !quizResults.passed && (
                         <button onClick={onClose} className="btn btn-outline" style={{ margin: '0 auto' }}>
                             Review & Try Again
                         </button>
@@ -264,9 +273,9 @@ export default function LessonViewer({ courseId, lessonId, onClose, onComplete }
             </div>
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     overlay: {
         position: 'fixed',
         top: 0,
@@ -308,9 +317,6 @@ const styles = {
         padding: '0.5rem',
         borderRadius: '8px',
         transition: 'all 0.2s ease',
-        ':hover': {
-            backgroundColor: 'var(--color-bg-secondary)'
-        }
     },
     content: {
         flex: 1,
@@ -364,9 +370,4 @@ const styles = {
     }
 };
 
-LessonViewer.propTypes = {
-    courseId: PropTypes.string.isRequired,
-    lessonId: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onComplete: PropTypes.func.isRequired
-};
+export default LessonViewer;

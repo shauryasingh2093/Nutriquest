@@ -1,6 +1,7 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Landing() {
+const Landing: React.FC = () => {
     return (
         <div className="font-source-serif bg-landing-bg min-h-screen m-0 overflow-x-hidden text-landing-dark">
             {/* Navbar */}
@@ -133,14 +134,14 @@ export default function Landing() {
             <footer className="bg-landing-journey-card/40 backdrop-blur-sm text-landing-dark pt-24 pb-12 px-10 border-t border-landing-logo/20">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-7xl mx-auto mb-20">
                     <div>
-                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm">Product</h4>
+                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Product</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Features</a></li>
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Updates</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm">Company</h4>
+                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Company</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">About</a></li>
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Blog</a></li>
@@ -148,7 +149,7 @@ export default function Landing() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm">Services</h4>
+                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Services</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Documentation</a></li>
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Community</a></li>
@@ -157,7 +158,7 @@ export default function Landing() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm">Values</h4>
+                        <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Values</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Privacy Policy</a></li>
                             <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Terms</a></li>
@@ -171,6 +172,8 @@ export default function Landing() {
             </footer>
         </div>
     );
-}
+};
+
+export default Landing;
 
 

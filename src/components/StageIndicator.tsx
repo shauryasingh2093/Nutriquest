@@ -1,8 +1,14 @@
-import PropTypes from 'prop-types';
+import React from 'react';
+import { StageProgress } from '../types';
 
-export default function StageIndicator({ currentStage, completedStages }) {
-    const stages = ['read', 'practice', 'notes'];
-    const stageLabels = {
+interface StageIndicatorProps {
+    currentStage: 'read' | 'practice' | 'notes';
+    completedStages: StageProgress;
+}
+
+const StageIndicator: React.FC<StageIndicatorProps> = ({ currentStage, completedStages }) => {
+    const stages: (keyof StageProgress)[] = ['read', 'practice', 'notes'];
+    const stageLabels: Record<keyof StageProgress, string> = {
         read: 'READ',
         practice: 'QUIZ',
         notes: 'NOTES'
@@ -60,9 +66,9 @@ export default function StageIndicator({ currentStage, completedStages }) {
             })}
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         display: 'flex',
         alignItems: 'center',
@@ -127,11 +133,4 @@ const styles = {
     }
 };
 
-StageIndicator.propTypes = {
-    currentStage: PropTypes.oneOf(['read', 'practice', 'notes']).isRequired,
-    completedStages: PropTypes.shape({
-        read: PropTypes.bool,
-        practice: PropTypes.bool,
-        notes: PropTypes.bool
-    }).isRequired
-};
+export default StageIndicator;

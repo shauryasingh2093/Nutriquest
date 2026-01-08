@@ -1,6 +1,12 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
-export default function NotesStage({ summary, keyTakeaways, onComplete }) {
+interface NotesStageProps {
+    summary: string;
+    keyTakeaways: string[];
+    onComplete: () => void;
+}
+
+const NotesStage: React.FC<NotesStageProps> = ({ summary, keyTakeaways, onComplete }) => {
     return (
         <div style={styles.container}>
             <div style={styles.header}>
@@ -38,9 +44,9 @@ export default function NotesStage({ summary, keyTakeaways, onComplete }) {
             </button>
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         maxWidth: '700px',
         margin: '0 auto',
@@ -69,7 +75,7 @@ const styles = {
     },
     summaryText: {
         fontSize: '1.125rem',
-        lineHeight: '1.8',
+        lineHeight: '1.8' as any, // React.CSSProperties uses string | number, but sometimes TS is picky with line-height
         color: '#5D4037',
         margin: 0
     },
@@ -93,7 +99,7 @@ const styles = {
     },
     listItem: {
         fontSize: '1rem',
-        lineHeight: '1.8',
+        lineHeight: '1.8' as any,
         color: '#5D4037',
         marginBottom: '0.75rem',
         display: 'flex',
@@ -139,8 +145,4 @@ const styles = {
     }
 };
 
-NotesStage.propTypes = {
-    summary: PropTypes.string.isRequired,
-    keyTakeaways: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onComplete: PropTypes.func.isRequired
-};
+export default NotesStage;

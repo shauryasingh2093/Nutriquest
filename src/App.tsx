@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -13,7 +14,7 @@ import AIGenerator from './pages/AIGenerator';
 import Achievements from './pages/Achievements';
 import Profile from './pages/Profile';
 
-function App() {
+const App: React.FC = () => {
     return (
         <AuthProvider>
             <Router>
@@ -79,6 +80,6 @@ function App() {
             </Router>
         </AuthProvider>
     );
-}
+};
 
 export default App;

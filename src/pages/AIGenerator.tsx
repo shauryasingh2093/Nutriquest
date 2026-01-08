@@ -1,26 +1,49 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import api from '../utils/api';
 
-export default function AIGenerator() {
-    const [formData, setFormData] = useState({
+interface AIFormData {
+    goal: string;
+    experience: 'beginner' | 'intermediate' | 'advanced';
+    timeCommitment: string;
+    interests: string;
+}
+
+interface AIPhase {
+    phase: number;
+    title: string;
+    duration: string;
+    topics: string[];
+}
+
+interface AIRoadmap {
+    title: string;
+    description: string;
+    totalDuration: string;
+    phases: AIPhase[];
+    generatedFor: {
+        goal: string;
+    };
+}
+
+const AIGenerator: React.FC = () => {
+    const [formData, setFormData] = useState<AIFormData>({
         goal: '',
         experience: 'intermediate',
         timeCommitment: '10-15',
         interests: ''
     });
-    const [roadmap, setRoadmap] = useState(null);
+    const [roadmap, setRoadmap] = useState<AIRoadmap | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
@@ -213,4 +236,6 @@ export default function AIGenerator() {
             </main>
         </div>
     );
-}
+};
+
+export default AIGenerator;

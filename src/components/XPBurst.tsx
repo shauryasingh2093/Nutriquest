@@ -1,13 +1,55 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-export default function XPBurst({ xp, onComplete }) {
+interface XPBurstProps {
+    xp: number;
+    onComplete: () => void;
+}
+
+interface Particle {
+    id: number;
+    angle: number;
+    distance: number;
+    delay: number;
+}
+
+const XPBurst: React.FC<XPBurstProps> = ({ xp, onComplete }) => {
     const [count, setCount] = useState(0);
-    const [particles, setParticles] = useState([]);
+    const [particles, setParticles] = useState<Particle[]>([]);
 
     useEffect(() => {
+        if (typeof document !== 'undefined') {
+            const styleId = 'xp-burst-animations';
+            if (!document.getElementById(styleId)) {
+                const styleSheet = document.createElement("style");
+                styleSheet.id = styleId;
+                styleSheet.textContent = `
+                    @keyframes floatUpStar {
+                        0% { opacity: 0; transform: translate(-50%, -50%) scale(0) translateY(0); }
+                        20% { opacity: 1; transform: translate(-50%, -50%) scale(1) translateY(-20px); }
+                        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) translateY(-150px); }
+                    }
+                    @keyframes scaleAndFloat {
+                        0% { transform: scale(0) translateY(0); opacity: 0; }
+                        30% { transform: scale(1.2) translateY(-20px); opacity: 1; }
+                        100% { transform: scale(1) translateY(-100px); opacity: 0; }
+                    }
+                    @keyframes spinAndGrow {
+                        0% { transform: rotate(0deg) scale(0); opacity: 0; }
+                        50% { transform: rotate(360deg) scale(1.2); opacity: 1; }
+                        100% { transform: rotate(720deg) scale(1) translateY(-100px); opacity: 0; }
+                    }
+                    @keyframes pulse {
+                        0% { transform: scale(1); opacity: 1; }
+                        50% { transform: scale(1.3); opacity: 0.7; }
+                        100% { transform: scale(1); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(styleSheet);
+            }
+        }
+
         // Generate particles
-        const newParticles = Array.from({ length: 15 }, (_, i) => ({
+        const newParticles: Particle[] = Array.from({ length: 15 }, (_, i) => ({
             id: i,
             angle: (i * (360 / 15)) * (Math.PI / 180),
             distance: 80 + Math.random() * 60,
@@ -63,9 +105,9 @@ export default function XPBurst({ xp, onComplete }) {
             <img src="/nut.png" alt="XP" style={styles.nut} />
         </div>
     );
-}
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
     container: {
         position: 'fixed',
         top: '50%',
@@ -108,39 +150,4 @@ const styles = {
     }
 };
 
-// Add keyframes
-if (typeof document !== 'undefined') {
-    const styleId = 'xp-burst-animations';
-    if (!document.getElementById(styleId)) {
-        const styleSheet = document.createElement("style");
-        styleSheet.id = styleId;
-        styleSheet.textContent = `
-            @keyframes floatUpStar {
-                0% { opacity: 0; transform: translate(-50%, -50%) scale(0) translateY(0); }
-                20% { opacity: 1; transform: translate(-50%, -50%) scale(1) translateY(-20px); }
-                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) translateY(-150px); }
-            }
-            @keyframes scaleAndFloat {
-                0% { transform: scale(0) translateY(0); opacity: 0; }
-                30% { transform: scale(1.2) translateY(-20px); opacity: 1; }
-                100% { transform: scale(1) translateY(-100px); opacity: 0; }
-            }
-            @keyframes spinAndGrow {
-                0% { transform: rotate(0deg) scale(0); opacity: 0; }
-                50% { transform: rotate(360deg) scale(1.2); opacity: 1; }
-                100% { transform: rotate(720deg) scale(1) translateY(-100px); opacity: 0; }
-            }
-            @keyframes pulse {
-                0% { transform: scale(1); opacity: 1; }
-                50% { transform: scale(1.3); opacity: 0.7; }
-                100% { transform: scale(1); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
-}
-
-XPBurst.propTypes = {
-    xp: PropTypes.number.isRequired,
-    onComplete: PropTypes.func.isRequired
-};
+export default XPBurst;

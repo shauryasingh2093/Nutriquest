@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { readUsers, writeUsers } from '../utils/db.js';
+import { checkStreakStatus } from '../utils/streakHelper.js';
 
 const router = express.Router();
 const JWT_SECRET = 'nutriquest-secret-key-change-in-production';
@@ -99,10 +100,24 @@ router.get('/me', async (req, res) => {
 
         const decoded = jwt.verify(token, JWT_SECRET);
         const users = readUsers();
-        const user = users.find(u => u.id === decoded.userId);
+        const userIndex = users.findIndex(u => u.id === decoded.userId);
 
-        if (!user) {
+        if (userIndex === -1) {
             return res.status(404).json({ error: 'User not found' });
+        }
+
+        let user = users[userIndex];
+
+        // Check if streak should be broken due to inactivity
+        // This detects broken streaks but doesn't update them
+        // Streak only increments when user completes a stage/lesson
+        const { streakBroken, user: updatedUser } = checkStreakStatus(user);
+
+        if (streakBroken) {
+            // Save the broken streak status
+            users[userIndex] = updatedUser;
+            writeUsers(users);
+            user = updatedUser;
         }
 
         const { password: _, ...userWithoutPassword } = user;

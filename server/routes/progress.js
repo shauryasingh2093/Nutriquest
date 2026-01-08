@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import { readUsers, writeUsers } from '../utils/db.js';
+import { updateUserStreak } from '../utils/streakHelper.js';
 
 const router = express.Router();
 const JWT_SECRET = 'nutriquest-secret-key-change-in-production';
@@ -31,7 +32,7 @@ router.post('/complete-stage', authMiddleware, (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const user = users[userIndex];
+        let user = users[userIndex];
         const stageKey = `${courseId}-${lessonId}`;
 
         // Initialize stage progress if not exists
@@ -54,26 +55,10 @@ router.post('/complete-stage', authMiddleware, (req, res) => {
             user.level = Math.floor(user.xp / 1000) + 1;
             const leveledUp = user.level > previousLevel;
 
-            // Update streak and activity date
-            const today = new Date().toDateString();
-            const lastActivity = user.lastActivityDate ? new Date(user.lastActivityDate).toDateString() : null;
-
-            if (lastActivity !== today) {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                const yesterdayStr = yesterday.toDateString();
-
-                if (lastActivity === yesterdayStr) {
-                    user.streak += 1;
-                } else if (lastActivity !== today) {
-                    user.streak = 1;
-                }
-
-                user.lastActivityDate = new Date().toISOString();
-
-                if (user.streak > user.longestStreak) {
-                    user.longestStreak = user.streak;
-                }
+            // Update streak using helper function
+            const { updated, user: updatedUser, streakChanged } = updateUserStreak(user);
+            if (updated) {
+                user = updatedUser;
             }
 
             // Check if all stages complete
@@ -148,26 +133,10 @@ router.post('/complete-lesson', authMiddleware, (req, res) => {
             const leveledUp = newLevel > previousLevel;
             user.level = newLevel;
 
-            // Update streak with date checking
-            const today = new Date().toDateString();
-            const lastActivity = user.lastActivityDate ? new Date(user.lastActivityDate).toDateString() : null;
-
-            if (lastActivity !== today) {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                const yesterdayStr = yesterday.toDateString();
-
-                if (lastActivity === yesterdayStr) {
-                    user.streak += 1;
-                } else if (lastActivity !== today) {
-                    user.streak = 1;
-                }
-
-                user.lastActivityDate = new Date().toISOString();
-
-                if (user.streak > user.longestStreak) {
-                    user.longestStreak = user.streak;
-                }
+            // Update streak using helper function
+            const { updated, user: updatedUser, streakChanged } = updateUserStreak(user);
+            if (updated) {
+                user = updatedUser;
             }
 
             // Check for achievements

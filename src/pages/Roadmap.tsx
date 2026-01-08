@@ -292,12 +292,6 @@ const Roadmap: React.FC = () => {
                 <div style={styles.leftPanel}>
                     <div style={styles.header}>
                         <h1 style={styles.courseTitle}>{course.title} &lt;/&gt;</h1>
-                        <div style={styles.tabs}>
-                            <button style={{ ...styles.tab, ...styles.activeTab }}>Lessons</button>
-                            <button style={styles.tab}>Exercises</button>
-                            <button style={styles.tab}>Projects</button>
-                            <button style={styles.tab}>Assessment</button>
-                        </div>
                     </div>
 
                     <div style={styles.content}>

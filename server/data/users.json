@@ -146,7 +146,7 @@
     "name": "shaurya singh",
     "password": "$2a$10$UbO3J3o.A6xG/BmkpZmZh.FjpqLuxb0LlaXbiuLgcp6F7FaLstRIq",
     "createdAt": "2026-01-07T12:10:19.605Z",
-    "xp": 450,
+    "xp": 780,
     "level": 1,
     "streak": 2,
     "achievements": [
@@ -170,7 +170,11 @@
       "web-dev-css-styling",
       "machine-learning-ml-intro",
       "databases-db-intro",
-      "python-python-basics"
+      "python-python-basics",
+      "dsa-arrays",
+      "ai-1767892936736-ne0q48v91-lesson-1",
+      "ai-1767892936736-ne0q48v91-lesson-2",
+      "ai-1767892936736-ne0q48v91-lesson-3"
     ],
     "stageProgress": {
       "web-dev-html-basics": {
@@ -197,6 +201,26 @@
         "read": true,
         "practice": true,
         "notes": true
+      },
+      "dsa-arrays": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "ai-1767892936736-ne0q48v91-lesson-1": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "ai-1767892936736-ne0q48v91-lesson-2": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "ai-1767892936736-ne0q48v91-lesson-3": {
+        "read": true,
+        "practice": true,
+        "notes": true
       }
     },
     "lastActivityDate": "2026-01-08T11:02:45.172Z"
@@ -207,6 +231,18 @@
     "name": "test",
     "password": "$2a$10$hFsCU0zh46KVimwASB.hFe5z0eCD7vOXscySQRWAthbGNooY0IOVq",
     "createdAt": "2026-01-08T11:11:41.348Z",
+    "xp": 0,
+    "level": 1,
+    "streak": 0,
+    "achievements": [],
+    "completedLessons": []
+  },
+  {
+    "id": "1767890515472",
+    "email": "testai_7421@example.com",
+    "name": "Test AI",
+    "password": "$2a$10$rl25L3y5/Q3kY18pO/4Tf.AqepJ8wTAd6w20/MPXQF0mTQX/W2Aae",
+    "createdAt": "2026-01-08T16:41:55.472Z",
     "xp": 0,
     "level": 1,
     "streak": 0,

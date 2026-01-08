@@ -16,14 +16,20 @@ interface AIPhase {
     topics: string[];
 }
 
+interface AILesson {
+    id: string;
+    title: string;
+    xp: number;
+    stages: any;
+}
+
 interface AIRoadmap {
+    courseId: string;
     title: string;
     description: string;
-    totalDuration: string;
-    phases: AIPhase[];
-    generatedFor: {
-        goal: string;
-    };
+    icon: string;
+    difficulty: string;
+    lessons: AILesson[];
 }
 
 const AIGenerator: React.FC = () => {
@@ -35,6 +41,7 @@ const AIGenerator: React.FC = () => {
     });
     const [roadmap, setRoadmap] = useState<AIRoadmap | null>(null);
     const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({
@@ -49,12 +56,38 @@ const AIGenerator: React.FC = () => {
 
         try {
             const response = await api.post('/ai/generate-roadmap', formData);
-            setRoadmap(response.data.roadmap);
+            console.log('API Response:', response.data);
+            console.log('Roadmap data:', response.data.roadmap);
+
+            if (response.data.roadmap) {
+                setRoadmap(response.data.roadmap);
+            } else {
+                console.error('No roadmap in response');
+                alert('Failed to generate roadmap. Please try again.');
+            }
         } catch (error) {
             console.error('Error generating roadmap:', error);
             alert('Failed to generate roadmap. Please try again.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handlePlayRoadmap = async () => {
+        if (!roadmap) return;
+
+        setSaving(true);
+        try {
+            const response = await api.post('/ai/save-course', { roadmap });
+            if (response.data.success) {
+                // Navigate to the roadmap page
+                window.location.href = `/roadmap/${response.data.courseId}`;
+            }
+        } catch (error) {
+            console.error('Error saving course:', error);
+            alert('Failed to save course. Please try again.');
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -167,7 +200,7 @@ const AIGenerator: React.FC = () => {
                         {roadmap && !loading && (
                             <div className="bg-white rounded-[48px] p-12 shadow-2xl border border-white/50">
                                 <div className="flex gap-8 mb-12 items-start">
-                                    <div className="bg-[#F5EFE1] p-5 rounded-[32px] text-4xl shadow-sm border border-[#7F6E68]/5">🗺️</div>
+                                    <div className="bg-[#F5EFE1] p-5 rounded-[32px] text-4xl shadow-sm border border-[#7F6E68]/5">{roadmap.icon}</div>
                                     <div>
                                         <h2 className="text-4xl font-black text-[#7F6E68] mb-3 leading-tight tracking-tight">{roadmap.title}</h2>
                                         <p className="text-[#7F6E68]/70 font-semibold leading-relaxed text-lg">{roadmap.description}</p>
@@ -175,44 +208,49 @@ const AIGenerator: React.FC = () => {
                                 </div>
 
                                 <div className="flex gap-4 mb-12">
-                                    <span className="bg-[#7F6E68]/5 px-5 py-2 rounded-full text-sm font-black text-[#7F6E68] border border-[#7F6E68]/10 tracking-wide uppercase">⏱️ {roadmap.totalDuration}</span>
-                                    <span className="bg-[#A8BDC9]/15 px-5 py-2 rounded-full text-sm font-black text-[#555555] border border-[#A8BDC9]/10 tracking-wide uppercase">📚 {roadmap.phases.length} phases</span>
+                                    <span className="bg-[#7F6E68]/5 px-5 py-2 rounded-full text-sm font-black text-[#7F6E68] border border-[#7F6E68]/10 tracking-wide uppercase">📚 {roadmap.lessons.length} lessons</span>
+                                    <span className="bg-[#A8BDC9]/15 px-5 py-2 rounded-full text-sm font-black text-[#555555] border border-[#A8BDC9]/10 tracking-wide uppercase">⚡ {roadmap.lessons.reduce((sum, l) => sum + l.xp, 0)} Total XP</span>
                                 </div>
 
-                                <div className="space-y-8">
-                                    {roadmap.phases.map((phase) => (
-                                        <div key={phase.phase} className="group relative bg-[#F5EFE1]/20 rounded-[40px] p-8 border border-[#7F6E68]/5 hover:bg-white hover:shadow-xl transition-all duration-400">
-                                            <div className="flex gap-6 items-center mb-6">
+                                <div className="space-y-6">
+                                    {roadmap.lessons.map((lesson, index) => (
+                                        <div key={lesson.id} className="group relative bg-[#F5EFE1]/20 rounded-[40px] p-8 border border-[#7F6E68]/5 hover:bg-white hover:shadow-xl transition-all duration-400">
+                                            <div className="flex gap-6 items-center mb-4">
                                                 <div className="w-12 h-12 rounded-full bg-[#7F6E68] text-[#F5EFE1] flex items-center justify-center font-black text-xl shadow-lg group-hover:scale-110 transition-transform">
-                                                    {phase.phase}
+                                                    {index + 1}
                                                 </div>
-                                                <div>
-                                                    <h4 className="text-xl font-black text-[#7F6E68] tracking-tight">{phase.title}</h4>
-                                                    <span className="text-xs font-black text-[#7F6E68]/40 uppercase tracking-[0.2em] mt-1 inline-block">⏱️ {phase.duration}</span>
+                                                <div className="flex-1">
+                                                    <h4 className="text-xl font-black text-[#7F6E68] tracking-tight">{lesson.title}</h4>
+                                                    <span className="text-xs font-black text-[#7F6E68]/40 uppercase tracking-[0.2em] mt-1 inline-block">⚡ {lesson.xp} XP</span>
                                                 </div>
                                             </div>
 
                                             <div className="flex flex-wrap gap-2.5">
-                                                {phase.topics.map((topic, index) => (
-                                                    <span
-                                                        key={index}
-                                                        className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5 group-hover:border-[#7F6E68]/20 transition-colors"
-                                                    >
-                                                        {topic}
-                                                    </span>
-                                                ))}
+                                                <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">📖 Read</span>
+                                                <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">✏️ Practice</span>
+                                                <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">📝 Notes</span>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
 
-                                <div className="mt-12 p-8 bg-[#7F6E68] rounded-[40px] text-[#F5EFE1] shadow-2xl relative overflow-hidden group">
-                                    <div className="absolute -right-6 -bottom-6 text-9xl opacity-10 group-hover:scale-125 transition-transform duration-700 select-none">💡</div>
-                                    <p className="relative z-10 font-bold leading-relaxed pr-12 text-lg italic">
-                                        "This roadmap is customized for your goal: {roadmap.generatedFor.goal}.
-                                        Start with Phase 1 and work your way through systematically!"
-                                    </p>
-                                </div>
+                                <button
+                                    onClick={handlePlayRoadmap}
+                                    disabled={saving}
+                                    className="mt-12 w-full bg-[#A06B92] text-[#F5EFE1] font-black py-6 px-10 rounded-3xl shadow-[0_15px_30px_-10px_rgba(127,110,104,0.5)] hover:bg-[#6D5A54] hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-4 text-xl"
+                                >
+                                    {saving ? (
+                                        <>
+                                            <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+                                            Saving Course...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span className="text-2xl">🎮</span>
+                                            Play This Roadmap
+                                        </>
+                                    )}
+                                </button>
                             </div>
                         )}
 

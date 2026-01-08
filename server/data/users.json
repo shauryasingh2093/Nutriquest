@@ -146,7 +146,7 @@
     "name": "shaurya singh",
     "password": "$2a$10$UbO3J3o.A6xG/BmkpZmZh.FjpqLuxb0LlaXbiuLgcp6F7FaLstRIq",
     "createdAt": "2026-01-07T12:10:19.605Z",
-    "xp": 390,
+    "xp": 450,
     "level": 1,
     "streak": 2,
     "achievements": [
@@ -156,13 +156,21 @@
         "icon": "🎯",
         "description": "Complete your first lesson",
         "unlockedAt": "2026-01-07T13:15:09.944Z"
+      },
+      {
+        "id": "5-lessons",
+        "name": "Getting Started",
+        "icon": "🌱",
+        "description": "Complete 5 lessons",
+        "unlockedAt": "2026-01-08T13:40:00.649Z"
       }
     ],
     "completedLessons": [
       "web-dev-html-basics",
       "web-dev-css-styling",
       "machine-learning-ml-intro",
-      "databases-db-intro"
+      "databases-db-intro",
+      "python-python-basics"
     ],
     "stageProgress": {
       "web-dev-html-basics": {
@@ -181,6 +189,11 @@
         "notes": true
       },
       "databases-db-intro": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "python-python-basics": {
         "read": true,
         "practice": true,
         "notes": true

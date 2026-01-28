@@ -1,0 +1,167 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useUser, useClerk, useSignIn } from '@clerk/clerk-react';
+import api from '../utils/api';
+import { User } from '../types';
+
+interface AuthContextType {
+    user: User | null;
+    loading: boolean;
+    login: (email: string, password: string) => Promise<User>;
+    socialLogin: (provider: 'google' | 'apple') => Promise<void>;
+    signup: (name: string, email: string, password: string) => Promise<User>;
+    logout: () => void;
+    updateUser: (updatedUser: User) => void;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
+    const { signOut } = useClerk();
+    const { signIn, isLoaded: signInLoaded } = useSignIn();
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    // Load MongoDB user from localStorage on mount
+    useEffect(() => {
+        console.log('🔍 Loading user from localStorage on mount...');
+        const token = localStorage.getItem('token');
+        const savedUser = localStorage.getItem('user');
+
+        console.log('📦 Token:', token ? `${token.substring(0, 20)}...` : token);
+        console.log('📦 User:', savedUser ? 'exists' : savedUser);
+
+        if (token && token !== 'null' && savedUser && savedUser !== 'null') {
+            try {
+                // User is logged in with MongoDB
+                const parsedUser = JSON.parse(savedUser);
+                console.log('✅ Setting MongoDB user from localStorage:', parsedUser.email);
+                setUser(parsedUser);
+                setLoading(false);
+            } catch (error) {
+                console.error('❌ Error parsing user from localStorage:', error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+            }
+        } else {
+            console.log('❌ No valid MongoDB user in localStorage');
+            console.log('   - token:', token);
+            console.log('   - savedUser:', savedUser);
+            // Don't set loading to false here, let Clerk useEffect handle it
+        }
+    }, []);
+
+    // Sync Clerk user with local user state
+    useEffect(() => {
+        console.log('Clerk useEffect running...', { clerkLoaded, hasClerkUser: !!clerkUser });
+        if (clerkLoaded) {
+            // Check if user is already logged in with MongoDB
+            const token = localStorage.getItem('token');
+            console.log('Checking for MongoDB token:', !!token);
+            if (token) {
+                // User is logged in with MongoDB, don't override with Clerk
+                console.log('MongoDB user detected, skipping Clerk logic');
+                setLoading(false);
+                return;
+            }
+
+            if (clerkUser) {
+                // Map Clerk user to our local User type
+                const mappedUser: User = {
+                    id: clerkUser.id,
+                    email: clerkUser.primaryEmailAddress?.emailAddress || '',
+                    name: clerkUser.fullName || clerkUser.username || 'User',
+                    avatar: clerkUser.imageUrl,
+                    createdAt: clerkUser.createdAt?.toISOString() || new Date().toISOString(),
+                    xp: 0, // Default for new social users, should ideally be fetched from backend
+                    level: 1,
+                    streak: 0,
+                    achievements: [],
+                    completedLessons: []
+                };
+
+                // Try to fetch existing user data from our backend to get XP/Level etc.
+                api.get('/auth/me', { headers: { 'Authorization': `Bearer ${clerkUser.id}` } }) // Use clerk ID as pseudo-token or handle properly
+                    .then(res => {
+                        setUser({ ...mappedUser, ...res.data.user });
+                        localStorage.setItem('user', JSON.stringify({ ...mappedUser, ...res.data.user }));
+                    })
+                    .catch(() => {
+                        setUser(mappedUser);
+                        localStorage.setItem('user', JSON.stringify(mappedUser));
+                    })
+                    .finally(() => setLoading(false));
+            } else {
+                // No Clerk user and no MongoDB token
+                setUser(null);
+                setLoading(false);
+            }
+        }
+    }, [clerkUser, clerkLoaded]);
+
+    const login = async (email: string, password: string): Promise<User> => {
+        console.log('AuthContext login called with:', { email });
+        const response = await api.post('/auth/login', { email, password });
+        console.log('Login API response:', response.data);
+        const { user: loggedInUser, token } = response.data;
+
+        console.log('Saving to localStorage:', { token, user: loggedInUser });
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(loggedInUser));
+        setUser(loggedInUser);
+
+        return loggedInUser;
+    };
+
+    const socialLogin = async (provider: 'google' | 'apple'): Promise<void> => {
+        if (!signInLoaded) return;
+
+        try {
+            await signIn.authenticateWithRedirect({
+                strategy: `oauth_${provider}`,
+                redirectUrl: '/courses',
+                redirectUrlComplete: '/courses',
+            });
+        } catch (error) {
+            console.error(`${provider} login failed:`, error);
+            throw error;
+        }
+    };
+
+    const signup = async (name: string, email: string, password: string): Promise<User> => {
+        const response = await api.post('/auth/signup', { name, email, password });
+        const { user: signedUpUser, token } = response.data;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(signedUpUser));
+        setUser(signedUpUser);
+
+        return signedUpUser;
+    };
+
+    const logout = async () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+        await signOut();
+    };
+
+    const updateUser = (updatedUser: User) => {
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, login, signup, socialLogin, logout, updateUser, loading }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within AuthProvider');
+    }
+    return context;
+};

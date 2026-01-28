@@ -36,6 +36,7 @@ const Login: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log('Login form submitted', formData);
         setError('');
 
         if (!formData.email || !formData.password) {
@@ -46,9 +47,12 @@ const Login: React.FC = () => {
         setLoading(true);
 
         try {
-            await login(formData.email, formData.password);
+            console.log('Calling login function...');
+            const result = await login(formData.email, formData.password);
+            console.log('Login successful:', result);
             navigate('/courses');
         } catch (err: any) {
+            console.error('Login error:', err);
             setError(err.response?.data?.error || 'Failed to login');
         } finally {
             setLoading(false);

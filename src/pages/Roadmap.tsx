@@ -43,8 +43,23 @@ const Roadmap: React.FC = () => {
     useEffect(() => {
         if (courseId) {
             fetchCourseData();
+            // Add to history
+            addToHistory(courseId);
         }
     }, [courseId]);
+
+    const addToHistory = (courseIdToAdd: string) => {
+        try {
+            const savedHistory: string[] = JSON.parse(localStorage.getItem('nutriquest_history') || '[]');
+            // Remove if already exists (to move to front)
+            const filtered = savedHistory.filter(id => id !== courseIdToAdd);
+            // Add to front
+            const newHistory = [courseIdToAdd, ...filtered].slice(0, 10); // Keep last 10
+            localStorage.setItem('nutriquest_history', JSON.stringify(newHistory));
+        } catch (error) {
+            console.error('Error updating history:', error);
+        }
+    };
 
     const fetchCourseData = async () => {
         try {
@@ -71,7 +86,9 @@ const Roadmap: React.FC = () => {
             }
 
             setCurrentLessonIndex(targetIndex);
-            await fetchLessonContent(courseRes.data.course.lessons[targetIndex].id, user?.stageProgress || {});
+            if (courseRes.data.course.lessons.length > 0) {
+                await fetchLessonContent(courseRes.data.course.lessons[targetIndex].id, user?.stageProgress || {});
+            }
         } catch (error) {
             console.error('Error fetching course:', error);
         } finally {

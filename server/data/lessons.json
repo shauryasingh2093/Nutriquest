@@ -1,1279 +1,254 @@
 {
-  "web-dev": {
-    "html-basics": {
-      "id": "html-basics",
-      "title": "HTML Fundamentals",
-      "type": "lesson",
-      "difficulty": "beginner",
-      "estimatedMinutes": 30,
-      "stages": {
-        "read": {
-          "xp": 10,
-          "introduction": "HTML (HyperText Markup Language) is the standard language used to create and structure content on the World Wide Web. Every website you see is built with HTML as its foundation. It tells the browser what to display and how to organize the content.",
-          "sections": [
-            {
-              "title": "What is HTML?",
-              "content": "HTML works through the use of elements, also called tags. These tags are written inside angle brackets (< >) and often come in pairs: an opening tag and a closing tag. For example, <p> is the opening tag for a paragraph, and </p> is the closing tag. Together, they tell the browser to render a block of text as a paragraph.",
-              "example": {
-                "code": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>My First Page</title>\n  </head>\n  <body>\n    <h1>Welcome to HTML!</h1>\n    <p>This is a paragraph.</p>\n  </body>\n</html>",
-                "explanation": "This is a basic HTML document structure. The <!DOCTYPE html> declaration defines the document type, <html> is the root element, <head> contains metadata, and <body> contains the visible content."
-              }
+    "web-dev": {
+        "html-basics": {
+            "id": "html-basics",
+            "title": "HTML Fundamentals",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 30,
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "HTML (HyperText Markup Language) is the standard language used to create and structure content on the World Wide Web. Every website you see is built with HTML as its foundation. It tells the browser what to display and how to organize the content.",
+                    "sections": [
+                        {
+                            "title": "What is HTML?",
+                            "content": "HTML works through the use of elements, also called tags. These tags are written inside angle brackets (< >) and often come in pairs: an opening tag and a closing tag. For example, <p> is the opening tag for a paragraph, and </p> is the closing tag. Together, they tell the browser to render a block of text as a paragraph.",
+                            "example": {
+                                "code": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>My First Page</title>\n  </head>\n  <body>\n    <h1>Welcome to HTML!</h1>\n    <p>This is a paragraph.</p>\n  </body>\n</html>",
+                                "explanation": "This is a basic HTML document structure. The <!DOCTYPE html> declaration defines the document type, <html> is the root element, <head> contains metadata, and <body> contains the visible content."
+                            }
+                        },
+                        {
+                            "title": "HTML Elements and Tags",
+                            "content": "HTML elements are the building blocks of web pages. Each element has a specific purpose: headings (<h1> to <h6>) create titles, paragraphs (<p>) contain text, links (<a>) navigate to other pages, and images (<img>) display pictures.",
+                            "keyPoints": [
+                                "Tags are written in angle brackets: <tagname>",
+                                "Most tags come in pairs: opening <p> and closing </p>",
+                                "Some tags are self-closing: <img /> or <br />",
+                                "Elements can be nested inside each other",
+                                "Proper nesting is crucial for valid HTML"
+                            ]
+                        },
+                        {
+                            "title": "Common HTML Tags",
+                            "content": "Let's explore the most frequently used HTML tags that you'll encounter in almost every web page.",
+                            "example": {
+                                "code": "<h1>Main Heading</h1>\n<h2>Subheading</h2>\n<p>This is a paragraph with <strong>bold text</strong> and <em>italic text</em>.</p>\n<a href=\"https: //example.com\">Click here</a>\n<img src=\"image.jpg\" alt=\"Description\" />\n<ul>\n  <li>List item 1</li>\n  <li>List item 2</li>\n</ul>",
+                                "explanation": "This example shows headings (h1, h2), a paragraph with formatting (strong, em), a link (a), an image (img), and an unordered list (ul with li items)."
+                            }
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 30,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 10,
+                            "question": "What is the full form of HTML?",
+                            "options": [
+                                "HyperText Markup Language",
+                                "HighText Machine Language",
+                                "HyperTool Multi Language",
+                                "Home Tool Markup Language"
+                            ],
+                            "correctAnswer": 0,
+                            "explanation": "HTML stands for HyperText Markup Language. 'HyperText' refers to links that connect web pages, and 'Markup' refers to the way tags are used to define elements within a document."
+                        },
+                        {
+                            "id": "q2",
+                            "difficulty": "easy",
+                            "xpReward": 10,
+                            "question": "Which tag is used to create a paragraph in HTML?",
+                            "options": [
+                                "<paragraph>",
+                                "<p>",
+                                "<para>",
+                                "<text>"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The <p> tag is used to define a paragraph in HTML. It's one of the most commonly used tags for structuring text content."
+                        },
+                        {
+                            "id": "q3",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "What does the <a> tag represent?",
+                            "options": [
+                                "Article",
+                                "Anchor (link)",
+                                "Animation",
+                                "Audio"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The <a> tag stands for 'anchor' and is used to create hyperlinks. It allows users to navigate from one page to another or to different sections within the same page."
+                        },
+                        {
+                            "id": "q4",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "Which of these is a self-closing tag?",
+                            "options": [
+                                "<p>",
+                                "<div>",
+                                "<img />",
+                                "<h1>"
+                            ],
+                            "correctAnswer": 2,
+                            "explanation": "The <img /> tag is self-closing, meaning it doesn't need a separate closing tag. It's used to embed images and includes attributes like 'src' for the image source and 'alt' for alternative text."
+                        },
+                        {
+                            "id": "q5",
+                            "difficulty": "hard",
+                            "xpReward": 30,
+                            "question": "What is the purpose of the <!DOCTYPE html> declaration?",
+                            "options": [
+                                "To define the document type and version",
+                                "To create a comment",
+                                "To link a stylesheet",
+                                "To add a title"
+                            ],
+                            "correctAnswer": 0,
+                            "explanation": "The <!DOCTYPE html> declaration tells the browser that this is an HTML5 document. It must be the very first line in your HTML file and helps the browser render the page correctly."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "You've learned the fundamentals of HTML! HTML is the backbone of every website, using tags to structure content. Remember: tags come in pairs, elements can be nested, and proper structure is essential.",
+                    "keyTakeaways": [
+                        "HTML uses tags in angle brackets to define elements",
+                        "Most tags have opening and closing pairs",
+                        "Common tags include <h1>, <p>, <a>, <img>, and <ul>",
+                        "The <!DOCTYPE html> declaration is required for HTML5",
+                        "Proper nesting and structure are crucial for valid HTML"
+                    ]
+                }
             },
-            {
-              "title": "HTML Elements and Tags",
-              "content": "HTML elements are the building blocks of web pages. Each element has a specific purpose: headings (<h1> to <h6>) create titles, paragraphs (<p>) contain text, links (<a>) navigate to other pages, and images (<img>) display pictures.",
-              "keyPoints": [
-                "Tags are written in angle brackets: <tagname>",
-                "Most tags come in pairs: opening <p> and closing </p>",
-                "Some tags are self-closing: <img /> or <br />",
-                "Elements can be nested inside each other",
-                "Proper nesting is crucial for valid HTML"
-              ]
-            },
-            {
-              "title": "Common HTML Tags",
-              "content": "Let's explore the most frequently used HTML tags that you'll encounter in almost every web page.",
-              "example": {
-                "code": "<h1>Main Heading</h1>\n<h2>Subheading</h2>\n<p>This is a paragraph with <strong>bold text</strong> and <em>italic text</em>.</p>\n<a href=\"https://example.com\">Click here</a>\n<img src=\"image.jpg\" alt=\"Description\" />\n<ul>\n  <li>List item 1</li>\n  <li>List item 2</li>\n</ul>",
-                "explanation": "This example shows headings (h1, h2), a paragraph with formatting (strong, em), a link (a), an image (img), and an unordered list (ul with li items)."
-              }
-            }
-          ]
+            "totalXP": 50,
+            "unlockRequirement": null
         },
-        "practice": {
-          "xp": 30,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 10,
-              "question": "What is the full form of HTML?",
-              "options": [
-                "HyperText Markup Language",
-                "HighText Machine Language",
-                "HyperTool Multi Language",
-                "Home Tool Markup Language"
-              ],
-              "correctAnswer": 0,
-              "explanation": "HTML stands for HyperText Markup Language. 'HyperText' refers to links that connect web pages, and 'Markup' refers to the way tags are used to define elements within a document."
+        "css-styling": {
+            "id": "css-styling",
+            "title": "CSS & Styling",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 35,
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "CSS (Cascading Style Sheets) is the language used to style and layout web pages. While HTML provides the structure, CSS makes it beautiful by controlling colors, fonts, spacing, and positioning.",
+                    "sections": [
+                        {
+                            "title": "What is CSS?",
+                            "content": "CSS allows you to separate content from presentation. You can change the entire look of a website by modifying just the CSS file, without touching the HTML. This makes maintenance easier and keeps your code organized.",
+                            "example": {
+                                "code": "/* CSS Syntax */\nselector {\n  property: value;\n}\n\n/* Example */\np {\n  color: blue;\n  font-size: 16px;\n  margin: 10px;\n}",
+                                "explanation": "CSS uses selectors to target HTML elements, then applies style properties. Here, all <p> elements will have blue text, 16px font size, and 10px margin."
+                            }
+                        },
+                        {
+                            "title": "CSS Selectors",
+                            "content": "Selectors are patterns used to select the elements you want to style. There are several types: element selectors (p, h1), class selectors (.classname), ID selectors (#idname), and more advanced selectors.",
+                            "keyPoints": [
+                                "Element selector: targets all elements of a type (e.g., p, h1)",
+                                "Class selector: targets elements with a specific class (.btn)",
+                                "ID selector: targets a unique element (#header)",
+                                "Universal selector: targets all elements (*)",
+                                "Selectors can be combined for specificity"
+                            ],
+                            "example": {
+                                "code": "/* Element selector */\nh1 {\n  color: navy;\n}\n\n/* Class selector */\n.highlight {\n  background-color: yellow;\n}\n\n/* ID selector */\n#main-title {\n  font-size: 32px;\n}\n\n/* Combining selectors */\np.intro {\n  font-weight: bold;\n}",
+                                "explanation": "Different selector types allow you to target elements precisely. Classes can be reused, IDs should be unique, and you can combine selectors for more specific targeting."
+                            }
+                        },
+                        {
+                            "title": "The Box Model",
+                            "content": "Every HTML element is essentially a box. The CSS box model describes how these boxes are structured with content, padding, border, and margin.",
+                            "example": {
+                                "code": ".box {\n  width: 200px;\n  height: 100px;\n  padding: 20px;\n  border: 2px solid black;\n  margin: 10px;\n}",
+                                "explanation": "This creates a box with 200px width, 100px height, 20px padding inside, a 2px border, and 10px margin outside. The total width = width + padding + border + margin."
+                            }
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 40,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "easy",
+                            "xpReward": 10,
+                            "question": "What does CSS stand for?",
+                            "options": [
+                                "Creative Style Sheets",
+                                "Cascading Style Sheets",
+                                "Computer Style Sheets",
+                                "Colorful Style Sheets"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "CSS stands for Cascading Style Sheets. 'Cascading' refers to the way styles can inherit and override each other based on specificity and order."
+                        },
+                        {
+                            "id": "q2",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "Which selector targets elements with class='button'?",
+                            "options": [
+                                "#button",
+                                ".button",
+                                "button",
+                                "*button"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The dot (.) prefix is used for class selectors. So .button targets all elements with class='button'. The # is for IDs, plain text is for element selectors."
+                        },
+                        {
+                            "id": "q3",
+                            "difficulty": "hard",
+                            "xpReward": 30,
+                            "question": "In the box model, what is the correct order from inside to outside?",
+                            "options": [
+                                "Margin, Border, Padding, Content",
+                                "Content, Padding, Border, Margin",
+                                "Content, Border, Padding, Margin",
+                                "Padding, Content, Border, Margin"
+                            ],
+                            "correctAnswer": 1,
+                            "explanation": "The box model order from inside to outside is: Content (the actual content), Padding (space around content), Border (surrounds padding), and Margin (space outside border)."
+                        },
+                        {
+                            "id": "q4",
+                            "difficulty": "medium",
+                            "xpReward": 20,
+                            "question": "Which property is used to change the text color?",
+                            "options": [
+                                "text-color",
+                                "font-color",
+                                "color",
+                                "text-style"
+                            ],
+                            "correctAnswer": 2,
+                            "explanation": "The 'color' property is used to set the text color in CSS. Despite its simple name, it specifically controls text color, not background or border colors."
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "Great work mastering CSS basics! You now understand how to style web pages using selectors, properties, and the box model. CSS is what makes websites beautiful and user-friendly.",
+                    "keyTakeaways": [
+                        "CSS separates content (HTML) from presentation (styles)",
+                        "Selectors target elements: element, .class, #id",
+                        "The box model: content → padding → border → margin",
+                        "CSS properties control colors, fonts, spacing, and layout",
+                        "Cascading means styles can inherit and override each other"
+                    ]
+                }
             },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 10,
-              "question": "Which tag is used to create a paragraph in HTML?",
-              "options": [
-                "<paragraph>",
-                "<p>",
-                "<para>",
-                "<text>"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The <p> tag is used to define a paragraph in HTML. It's one of the most commonly used tags for structuring text content."
-            },
-            {
-              "id": "q3",
-              "difficulty": "medium",
-              "xpReward": 20,
-              "question": "What does the <a> tag represent?",
-              "options": [
-                "Article",
-                "Anchor (link)",
-                "Animation",
-                "Audio"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The <a> tag stands for 'anchor' and is used to create hyperlinks. It allows users to navigate from one page to another or to different sections within the same page."
-            },
-            {
-              "id": "q4",
-              "difficulty": "medium",
-              "xpReward": 20,
-              "question": "Which of these is a self-closing tag?",
-              "options": [
-                "<p>",
-                "<div>",
-                "<img />",
-                "<h1>"
-              ],
-              "correctAnswer": 2,
-              "explanation": "The <img /> tag is self-closing, meaning it doesn't need a separate closing tag. It's used to embed images and includes attributes like 'src' for the image source and 'alt' for alternative text."
-            },
-            {
-              "id": "q5",
-              "difficulty": "hard",
-              "xpReward": 30,
-              "question": "What is the purpose of the <!DOCTYPE html> declaration?",
-              "options": [
-                "To define the document type and version",
-                "To create a comment",
-                "To link a stylesheet",
-                "To add a title"
-              ],
-              "correctAnswer": 0,
-              "explanation": "The <!DOCTYPE html> declaration tells the browser that this is an HTML5 document. It must be the very first line in your HTML file and helps the browser render the page correctly."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 10,
-          "summary": "You've learned the fundamentals of HTML! HTML is the backbone of every website, using tags to structure content. Remember: tags come in pairs, elements can be nested, and proper structure is essential.",
-          "keyTakeaways": [
-            "HTML uses tags in angle brackets to define elements",
-            "Most tags have opening and closing pairs",
-            "Common tags include <h1>, <p>, <a>, <img>, and <ul>",
-            "The <!DOCTYPE html> declaration is required for HTML5",
-            "Proper nesting and structure are crucial for valid HTML"
-          ]
+            "totalXP": 60,
+            "unlockRequirement": "html-basics"
         }
-      },
-      "totalXP": 50,
-      "unlockRequirement": null
-    },
-    "css-styling": {
-      "id": "css-styling",
-      "title": "CSS & Styling",
-      "type": "lesson",
-      "difficulty": "beginner",
-      "estimatedMinutes": 35,
-      "stages": {
-        "read": {
-          "xp": 10,
-          "introduction": "CSS (Cascading Style Sheets) is the language used to style and layout web pages. While HTML provides the structure, CSS makes it beautiful by controlling colors, fonts, spacing, and positioning.",
-          "sections": [
-            {
-              "title": "What is CSS?",
-              "content": "CSS allows you to separate content from presentation. You can change the entire look of a website by modifying just the CSS file, without touching the HTML. This makes maintenance easier and keeps your code organized.",
-              "example": {
-                "code": "/* CSS Syntax */\nselector {\n  property: value;\n}\n\n/* Example */\np {\n  color: blue;\n  font-size: 16px;\n  margin: 10px;\n}",
-                "explanation": "CSS uses selectors to target HTML elements, then applies style properties. Here, all <p> elements will have blue text, 16px font size, and 10px margin."
-              }
-            },
-            {
-              "title": "CSS Selectors",
-              "content": "Selectors are patterns used to select the elements you want to style. There are several types: element selectors (p, h1), class selectors (.classname), ID selectors (#idname), and more advanced selectors.",
-              "keyPoints": [
-                "Element selector: targets all elements of a type (e.g., p, h1)",
-                "Class selector: targets elements with a specific class (.btn)",
-                "ID selector: targets a unique element (#header)",
-                "Universal selector: targets all elements (*)",
-                "Selectors can be combined for specificity"
-              ],
-              "example": {
-                "code": "/* Element selector */\nh1 {\n  color: navy;\n}\n\n/* Class selector */\n.highlight {\n  background-color: yellow;\n}\n\n/* ID selector */\n#main-title {\n  font-size: 32px;\n}\n\n/* Combining selectors */\np.intro {\n  font-weight: bold;\n}",
-                "explanation": "Different selector types allow you to target elements precisely. Classes can be reused, IDs should be unique, and you can combine selectors for more specific targeting."
-              }
-            },
-            {
-              "title": "The Box Model",
-              "content": "Every HTML element is essentially a box. The CSS box model describes how these boxes are structured with content, padding, border, and margin.",
-              "example": {
-                "code": ".box {\n  width: 200px;\n  height: 100px;\n  padding: 20px;\n  border: 2px solid black;\n  margin: 10px;\n}",
-                "explanation": "This creates a box with 200px width, 100px height, 20px padding inside, a 2px border, and 10px margin outside. The total width = width + padding + border + margin."
-              }
-            }
-          ]
-        },
-        "practice": {
-          "xp": 40,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 10,
-              "question": "What does CSS stand for?",
-              "options": [
-                "Creative Style Sheets",
-                "Cascading Style Sheets",
-                "Computer Style Sheets",
-                "Colorful Style Sheets"
-              ],
-              "correctAnswer": 1,
-              "explanation": "CSS stands for Cascading Style Sheets. 'Cascading' refers to the way styles can inherit and override each other based on specificity and order."
-            },
-            {
-              "id": "q2",
-              "difficulty": "medium",
-              "xpReward": 20,
-              "question": "Which selector targets elements with class='button'?",
-              "options": [
-                "#button",
-                ".button",
-                "button",
-                "*button"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The dot (.) prefix is used for class selectors. So .button targets all elements with class='button'. The # is for IDs, plain text is for element selectors."
-            },
-            {
-              "id": "q3",
-              "difficulty": "hard",
-              "xpReward": 30,
-              "question": "In the box model, what is the correct order from inside to outside?",
-              "options": [
-                "Margin, Border, Padding, Content",
-                "Content, Padding, Border, Margin",
-                "Content, Border, Padding, Margin",
-                "Padding, Content, Border, Margin"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The box model order from inside to outside is: Content (the actual content), Padding (space around content), Border (surrounds padding), and Margin (space outside border)."
-            },
-            {
-              "id": "q4",
-              "difficulty": "medium",
-              "xpReward": 20,
-              "question": "Which property is used to change the text color?",
-              "options": [
-                "text-color",
-                "font-color",
-                "color",
-                "text-style"
-              ],
-              "correctAnswer": 2,
-              "explanation": "The 'color' property is used to set the text color in CSS. Despite its simple name, it specifically controls text color, not background or border colors."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 10,
-          "summary": "Great work mastering CSS basics! You now understand how to style web pages using selectors, properties, and the box model. CSS is what makes websites beautiful and user-friendly.",
-          "keyTakeaways": [
-            "CSS separates content (HTML) from presentation (styles)",
-            "Selectors target elements: element, .class, #id",
-            "The box model: content → padding → border → margin",
-            "CSS properties control colors, fonts, spacing, and layout",
-            "Cascading means styles can inherit and override each other"
-          ]
-        }
-      },
-      "totalXP": 60,
-      "unlockRequirement": "html-basics"
     }
-  },
-  "dsa": {
-    "arrays": {
-      "id": "arrays",
-      "title": "Arrays & Strings",
-      "type": "lesson",
-      "difficulty": "intermediate",
-      "estimatedMinutes": 45,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "Arrays and Strings are the most fundamental data structures in computer science. They represent linear collections of data stored in contiguous memory locations.",
-          "sections": [
-            {
-              "title": "Understanding Arrays",
-              "content": "An array is a collection of elements identified by index or key. Elements are stored in contiguous memory, allowing for constant-time access by index.",
-              "example": {
-                "code": "const numbers = [1, 2, 3, 4, 5];\nconsole.log(numbers[0]); // Output: 1",
-                "explanation": "This is a basic array declaration in JavaScript and accessing the first element using index 0."
-              }
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 25,
-              "question": "What is the time complexity of accessing an element in an array by its index?",
-              "options": [
-                "O(1)",
-                "O(n)",
-                "O(log n)",
-                "O(n²)"
-              ],
-              "correctAnswer": 0,
-              "explanation": "Accessing by index is O(1) because the memory address can be calculated directly."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "You've mastered the basics of Arrays and Strings! Remember that contiguous memory is the key to their performance.",
-          "keyTakeaways": [
-            "Arrays use contiguous memory",
-            "Index-based access is O(1)",
-            "Strings are often treated as arrays of characters"
-          ]
-        }
-      },
-      "totalXP": 100
-    }
-  },
-  "databases": {
-    "db-intro": {
-      "id": "db-intro",
-      "title": "Database Fundamentals",
-      "type": "lesson",
-      "difficulty": "beginner",
-      "estimatedMinutes": 30,
-      "stages": {
-        "read": {
-          "xp": 10,
-          "introduction": "Databases are organized collections of structured information, or data, typically stored electronically in a computer system.",
-          "sections": [
-            {
-              "title": "What is a DBMS?",
-              "content": "A Database Management System (DBMS) is the software that interacts with end users, applications, and the database itself to capture and analyze the data."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 40,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 40,
-              "question": "What does SQL stand for?",
-              "options": [
-                "Structured Query Language",
-                "Simple Query Level",
-                "System Quality Logic",
-                "Standard Query List"
-              ],
-              "correctAnswer": 0,
-              "explanation": "SQL stands for Structured Query Language, the standard language for relational database management."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 10,
-          "summary": "Databases are essential for modern applications. You've started your journey into data management!",
-          "keyTakeaways": [
-            "A DBMS manages the database",
-            "SQL is the primary language for relational DBs",
-            "Data persistence is the main goal"
-          ]
-        }
-      },
-      "totalXP": 60
-    }
-  },
-  "python": {
-    "python-basics": {
-      "id": "python-basics",
-      "title": "Python Basics",
-      "type": "lesson",
-      "difficulty": "beginner",
-      "estimatedMinutes": 30,
-      "stages": {
-        "read": {
-          "xp": 10,
-          "introduction": "Python is a high-level, interpreted programming language known for its readability and versatility. It's used in web dev, AI, data science, and more.",
-          "sections": [
-            {
-              "title": "Indentation Matters",
-              "content": "Unlike many other languages, Python uses indentation to define blocks of code, making it exceptionally clean and readable."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 40,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 40,
-              "question": "How do you print 'Hello' in Python?",
-              "options": [
-                "console.log('Hello')",
-                "print('Hello')",
-                "echo 'Hello'",
-                "printf('Hello')"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The print() function is used to output text in Python."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 10,
-          "summary": "Python's simplicity is its strength. You're now ready to write your first scripts!",
-          "keyTakeaways": [
-            "Readability is a core philosophy",
-            "Indentation is part of the syntax",
-            "Broad application in modern tech"
-          ]
-        }
-      },
-      "totalXP": 60
-    }
-  },
-  "system-design": {
-    "fundamentals": {
-      "id": "fundamentals",
-      "title": "System Design Fundamentals",
-      "type": "lesson",
-      "difficulty": "advanced",
-      "estimatedMinutes": 60,
-      "stages": {
-        "read": {
-          "xp": 30,
-          "introduction": "System Design is the process of defining the architecture, components, modules, interfaces, and data for a system to satisfy specified requirements.",
-          "sections": [
-            {
-              "title": "Scalability",
-              "content": "Scalability is the capability of a system to handle a growing amount of work, or its potential to be enlarged to accommodate that growth."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 60,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "hard",
-              "xpReward": 60,
-              "question": "What is Horizontal Scaling?",
-              "options": [
-                "Increasing the power of a single server",
-                "Adding more servers to the pool",
-                "Using a faster database",
-                "Optimizing code performance"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Horizontal scaling means adding more machines into your pool of resources."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 40,
-          "summary": "Designing systems at scale requires thinking about trade-offs. You've taken the first step toward becoming an architect!",
-          "keyTakeaways": [
-            "Vertical vs Horizontal scaling",
-            "Load balancing is critical",
-            "Availability vs Consistency (CAP theorem)"
-          ]
-        }
-      },
-      "totalXP": 130
-    }
-  },
-  "machine-learning": {
-    "ml-intro": {
-      "id": "ml-intro",
-      "title": "Introduction to ML",
-      "type": "lesson",
-      "difficulty": "advanced",
-      "estimatedMinutes": 50,
-      "stages": {
-        "read": {
-          "xp": 30,
-          "introduction": "Machine Learning is a subset of AI that focuses on building systems that learn from data and improve their performance over time without being explicitly programmed.",
-          "sections": [
-            {
-              "title": "Types of ML",
-              "content": "The main types of machine learning are Supervised Learning, Unsupervised Learning, and Reinforcement Learning."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 60,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "medium",
-              "xpReward": 60,
-              "question": "What is Supervised Learning?",
-              "options": [
-                "Learning from unlabeled data",
-                "Learning from labeled data with inputs and targets",
-                "Learning through trial and error",
-                "Learning from real-time user feedback"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Supervised learning uses a training set to teach models to yield the desired output."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 40,
-          "summary": "ML is transforming how we solve complex problems. You've started exploring the world of intelligent algorithms!",
-          "keyTakeaways": [
-            "Data is the foundation of ML",
-            "The goal is prediction or decision making",
-            "Models improve with more/better data"
-          ]
-        }
-      },
-      "totalXP": 130
-    }
-  },
-  "ai-generated-1767891391439": {
-    "lesson-1": {
-      "id": "lesson-1",
-      "title": "Introduction to Python",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "This lesson introduces Python, its features, and why it's a popular programming language.",
-          "sections": [
-            {
-              "title": "What is Python?",
-              "content": "Python is a high-level, interpreted programming language known for its easy syntax and readability."
-            },
-            {
-              "title": "Features of Python",
-              "content": "Python supports multiple programming paradigms, including procedural, object-oriented, and functional programming."
-            },
-            {
-              "title": "Installing Python",
-              "content": "To get started, download Python from the official website and follow the installation instructions."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is Python primarily known for?",
-              "options": [
-                "Low-level coding",
-                "Easy syntax",
-                "Complexity",
-                "None of the above"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Python is known for its easy-to-read syntax, making it accessible for beginners."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "Which of the following is a feature of Python?",
-              "options": [
-                "It's only for web development",
-                "Supports multiple programming paradigms",
-                "Only for data science",
-                "None of the above"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Python supports various programming paradigms, making it versatile."
-            },
-            {
-              "id": "q3",
-              "difficulty": "easy",
-              "xpReward": 20,
-              "question": "Where can you download Python?",
-              "options": [
-                "Official website",
-                "Any social media",
-                "Only GitHub",
-                "Local libraries"
-              ],
-              "correctAnswer": 0,
-              "explanation": "Python can be downloaded from the official Python website."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "In this lesson, you learned about Python's definition, features, and installation process.",
-          "keyTakeaways": [
-            "Python is a high-level programming language.",
-            "It is known for its easy syntax.",
-            "Python supports multiple programming paradigms."
-          ]
-        }
-      },
-      "type": "lesson",
-      "difficulty": "easy",
-      "estimatedMinutes": 30,
-      "totalXP": 100
-    },
-    "lesson-2": {
-      "id": "lesson-2",
-      "title": "Basic Syntax and Data Types",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "This lesson covers Python's basic syntax and common data types.",
-          "sections": [
-            {
-              "title": "Python Syntax",
-              "content": "Python uses indentation to define blocks of code, making it unique among programming languages."
-            },
-            {
-              "title": "Data Types in Python",
-              "content": "Common data types include integers, floats, strings, and booleans."
-            },
-            {
-              "title": "Variables",
-              "content": "Variables are used to store data, and in Python, you don't need to declare a type."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What defines a block of code in Python?",
-              "options": [
-                "Curly braces",
-                "Indentation",
-                "Semicolons",
-                "None of the above"
-              ],
-              "correctAnswer": 1,
-              "explanation": "In Python, indentation defines the scope of a block of code."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "Which of the following is a data type in Python?",
-              "options": [
-                "Integer",
-                "Character",
-                "Byte",
-                "All of the above"
-              ],
-              "correctAnswer": 0,
-              "explanation": "Integer is a valid data type in Python, along with others like float and string."
-            },
-            {
-              "id": "q3",
-              "difficulty": "easy",
-              "xpReward": 20,
-              "question": "How do you declare a variable in Python?",
-              "options": [
-                "var x = 10",
-                "let x: int = 10",
-                "x = 10",
-                "int x = 10"
-              ],
-              "correctAnswer": 2,
-              "explanation": "In Python, you simply assign a value to a variable without declaring its type."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "This lesson introduced the basic syntax of Python and its common data types.",
-          "keyTakeaways": [
-            "Indentation defines code blocks in Python.",
-            "Common data types include integers, floats, strings, and booleans.",
-            "Variables are declared by assigning a value directly."
-          ]
-        }
-      },
-      "type": "lesson",
-      "difficulty": "easy",
-      "estimatedMinutes": 30,
-      "totalXP": 100
-    },
-    "lesson-3": {
-      "id": "lesson-3",
-      "title": "Control Structures",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "Learn about control structures in Python, including conditional statements and loops.",
-          "sections": [
-            {
-              "title": "If Statements",
-              "content": "If statements allow you to execute code based on conditions."
-            },
-            {
-              "title": "Loops",
-              "content": "Python has 'for' and 'while' loops for iterating over data."
-            },
-            {
-              "title": "Breaking out of Loops",
-              "content": "You can exit loops using the 'break' statement."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is the purpose of an if statement?",
-              "options": [
-                "To define functions",
-                "To create variables",
-                "To execute code based on a condition",
-                "To loop through data"
-              ],
-              "correctAnswer": 2,
-              "explanation": "If statements execute code depending on whether a condition is true."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "Which loop is used for iterating a fixed number of times?",
-              "options": [
-                "While loop",
-                "For loop",
-                "Do-while loop",
-                "None of the above"
-              ],
-              "correctAnswer": 1,
-              "explanation": "For loops are typically used when the number of iterations is known beforehand."
-            },
-            {
-              "id": "q3",
-              "difficulty": "easy",
-              "xpReward": 20,
-              "question": "What does the break statement do?",
-              "options": [
-                "Ends the program",
-                "Exits the current loop",
-                "Continues to the next iteration",
-                "None of the above"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The break statement is used to exit the current loop immediately."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "In this lesson, you learned about control structures, including if statements and loops.",
-          "keyTakeaways": [
-            "If statements are used for conditional execution.",
-            "For loops iterate over a sequence a fixed number of times.",
-            "The break statement exits loops."
-          ]
-        }
-      },
-      "type": "lesson",
-      "difficulty": "easy",
-      "estimatedMinutes": 30,
-      "totalXP": 100
-    }
-  },
-  "ai-1767892936736-ne0q48v91": {
-    "lesson-1": {
-      "id": "lesson-1",
-      "title": "Introduction to UI/UX Design",
-      "duration": "30 min",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "In this lesson, we will explore the basics of UI/UX design, including definitions and key concepts.",
-          "sections": [
-            {
-              "title": "What is UI/UX Design?",
-              "content": "UI (User Interface) and UX (User Experience) are critical components of product design. UI focuses on the look and layout, while UX is about the overall experience a user has with a product."
-            },
-            {
-              "title": "Importance of UI/UX Design",
-              "content": "Good UI/UX design enhances user satisfaction, improves usability, and can significantly impact business success."
-            },
-            {
-              "title": "Principles of Effective Design",
-              "content": "Key principles include consistency, feedback, accessibility, and simplicity, all of which contribute to creating a user-friendly interface."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What does UI stand for?",
-              "options": [
-                "User Interface",
-                "User Interaction",
-                "Universal Interface",
-                "User Integration"
-              ],
-              "correctAnswer": 0,
-              "explanation": "UI stands for User Interface, which is the point of interaction between the user and a digital product."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "Which principle focuses on maintaining uniformity throughout a design?",
-              "options": [
-                "Feedback",
-                "Consistency",
-                "Accessibility",
-                "Simplicity"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Consistency is key in design as it helps users predict how elements will behave across the interface."
-            },
-            {
-              "id": "q3",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is the primary goal of UX design?",
-              "options": [
-                "Aesthetic appeal",
-                "User satisfaction",
-                "Technical functionality",
-                "Branding"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The primary goal of UX design is to enhance user satisfaction by improving usability and pleasure in the interaction."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "This lesson covered the fundamentals of UI/UX design, emphasizing the importance of effective design principles.",
-          "keyTakeaways": [
-            "UI and UX are distinct but complementary fields.",
-            "Good design improves user satisfaction and usability.",
-            "Key design principles include consistency, feedback, accessibility, and simplicity."
-          ]
-        }
-      },
-      "quiz": {
-        "questions": []
-      }
-    },
-    "lesson-2": {
-      "id": "lesson-2",
-      "title": "Getting Started with Figma",
-      "duration": "30 min",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "This lesson introduces Figma, a powerful design tool for UI/UX designers.",
-          "sections": [
-            {
-              "title": "What is Figma?",
-              "content": "Figma is a cloud-based design tool that allows for collaborative interface design. It is popular for its ease of use and real-time collaboration features."
-            },
-            {
-              "title": "Setting Up Your First Figma Project",
-              "content": "To start using Figma, create an account, familiarize yourself with the interface, and create a new project to begin designing."
-            },
-            {
-              "title": "Basic Tools and Features",
-              "content": "Figma offers various tools such as frames, shapes, text, and components that help designers create user interfaces effectively."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is a key feature of Figma?",
-              "options": [
-                "Offline editing",
-                "Real-time collaboration",
-                "Expensive licensing",
-                "Limited tools"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Figma is known for its real-time collaboration feature, allowing multiple users to work on a design simultaneously."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "Which tool is NOT available in Figma?",
-              "options": [
-                "Frames",
-                "Shapes",
-                "3D modeling",
-                "Components"
-              ],
-              "correctAnswer": 2,
-              "explanation": "Figma does not support 3D modeling as it focuses on 2D design and interface layouts."
-            },
-            {
-              "id": "q3",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is the first step to start a project in Figma?",
-              "options": [
-                "Download the app",
-                "Create an account",
-                "Choose a template",
-                "Start designing"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The first step to start a project in Figma is to create an account, which allows you to access the platform."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "This lesson provided an overview of Figma and its essential features for UI/UX design.",
-          "keyTakeaways": [
-            "Figma is a cloud-based design tool for collaborative design.",
-            "Understanding Figma's interface is crucial for efficient work.",
-            "Basic tools in Figma include frames, shapes, and components."
-          ]
-        }
-      },
-      "quiz": {
-        "questions": []
-      }
-    },
-    "lesson-3": {
-      "id": "lesson-3",
-      "title": "Designing a Simple User Interface in Figma",
-      "duration": "30 min",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "In this lesson, we will create a simple user interface using Figma.",
-          "sections": [
-            {
-              "title": "Choosing a Layout",
-              "content": "Selecting the right layout is essential for effective UI design. Common layouts include grids and lists, tailored to user needs."
-            },
-            {
-              "title": "Adding Elements",
-              "content": "Use shapes, text, and images to build your UI. Ensure to maintain alignment and spacing for a polished look."
-            },
-            {
-              "title": "Prototyping Basics",
-              "content": "Figma allows you to create interactive prototypes, linking different frames to simulate navigation within your app."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is an important aspect when choosing a layout?",
-              "options": [
-                "Aesthetic only",
-                "User needs",
-                "Random selection",
-                "Personal preference"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Choosing a layout should always prioritize user needs to enhance usability."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What should you consider when adding elements to your UI?",
-              "options": [
-                "Color only",
-                "Alignment and spacing",
-                "Quantity of elements",
-                "Complexity"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Alignment and spacing are crucial for creating a clean and organized user interface."
-            },
-            {
-              "id": "q3",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is the purpose of prototyping in Figma?",
-              "options": [
-                "Final design",
-                "Interactive simulation",
-                "Aesthetic changes",
-                "Exporting assets"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Prototyping allows designers to create interactive simulations of their designs to test user flows."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "This lesson focused on creating a simple user interface in Figma, highlighting layout, element placement, and prototyping.",
-          "keyTakeaways": [
-            "Choose layouts based on user needs.",
-            "Alignment and spacing enhance UI quality.",
-            "Prototyping helps simulate user interactions."
-          ]
-        }
-      },
-      "quiz": {
-        "questions": []
-      }
-    }
-  },
-  "ai-1767893166678-cx6tg6ety": {
-    "lesson-1": {
-      "id": "lesson-1",
-      "title": "Introduction to React",
-      "duration": "30 min",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "In this lesson, we will explore the basics of React, its key concepts, and how it revolutionizes web development.",
-          "sections": [
-            {
-              "title": "What is React?",
-              "content": "React is a JavaScript library for building user interfaces. It allows developers to create large web applications that can change data without reloading the page."
-            },
-            {
-              "title": "Key Features of React",
-              "content": "Some key features of React include components, virtual DOM, and JSX. Components are the building blocks of a React application."
-            },
-            {
-              "title": "Why Use React?",
-              "content": "React enhances the performance of applications, simplifies the development process, and has a large community support."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What is the primary purpose of React?",
-              "options": [
-                "To manage state",
-                "To build user interfaces",
-                "To handle backend logic",
-                "To create databases"
-              ],
-              "correctAnswer": 1,
-              "explanation": "React is primarily used to build user interfaces."
-            },
-            {
-              "id": "q2",
-              "difficulty": "easy",
-              "xpReward": 10,
-              "question": "Which of the following is a key feature of React?",
-              "options": [
-                "Server-side rendering",
-                "Virtual DOM",
-                "Data binding",
-                "Template literals"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The Virtual DOM is one of the key features that makes React efficient."
-            },
-            {
-              "id": "q3",
-              "difficulty": "medium",
-              "xpReward": 15,
-              "question": "What is JSX?",
-              "options": [
-                "JavaScript XML",
-                "JavaScript and XML",
-                "JavaScript Extension",
-                "None of the above"
-              ],
-              "correctAnswer": 0,
-              "explanation": "JSX stands for JavaScript XML and allows HTML to be written within JavaScript."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "This lesson introduced React, its features, and its significance in web development.",
-          "keyTakeaways": [
-            "React is a library for building user interfaces.",
-            "Components are the core building blocks in React.",
-            "The Virtual DOM improves performance."
-          ]
-        }
-      },
-      "quiz": {
-        "questions": []
-      }
-    },
-    "lesson-2": {
-      "id": "lesson-2",
-      "title": "Components and Props",
-      "duration": "30 min",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "This lesson covers components and props in React, which are essential for building reusable UI elements.",
-          "sections": [
-            {
-              "title": "Understanding Components",
-              "content": "Components are the heart of React applications. They are reusable pieces of UI that can be nested and combined."
-            },
-            {
-              "title": "Types of Components",
-              "content": "There are two main types of components in React: Class components and Functional components."
-            },
-            {
-              "title": "Using Props",
-              "content": "Props, short for properties, are how data is passed from parent to child components in React."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What are components in React?",
-              "options": [
-                "Reusable UI pieces",
-                "State management tools",
-                "Styling tools",
-                "Data storage methods"
-              ],
-              "correctAnswer": 0,
-              "explanation": "Components are reusable pieces of UI in React."
-            },
-            {
-              "id": "q2",
-              "difficulty": "medium",
-              "xpReward": 15,
-              "question": "What is the purpose of props in React?",
-              "options": [
-                "To manage state",
-                "To pass data between components",
-                "To style components",
-                "To handle API calls"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Props are used to pass data from parent to child components."
-            },
-            {
-              "id": "q3",
-              "difficulty": "medium",
-              "xpReward": 20,
-              "question": "Which component type is primarily used for state management?",
-              "options": [
-                "Functional components",
-                "Class components",
-                "Pure components",
-                "Stateless components"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Class components are often used for state management due to their lifecycle methods."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "This lesson focused on components and props, their types, and how to use them effectively.",
-          "keyTakeaways": [
-            "Components are reusable and nestable.",
-            "Props allow data transfer between components.",
-            "Class components are used for stateful logic."
-          ]
-        }
-      },
-      "quiz": {
-        "questions": []
-      }
-    },
-    "lesson-3": {
-      "id": "lesson-3",
-      "title": "State and Lifecycle",
-      "duration": "30 min",
-      "xp": 100,
-      "stages": {
-        "read": {
-          "xp": 20,
-          "introduction": "In this lesson, we will learn about state and lifecycle methods in React, which are crucial for dynamic applications.",
-          "sections": [
-            {
-              "title": "What is State?",
-              "content": "State is an object that determines how that component renders and behaves."
-            },
-            {
-              "title": "Managing State",
-              "content": "State can be managed using the useState hook in functional components or this.state in class components."
-            },
-            {
-              "title": "Component Lifecycle",
-              "content": "React components have a lifecycle that can be monitored with lifecycle methods or hooks."
-            }
-          ]
-        },
-        "practice": {
-          "xp": 50,
-          "questions": [
-            {
-              "id": "q1",
-              "difficulty": "easy",
-              "xpReward": 15,
-              "question": "What does state represent in a React component?",
-              "options": [
-                "The UI structure",
-                "The component's local data",
-                "User inputs",
-                "Network requests"
-              ],
-              "correctAnswer": 1,
-              "explanation": "State represents the component's local data that can change over time."
-            },
-            {
-              "id": "q2",
-              "difficulty": "medium",
-              "xpReward": 20,
-              "question": "Which hook is used to manage state in functional components?",
-              "options": [
-                "useEffect",
-                "useState",
-                "useContext",
-                "useReducer"
-              ],
-              "correctAnswer": 1,
-              "explanation": "The useState hook is used to manage state in functional components."
-            },
-            {
-              "id": "q3",
-              "difficulty": "medium",
-              "xpReward": 15,
-              "question": "What is a lifecycle method?",
-              "options": [
-                "A method to manage state",
-                "A method that runs at specific points in a component's life",
-                "A method to render UI",
-                "A method for data fetching"
-              ],
-              "correctAnswer": 1,
-              "explanation": "Lifecycle methods run at specific points in a component's lifecycle."
-            }
-          ]
-        },
-        "notes": {
-          "xp": 30,
-          "summary": "In this lesson, we explored state management and the component lifecycle in React.",
-          "keyTakeaways": [
-            "State determines a component's rendering and behavior.",
-            "useState is the hook for managing state in functional components.",
-            "Lifecycle methods are essential for monitoring component behavior."
-          ]
-        }
-      },
-      "quiz": {
-        "questions": []
-      }
-    }
-  }
 }

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import connectDB from './config/database.js';
 import authRoutes from './routes/auth.js';
 import coursesRoutes from './routes/courses.js';
 import aiRoutes from './routes/ai.js';
@@ -9,6 +10,9 @@ import lessonsRoutes from './routes/lessons.js';
 
 const app = express();
 const PORT = 3001;
+
+// Connect to MongoDB
+connectDB();
 
 // Middleware
 app.use(cors());

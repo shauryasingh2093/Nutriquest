@@ -396,5 +396,67 @@
         "type": "lesson"
       }
     ]
+  },
+  {
+    "id": "ai-1767897346712-e59hw39cm",
+    "title": "Data Science Mastery",
+    "description": "A comprehensive roadmap to enhance your data science skills with practical applications.",
+    "icon": "🤖",
+    "color": "from-purple-500 to-pink-500",
+    "difficulty": "intermediate",
+    "duration": "Self-paced",
+    "totalLessons": 3,
+    "isAIGenerated": true,
+    "lessons": [
+      {
+        "id": "lesson-1",
+        "title": "Exploratory Data Analysis (EDA)",
+        "xp": 100,
+        "type": "lesson"
+      },
+      {
+        "id": "lesson-2",
+        "title": "Machine Learning Models Overview",
+        "xp": 100,
+        "type": "lesson"
+      },
+      {
+        "id": "lesson-3",
+        "title": "Data Preprocessing Techniques",
+        "xp": 100,
+        "type": "lesson"
+      }
+    ]
+  },
+  {
+    "id": "ai-1767961025761-0v2h6hqc2",
+    "title": "Data Science Mastery",
+    "description": "A comprehensive roadmap to enhance your data science skills, focusing on practical applications and theory.",
+    "icon": "🤖",
+    "color": "from-purple-500 to-pink-500",
+    "difficulty": "intermediate",
+    "duration": "Self-paced",
+    "totalLessons": 3,
+    "isAIGenerated": true,
+    "lessons": [
+      {
+        "id": "lesson-1",
+        "title": "Exploratory Data Analysis (EDA)",
+        "xp": 100,
+        "type": "lesson"
+      },
+      {
+        "id": "lesson-2",
+        "title": "Feature Engineering",
+        "xp": 100,
+        "type": "lesson"
+      },
+      {
+        "id": "lesson-3",
+        "title": "Machine Learning Algorithms",
+        "xp": 100,
+        "type": "lesson"
+      }
+    ]
   }
 ]

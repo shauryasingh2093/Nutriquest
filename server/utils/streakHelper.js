@@ -15,8 +15,11 @@ export function updateUserStreak(user) {
         ? new Date(user.lastActivityDate).toDateString()
         : null;
 
+    console.log('[Streak] Checking streak update:', { today, lastActivity, currentStreak: user.streak });
+
     // If already active today, no need to update
     if (lastActivity === today) {
+        console.log('[Streak] Already active today, no update needed');
         return { updated: false, user, streakChanged: false };
     }
 
@@ -31,9 +34,11 @@ export function updateUserStreak(user) {
     if (lastActivity === yesterdayStr) {
         // Consecutive day - increment streak
         user.streak = (user.streak || 0) + 1;
-    } else if (lastActivity !== today) {
-        // Streak broken - reset to 1
+        console.log('[Streak] Consecutive day! Incrementing streak to:', user.streak);
+    } else {
+        // Streak broken or first activity - reset to 1
         user.streak = 1;
+        console.log('[Streak] Streak broken or first activity. Resetting to 1. Last activity was:', lastActivity);
     }
 
     // Update last activity date
@@ -46,6 +51,13 @@ export function updateUserStreak(user) {
     }
 
     const streakChanged = user.streak !== previousStreak;
+
+    console.log('[Streak] Update complete:', {
+        newStreak: user.streak,
+        previousStreak,
+        streakChanged,
+        longestStreak: user.longestStreak
+    });
 
     return { updated: true, user, streakChanged };
 }

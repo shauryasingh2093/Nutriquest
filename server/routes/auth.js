@@ -1,11 +1,10 @@
 import express from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { readUsers, writeUsers } from '../utils/db.js';
+import User from '../models/User.js';
 import { checkStreakStatus } from '../utils/streakHelper.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = express.Router();
-const JWT_SECRET = 'nutriquest-secret-key-change-in-production';
 
 // Signup
 router.post('/signup', async (req, res) => {
@@ -16,42 +15,42 @@ router.post('/signup', async (req, res) => {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
-        const users = readUsers();
-
         // Check if user already exists
-        if (users.find(u => u.email === email)) {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
             return res.status(400).json({ error: 'User already exists' });
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create new user
-        const newUser = {
-            id: Date.now().toString(),
+        // Create new user (password will be hashed automatically by the model)
+        const newUser = new User({
             email,
             name,
-            password: hashedPassword,
-            createdAt: new Date().toISOString(),
+            password,
             xp: 0,
             level: 1,
             streak: 0,
+            longestStreak: 0,
             achievements: [],
             completedLessons: [],
-        };
+            stageProgress: {}
+        });
 
-        users.push(newUser);
-        writeUsers(users);
+        await newUser.save();
 
         // Generate token
-        const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign(
+            { userId: newUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
 
-        // Return user without password
-        const { password: _, ...userWithoutPassword } = newUser;
-        res.json({ user: userWithoutPassword, token });
+        // Return user (password is automatically excluded by the model's toJSON method)
+        res.json({ user: newUser, token });
     } catch (error) {
         console.error('Signup error:', error);
-        res.status(500).json({ error: 'Server error' });
+        console.error('Error details:', error.message);
+        console.error('Error stack:', error.stack);
+        res.status(500).json({ error: 'Server error', details: error.message });
     }
 });
 
@@ -64,25 +63,28 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Email and password are required' });
         }
 
-        const users = readUsers();
-        const user = users.find(u => u.email === email);
+        // Find user by email
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        // Check password
-        const isValidPassword = await bcrypt.compare(password, user.password);
+        // Check password using the model's comparePassword method
+        const isValidPassword = await user.comparePassword(password);
         if (!isValidPassword) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Generate token
-        const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
 
-        // Return user without password
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ user: userWithoutPassword, token });
+        // Return user (password is automatically excluded)
+        res.json({ user, token });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Server error' });
@@ -90,41 +92,25 @@ router.post('/login', async (req, res) => {
 });
 
 // Get current user
-router.get('/me', async (req, res) => {
+router.get('/me', authenticate, async (req, res) => {
     try {
-        const token = req.headers.authorization?.replace('Bearer ', '');
-
-        if (!token) {
-            return res.status(401).json({ error: 'No token provided' });
-        }
-
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const users = readUsers();
-        const userIndex = users.findIndex(u => u.id === decoded.userId);
-
-        if (userIndex === -1) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        let user = users[userIndex];
+        // User is already attached to req by the authenticate middleware
+        let user = req.user;
 
         // Check if streak should be broken due to inactivity
-        // This detects broken streaks but doesn't update them
-        // Streak only increments when user completes a stage/lesson
-        const { streakBroken, user: updatedUser } = checkStreakStatus(user);
+        const { streakBroken, user: updatedUserData } = checkStreakStatus(user.toObject());
 
         if (streakBroken) {
-            // Save the broken streak status
-            users[userIndex] = updatedUser;
-            writeUsers(users);
-            user = updatedUser;
+            // Update the user in the database
+            user.streak = updatedUserData.streak;
+            user.lastActivityDate = updatedUserData.lastActivityDate;
+            await user.save();
         }
 
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ user: userWithoutPassword });
+        res.json({ user });
     } catch (error) {
         console.error('Auth error:', error);
-        res.status(401).json({ error: 'Invalid token' });
+        res.status(500).json({ error: 'Server error' });
     }
 });
 

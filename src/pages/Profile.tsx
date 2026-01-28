@@ -28,6 +28,7 @@ const Profile: React.FC = () => {
     const [loadingFavs, setLoadingFavs] = useState(true);
     const [loadingHistory, setLoadingHistory] = useState(true);
     const [completedCoursesCount, setCompletedCoursesCount] = useState(0);
+    const [monthOffset, setMonthOffset] = useState(0);
 
     useEffect(() => {
         if (user) {
@@ -110,12 +111,49 @@ const Profile: React.FC = () => {
         }
     };
 
-    // Dynamic data for heat map based on streak (as requested by user)
-    const streakCount = user.streak || 0;
-    const heatmapDays: HeatmapDay[] = Array.from({ length: 108 }, (_, i) => ({
-        active: i < streakCount,
-        id: i
-    }));
+    // Dynamic data for monthly heat map
+    const generateMonthlyData = (offset: number) => {
+        const streakCount = user.streak || 0;
+        const today = new Date();
+        const monthDate = new Date(today.getFullYear(), today.getMonth() + offset, 1);
+        const monthName = monthDate.toLocaleString('default', { month: 'long' });
+        const year = monthDate.getFullYear();
+        const daysInMonth = new Date(year, monthDate.getMonth() + 1, 0).getDate();
+
+        // Calculate offset for the first day of the month (0 = Monday, 6 = Sunday)
+        let firstDay = monthDate.getDay(); // 0 is Sunday
+        const firstDayOffset = firstDay === 0 ? 6 : firstDay - 1;
+
+        const days = [];
+        // Padding for the start of the month
+        for (let p = 0; p < firstDayOffset; p++) {
+            days.push({ id: `pad-${offset}-${p}`, type: 'padding' });
+        }
+
+        // Actual days
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dayDate = new Date(year, monthDate.getMonth(), d);
+            dayDate.setHours(0, 0, 0, 0); // Normalize to start of day
+
+            const todayNormalized = new Date(today);
+            todayNormalized.setHours(0, 0, 0, 0); // Normalize to start of day
+
+            const isToday = dayDate.getTime() === todayNormalized.getTime();
+            const diffTime = todayNormalized.getTime() - dayDate.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            days.push({
+                id: `day-${year}-${monthDate.getMonth()}-${d}`,
+                type: 'day',
+                active: diffDays >= 0 && diffDays < streakCount,
+                isToday
+            });
+        }
+
+        return { name: `${monthName} ${year}`, days };
+    };
+
+    const currentMonthData = generateMonthlyData(monthOffset);
 
     return (
         <div className="bg-[#F5EFE1] min-h-screen font-source-serif">
@@ -307,30 +345,52 @@ const Profile: React.FC = () => {
                         </div>
 
                         {/* Heatmap Grid */}
-                        <div className="bg-[#EFE7D6] rounded-[24px] p-10 border border-black/5 shadow-sm">
-                            <div className="flex justify-between items-end ml-10 mb-6">
-                                <div>
-                                    <h3 className="text-lg font-black text-[#333333] mb-0.5">Learning Consistency</h3>
-                                    <p className="text-xs text-[#333333]/50">Your daily dedication over the months</p>
-                                </div>
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-[10px] text-[#333333]/40 font-bold uppercase tracking-wider">Less</span>
-                                    <div className="flex gap-1">
-                                        <div className="w-2.5 h-2.5 rounded-[1px] bg-[#D1D5DB]"></div>
-                                        <div className="w-2.5 h-2.5 rounded-[1px] bg-[#5DAD54]/40"></div>
-                                        <div className="w-2.5 h-2.5 rounded-[1px] bg-[#5DAD54]/70"></div>
-                                        <div className="w-2.5 h-2.5 rounded-[1px] bg-[#5DAD54]"></div>
+                        {/* Heatmap Grid */}
+                        <div className="bg-[#EFE7D6] rounded-[24px] p-10 border border-black/5 shadow-sm flex flex-col items-center">
+                            <div className="w-fit min-w-[300px]">
+                                <div className="flex justify-between items-center mb-8">
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center gap-3 mb-1">
+                                            <button
+                                                onClick={() => setMonthOffset(prev => prev - 1)}
+                                                className="p-1 hover:bg-black/5 rounded-full transition-colors active:scale-90"
+                                            >
+                                                <svg className="w-4 h-4 text-[#333333]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
+                                            </button>
+                                            <h3 className="text-xl font-black text-[#333333] min-w-[140px] text-center">{currentMonthData.name}</h3>
+                                            <button
+                                                onClick={() => setMonthOffset(prev => prev + 1)}
+                                                className="p-1 hover:bg-black/5 rounded-full transition-colors active:scale-90"
+                                            >
+                                                <svg className="w-4 h-4 text-[#333333]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
+                                            </button>
+                                        </div>
+                                        <p className="text-[10px] text-[#333333]/40 font-bold uppercase tracking-widest text-center">Learning Consistency</p>
                                     </div>
-                                    <span className="text-[10px] text-[#333333]/40 font-bold uppercase tracking-wider">More</span>
+                                    <div className="flex items-center gap-2 shrink-0 ml-8">
+                                        <span className="text-[10px] text-[#333333]/40 font-bold uppercase tracking-wider">Less</span>
+                                        <div className="flex gap-1">
+                                            <div className="w-2.5 h-2.5 rounded-[1px] bg-[#D1D5DB]"></div>
+                                            <div className="w-2.5 h-2.5 rounded-[1px] bg-[#5DAD54]/40"></div>
+                                            <div className="w-2.5 h-2.5 rounded-[1px] bg-[#5DAD54]/70"></div>
+                                            <div className="w-2.5 h-2.5 rounded-[1px] bg-[#5DAD54]"></div>
+                                        </div>
+                                        <span className="text-[10px] text-[#333333]/40 font-bold uppercase tracking-wider">More</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="w-full flex justify-center">
-                                <div className="grid grid-cols-12 gap-1 md:gap-1.5 w-fit mx-auto">
-                                    {heatmapDays.map((day) => (
+
+                                <div className="grid grid-cols-7 gap-1.5 md:gap-2">
+                                    {/* Day Headers */}
+                                    {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(d => (
+                                        <div key={d} className="text-[9px] font-bold text-[#333333]/20 flex items-center justify-center mb-1">{d}</div>
+                                    ))}
+                                    {/* Month Days */}
+                                    {currentMonthData.days.map((day: any) => (
                                         <div
                                             key={day.id}
-                                            className={`w-4 h-4 md:w-5 md:h-5 rounded-[2px] transition-colors border border-black/5 ${day.active ? 'bg-[#5DAD54]' : 'bg-[#D1D5DB]'
-                                                }`}
+                                            className={`w-4 h-4 md:w-5 md:h-5 rounded-[2px] transition-colors border border-black/5 ${day.type === 'padding' ? 'opacity-0' :
+                                                day.active ? 'bg-[#5DAD54]' : 'bg-[#D1D5DB]'
+                                                } ${day.isToday ? 'ring-1 ring-[#5DAD54] ring-offset-1' : ''}`}
                                         />
                                     ))}
                                 </div>

@@ -1,70 +1,61 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
-import { readUsers, writeUsers } from '../utils/db.js';
+import User from '../models/User.js';
 import { updateUserStreak } from '../utils/streakHelper.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = express.Router();
-const JWT_SECRET = 'nutriquest-secret-key-change-in-production';
-
-// Middleware to verify token
-const authMiddleware = (req, res, next) => {
-    try {
-        const token = req.headers.authorization?.replace('Bearer ', '');
-        if (!token) {
-            return res.status(401).json({ error: 'No token provided' });
-        }
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.userId = decoded.userId;
-        next();
-    } catch (error) {
-        res.status(401).json({ error: 'Invalid token' });
-    }
-};
 
 // Complete a stage
-router.post('/complete-stage', authMiddleware, (req, res) => {
+router.post('/complete-stage', authenticate, async (req, res) => {
     try {
-        const { courseId, lessonId, stage, xp } = req.body;
-        const users = readUsers();
-        const userIndex = users.findIndex(u => u.id === req.userId);
-
-        if (userIndex === -1) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        let user = users[userIndex];
+        const { courseId, lessonId, stage, xp, content } = req.body;
+        const user = req.user;
         const stageKey = `${courseId}-${lessonId}`;
 
         // Initialize stage progress if not exists
-        if (!user.stageProgress) user.stageProgress = {};
-        if (!user.stageProgress[stageKey]) {
-            user.stageProgress[stageKey] = {
+        if (!user.stageProgress) user.stageProgress = new Map();
+
+        let progress = user.stageProgress.get(stageKey);
+        if (!progress) {
+            progress = {
                 read: false,
                 practice: false,
-                notes: false
+                notes: false,
+                userNotes: ""
             };
         }
 
-        // Mark stage as complete
-        if (!user.stageProgress[stageKey][stage]) {
-            user.stageProgress[stageKey][stage] = true;
+        // Mark stage as complete if not already, or update notes
+        const isFirstTime = !progress[stage];
+        const isNotesUpdate = stage === 'notes' && content !== undefined;
 
-            // Award XP for stage completion
-            user.xp += xp;
+        if (isFirstTime || isNotesUpdate) {
+            if (isFirstTime) {
+                progress[stage] = true;
+                // Award XP for stage completion
+                user.xp += (xp || 0);
+            }
+
+            if (isNotesUpdate) {
+                progress.userNotes = content;
+            }
+
+            user.stageProgress.set(stageKey, progress);
+
             const previousLevel = user.level;
             user.level = Math.floor(user.xp / 1000) + 1;
             const leveledUp = user.level > previousLevel;
 
             // Update streak using helper function
-            const { updated, user: updatedUser, streakChanged } = updateUserStreak(user);
+            const { updated, user: updatedUserData } = updateUserStreak(user.toObject());
             if (updated) {
-                user = updatedUser;
+                user.streak = updatedUserData.streak;
+                user.lastActivityDate = updatedUserData.lastActivityDate;
+                user.longestStreak = updatedUserData.longestStreak;
             }
 
             // Check if all stages complete
-            const allStagesComplete = user.stageProgress[stageKey].read &&
-                user.stageProgress[stageKey].practice &&
-                user.stageProgress[stageKey].notes;
+            const allStagesComplete = progress.read && progress.practice && progress.notes;
 
             // If all stages complete, mark lesson as complete
             if (allStagesComplete && !user.completedLessons.includes(stageKey)) {
@@ -74,21 +65,18 @@ router.post('/complete-stage', authMiddleware, (req, res) => {
             // Check for achievements
             const newAchievements = checkAchievements(user);
 
-            users[userIndex] = user;
-            writeUsers(users);
+            await user.save();
 
-            const { password: _, ...userWithoutPassword } = user;
             res.json({
-                user: userWithoutPassword,
-                earnedXP: xp,
+                user,
+                earnedXP: isFirstTime ? xp : 0,
                 leveledUp,
                 newLevel: leveledUp ? user.level : null,
                 newAchievements,
                 allStagesComplete
             });
         } else {
-            const { password: _, ...userWithoutPassword } = user;
-            res.json({ user: userWithoutPassword, earnedXP: 0, leveledUp: false, newAchievements: [], allStagesComplete: false });
+            res.json({ user, earnedXP: 0, leveledUp: false, newAchievements: [], allStagesComplete: false });
         }
     } catch (error) {
         console.error('Error completing stage:', error);
@@ -97,23 +85,11 @@ router.post('/complete-stage', authMiddleware, (req, res) => {
 });
 
 // Complete a lesson
-router.post('/complete-lesson', authMiddleware, (req, res) => {
+router.post('/complete-lesson', authenticate, async (req, res) => {
     try {
         const { courseId, lessonId, xp, quizScore } = req.body;
-        const users = readUsers();
-        const userIndex = users.findIndex(u => u.id === req.userId);
-
-        if (userIndex === -1) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        const user = users[userIndex];
+        const user = req.user;
         const lessonKey = `${courseId}-${lessonId}`;
-
-        // Initialize new fields if they don't exist
-        if (!user.lastActivityDate) user.lastActivityDate = null;
-        if (!user.longestStreak) user.longestStreak = 0;
-        if (!user.unlockedLessons) user.unlockedLessons = [];
 
         // Check if lesson already completed
         if (!user.completedLessons.includes(lessonKey)) {
@@ -133,29 +109,28 @@ router.post('/complete-lesson', authMiddleware, (req, res) => {
             const leveledUp = newLevel > previousLevel;
             user.level = newLevel;
 
-            // Update streak using helper function
-            const { updated, user: updatedUser, streakChanged } = updateUserStreak(user);
+            // Update streak
+            const { updated, user: updatedUserData } = updateUserStreak(user.toObject());
             if (updated) {
-                user = updatedUser;
+                user.streak = updatedUserData.streak;
+                user.lastActivityDate = updatedUserData.lastActivityDate;
+                user.longestStreak = updatedUserData.longestStreak;
             }
 
             // Check for achievements
             const newAchievements = checkAchievements(user);
 
-            users[userIndex] = user;
-            writeUsers(users);
+            await user.save();
 
-            const { password: _, ...userWithoutPassword } = user;
             res.json({
-                user: userWithoutPassword,
+                user,
                 earnedXP,
                 leveledUp,
                 newLevel: leveledUp ? newLevel : null,
                 newAchievements
             });
         } else {
-            const { password: _, ...userWithoutPassword } = user;
-            res.json({ user: userWithoutPassword, earnedXP: 0, leveledUp: false, newAchievements: [] });
+            res.json({ user, earnedXP: 0, leveledUp: false, newAchievements: [] });
         }
     } catch (error) {
         console.error('Error completing lesson:', error);
@@ -164,16 +139,11 @@ router.post('/complete-lesson', authMiddleware, (req, res) => {
 });
 
 // Get user progress for a course
-router.get('/course/:courseId', authMiddleware, (req, res) => {
+router.get('/course/:courseId', authenticate, async (req, res) => {
     try {
-        const users = readUsers();
-        const user = users.find(u => u.id === req.userId);
-
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
+        const user = req.user;
         const courseId = req.params.courseId;
+
         const completedLessons = user.completedLessons
             .filter(l => l.startsWith(courseId))
             .map(l => l.replace(`${courseId}-`, ''));
@@ -189,25 +159,25 @@ function checkAchievements(user) {
     const newAchievements = [];
     const potentialAchievements = [
         // Lesson milestones
-        { id: 'first-lesson', name: 'First Steps', icon: '🎯', description: 'Complete your first lesson', condition: () => user.completedLessons.length === 1 },
-        { id: '5-lessons', name: 'Getting Started', icon: '🌱', description: 'Complete 5 lessons', condition: () => user.completedLessons.length === 5 },
-        { id: '10-lessons', name: 'Dedicated Learner', icon: '📚', description: 'Complete 10 lessons', condition: () => user.completedLessons.length === 10 },
-        { id: '25-lessons', name: 'Knowledge Seeker', icon: '🔍', description: 'Complete 25 lessons', condition: () => user.completedLessons.length === 25 },
-        { id: '50-lessons', name: 'Master Student', icon: '🎓', description: 'Complete 50 lessons', condition: () => user.completedLessons.length === 50 },
+        { id: 'first-lesson', name: 'First Steps', icon: '🎯', description: 'Complete your first lesson', condition: () => user.completedLessons.length >= 1 },
+        { id: '5-lessons', name: 'Getting Started', icon: '🌱', description: 'Complete 5 lessons', condition: () => user.completedLessons.length >= 5 },
+        { id: '10-lessons', name: 'Dedicated Learner', icon: '📚', description: 'Complete 10 lessons', condition: () => user.completedLessons.length >= 10 },
+        { id: '25-lessons', name: 'Knowledge Seeker', icon: '🔍', description: 'Complete 25 lessons', condition: () => user.completedLessons.length >= 25 },
+        { id: '50-lessons', name: 'Master Student', icon: '🎓', description: 'Complete 50 lessons', condition: () => user.completedLessons.length >= 50 },
 
         // Level milestones
-        { id: 'level-3', name: 'Novice', icon: '🥉', description: 'Reach level 3', condition: () => user.level === 3 },
-        { id: 'level-5', name: 'Rising Star', icon: '⭐', description: 'Reach level 5', condition: () => user.level === 5 },
-        { id: 'level-10', name: 'Expert', icon: '💎', description: 'Reach level 10', condition: () => user.level === 10 },
+        { id: 'level-3', name: 'Novice', icon: '🥉', description: 'Reach level 3', condition: () => user.level >= 3 },
+        { id: 'level-5', name: 'Rising Star', icon: '⭐', description: 'Reach level 5', condition: () => user.level >= 5 },
+        { id: 'level-10', name: 'Expert', icon: '💎', description: 'Reach level 10', condition: () => user.level >= 10 },
 
         // Streak milestones
-        { id: '3-day-streak', name: 'Consistency', icon: '🔥', description: 'Maintain a 3-day streak', condition: () => user.streak === 3 },
-        { id: '7-day-streak', name: 'Week Warrior', icon: '🔥', description: 'Maintain a 7-day streak', condition: () => user.streak === 7 },
-        { id: '30-day-streak', name: 'Unstoppable', icon: '🚀', description: 'Maintain a 30-day streak', condition: () => user.streak === 30 },
+        { id: '3-day-streak', name: 'Consistency', icon: '🔥', description: 'Maintain a 3-day streak', condition: () => user.streak >= 3 },
+        { id: '7-day-streak', name: 'Week Warrior', icon: '🔥', description: 'Maintain a 7-day streak', condition: () => user.streak >= 7 },
+        { id: '30-day-streak', name: 'Unstoppable', icon: '🚀', description: 'Maintain a 30-day streak', condition: () => user.streak >= 30 },
 
         // XP milestones
         { id: '1000-xp', name: 'XP Hunter', icon: '⚡', description: 'Earn 1000 XP', condition: () => user.xp >= 1000 },
-        { id: '5000-xp', name: 'XP Master', icon: '⚡', description: 'Earn 5000 XP', condition: () => user.xp >= 5000 },
+        { id: '5000-xp', name: 'XP Master', icon: '⚡', description: 'Earn 5000 XP', condition: () => user.xp >= 5000 }
     ];
 
     // Check each potential achievement
@@ -219,7 +189,7 @@ function checkAchievements(user) {
                 name: achievement.name,
                 icon: achievement.icon,
                 description: achievement.description,
-                unlockedAt: new Date().toISOString()
+                unlockedAt: new Date()
             };
             user.achievements.push(newAchievement);
             newAchievements.push(newAchievement);

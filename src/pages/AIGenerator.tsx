@@ -29,7 +29,8 @@ interface AIRoadmap {
     description: string;
     icon: string;
     difficulty: string;
-    lessons: AILesson[];
+    lessons?: AILesson[];
+    phases?: AIPhase[];
 }
 
 const AIGenerator: React.FC = () => {
@@ -208,49 +209,81 @@ const AIGenerator: React.FC = () => {
                                 </div>
 
                                 <div className="flex gap-4 mb-12">
-                                    <span className="bg-[#7F6E68]/5 px-5 py-2 rounded-full text-sm font-black text-[#7F6E68] border border-[#7F6E68]/10 tracking-wide uppercase">📚 {roadmap.lessons.length} lessons</span>
-                                    <span className="bg-[#A8BDC9]/15 px-5 py-2 rounded-full text-sm font-black text-[#555555] border border-[#A8BDC9]/10 tracking-wide uppercase">⚡ {roadmap.lessons.reduce((sum, l) => sum + l.xp, 0)} Total XP</span>
+                                    <span className="bg-[#7F6E68]/5 px-5 py-2 rounded-full text-sm font-black text-[#7F6E68] border border-[#7F6E68]/10 tracking-wide uppercase">
+                                        📚 {roadmap.lessons?.length || roadmap.phases?.length || 0} {roadmap.lessons ? 'lessons' : 'phases'}
+                                    </span>
+                                    {roadmap.lessons && (
+                                        <span className="bg-[#A8BDC9]/15 px-5 py-2 rounded-full text-sm font-black text-[#555555] border border-[#A8BDC9]/10 tracking-wide uppercase">
+                                            ⚡ {roadmap.lessons.reduce((sum, l) => sum + l.xp, 0)} Total XP
+                                        </span>
+                                    )}
                                 </div>
 
                                 <div className="space-y-6">
-                                    {roadmap.lessons.map((lesson, index) => (
-                                        <div key={lesson.id} className="group relative bg-[#F5EFE1]/20 rounded-[40px] p-8 border border-[#7F6E68]/5 hover:bg-white hover:shadow-xl transition-all duration-400">
-                                            <div className="flex gap-6 items-center mb-4">
-                                                <div className="w-12 h-12 rounded-full bg-[#7F6E68] text-[#F5EFE1] flex items-center justify-center font-black text-xl shadow-lg group-hover:scale-110 transition-transform">
-                                                    {index + 1}
+                                    {roadmap.lessons ? (
+                                        roadmap.lessons.map((lesson, index) => (
+                                            <div key={lesson.id} className="group relative bg-[#F5EFE1]/20 rounded-[40px] p-8 border border-[#7F6E68]/5 hover:bg-white hover:shadow-xl transition-all duration-400">
+                                                <div className="flex gap-6 items-center mb-4">
+                                                    <div className="w-12 h-12 rounded-full bg-[#7F6E68] text-[#F5EFE1] flex items-center justify-center font-black text-xl shadow-lg group-hover:scale-110 transition-transform">
+                                                        {index + 1}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h4 className="text-xl font-black text-[#7F6E68] tracking-tight">{lesson.title}</h4>
+                                                        <span className="text-xs font-black text-[#7F6E68]/40 uppercase tracking-[0.2em] mt-1 inline-block">⚡ {lesson.xp} XP</span>
+                                                    </div>
                                                 </div>
-                                                <div className="flex-1">
-                                                    <h4 className="text-xl font-black text-[#7F6E68] tracking-tight">{lesson.title}</h4>
-                                                    <span className="text-xs font-black text-[#7F6E68]/40 uppercase tracking-[0.2em] mt-1 inline-block">⚡ {lesson.xp} XP</span>
-                                                </div>
-                                            </div>
 
-                                            <div className="flex flex-wrap gap-2.5">
-                                                <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">📖 Read</span>
-                                                <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">✏️ Practice</span>
-                                                <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">📝 Notes</span>
+                                                <div className="flex flex-wrap gap-2.5">
+                                                    <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">📖 Read</span>
+                                                    <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">✏️ Practice</span>
+                                                    <span className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">📝 Notes</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))
+                                    ) : roadmap.phases ? (
+                                        roadmap.phases.map((phase: AIPhase, index: number) => (
+                                            <div key={index} className="group relative bg-[#F5EFE1]/20 rounded-[40px] p-8 border border-[#7F6E68]/5 hover:bg-white hover:shadow-xl transition-all duration-400">
+                                                <div className="flex gap-6 items-center mb-4">
+                                                    <div className="w-12 h-12 rounded-full bg-[#7F6E68] text-[#F5EFE1] flex items-center justify-center font-black text-xl shadow-lg group-hover:scale-110 transition-transform">
+                                                        {phase.phase || index + 1}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h4 className="text-xl font-black text-[#7F6E68] tracking-tight">{phase.title}</h4>
+                                                        <span className="text-xs font-black text-[#7F6E68]/40 uppercase tracking-[0.2em] mt-1 inline-block">⏱️ {phase.duration}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-wrap gap-2.5">
+                                                    {phase.topics?.map((topic: string, i: number) => (
+                                                        <span key={i} className="bg-white px-4 py-2 rounded-xl text-sm font-bold text-[#7F6E68]/90 shadow-sm border border-[#7F6E68]/5">
+                                                            {topic}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : null}
                                 </div>
 
-                                <button
-                                    onClick={handlePlayRoadmap}
-                                    disabled={saving}
-                                    className="mt-12 w-full bg-[#A06B92] text-[#F5EFE1] font-black py-6 px-10 rounded-3xl shadow-[0_15px_30px_-10px_rgba(127,110,104,0.5)] hover:bg-[#6D5A54] hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-4 text-xl"
-                                >
-                                    {saving ? (
-                                        <>
-                                            <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
-                                            Saving Course...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className="text-2xl">🎮</span>
-                                            Play This Roadmap
-                                        </>
-                                    )}
-                                </button>
+                                {roadmap.lessons && (
+                                    <button
+                                        onClick={handlePlayRoadmap}
+                                        disabled={saving}
+                                        className="mt-12 w-full bg-[#A06B92] text-[#F5EFE1] font-black py-6 px-10 rounded-3xl shadow-[0_15px_30px_-10px_rgba(127,110,104,0.5)] hover:bg-[#6D5A54] hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-4 text-xl"
+                                    >
+                                        {saving ? (
+                                            <>
+                                                <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+                                                Saving Course...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="text-2xl">🎮</span>
+                                                Play This Roadmap
+                                            </>
+                                        )}
+                                    </button>
+                                )}
                             </div>
                         )}
 

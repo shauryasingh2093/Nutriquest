@@ -146,9 +146,9 @@
     "name": "shaurya singh",
     "password": "$2a$10$UbO3J3o.A6xG/BmkpZmZh.FjpqLuxb0LlaXbiuLgcp6F7FaLstRIq",
     "createdAt": "2026-01-07T12:10:19.605Z",
-    "xp": 780,
+    "xp": 820,
     "level": 1,
-    "streak": 2,
+    "streak": 3,
     "achievements": [
       {
         "id": "first-lesson",
@@ -163,6 +163,13 @@
         "icon": "🌱",
         "description": "Complete 5 lessons",
         "unlockedAt": "2026-01-08T13:40:00.649Z"
+      },
+      {
+        "id": "3-day-streak",
+        "name": "Consistency",
+        "icon": "🔥",
+        "description": "Maintain a 3-day streak",
+        "unlockedAt": "2026-01-08T18:33:00.573Z"
       }
     ],
     "completedLessons": [
@@ -221,9 +228,19 @@
         "read": true,
         "practice": true,
         "notes": true
+      },
+      "ai-generated-1767891391439-lesson-1": {
+        "read": true,
+        "practice": false,
+        "notes": false
+      },
+      "ai-1767961025761-0v2h6hqc2-lesson-1": {
+        "read": true,
+        "practice": false,
+        "notes": false
       }
     },
-    "lastActivityDate": "2026-01-08T11:02:45.172Z"
+    "lastActivityDate": "2026-01-08T18:33:00.572Z"
   },
   {
     "id": "1767870701348",
@@ -248,5 +265,47 @@
     "streak": 0,
     "achievements": [],
     "completedLessons": []
+  },
+  {
+    "id": "1769611930987",
+    "email": "aryayadav5012@gmail.com",
+    "name": "arya",
+    "password": "$2a$10$ufbfCPrUgBAG641D6LD.keA82y1XNvtvTn0cdtLB7qc8EZY4mH9Je",
+    "createdAt": "2026-01-28T14:52:10.987Z",
+    "xp": 170,
+    "level": 1,
+    "streak": 1,
+    "achievements": [
+      {
+        "id": "first-lesson",
+        "name": "First Steps",
+        "icon": "🎯",
+        "description": "Complete your first lesson",
+        "unlockedAt": "2026-01-28T16:15:32.381Z"
+      }
+    ],
+    "completedLessons": [
+      "ai-1767961025761-0v2h6hqc2-lesson-1",
+      "ai-1767961025761-0v2h6hqc2-lesson-2"
+    ],
+    "stageProgress": {
+      "dsa-arrays": {
+        "read": true,
+        "practice": false,
+        "notes": false
+      },
+      "ai-1767961025761-0v2h6hqc2-lesson-1": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      },
+      "ai-1767961025761-0v2h6hqc2-lesson-2": {
+        "read": true,
+        "practice": true,
+        "notes": true
+      }
+    },
+    "lastActivityDate": "2026-01-28T16:14:36.435Z",
+    "longestStreak": 1
   }
 ]

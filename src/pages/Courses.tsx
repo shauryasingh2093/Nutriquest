@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import { Course } from '../types';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Courses: React.FC = () => {
+    const { user, toggleFavorite: apiToggleFavorite } = useAuth();
     const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [favorites, setFavorites] = useState<(string | number)[]>(() => {
-        const saved = localStorage.getItem('nutriquest_favorites');
-        return saved ? JSON.parse(saved) : [];
-    });
-
-    useEffect(() => {
-        localStorage.setItem('nutriquest_favorites', JSON.stringify(favorites));
-    }, [favorites]);
 
     useEffect(() => {
         fetchCourses();
@@ -39,14 +34,10 @@ const Courses: React.FC = () => {
         }
     };
 
-    const toggleFavorite = (e: React.MouseEvent, courseId: string | number) => {
+    const toggleFavorite = (e: React.MouseEvent, courseId: string) => {
         e.preventDefault();
         e.stopPropagation();
-        setFavorites(prev =>
-            prev.includes(courseId)
-                ? prev.filter(id => id !== courseId)
-                : [...prev, courseId]
-        );
+        apiToggleFavorite(courseId);
     };
 
     const courseColors: Record<string, string> = {
@@ -240,128 +231,135 @@ const Courses: React.FC = () => {
         return Math.min(5, rating).toFixed(1);
     };
 
-    if (loading) {
-        return (
-            <div className="bg-[#F5EFE1] min-h-screen flex items-center justify-center font-source-serif">
-                <h2 className="text-2xl text-[#7F6E68] font-bold animate-pulse">Loading adventure...</h2>
-            </div>
-        );
-    }
+    const [showLoading, setShowLoading] = useState(false);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (loading) {
+            timer = setTimeout(() => setShowLoading(true), 200);
+        } else {
+            setShowLoading(false);
+        }
+        return () => clearTimeout(timer);
+    }, [loading]);
 
     return (
         <div className="bg-[#F5EFE1] min-h-screen font-source-serif overflow-x-hidden">
             <Navbar />
 
-            <main className="container mx-auto px-6 py-12">
-                {/* Search & AI Section */}
-                <div className="relative max-w-[2000px] mx-auto mb-16 px-1 mt-16" >
-                    {/* Mascot peeking */}
-                    <div className="absolute -top-14 left-8 w-20 z-0">
-                        <img src="/course.png" alt="Mascot" className="w-full h-auto drop-shadow-md" />
-                    </div>
-
-                    <div className="flex gap-4 items-center relative z-10">
-                        <div className="relative flex-1">
-                            <input
-                                type="text"
-                                placeholder="Search roadmap..."
-                                className="w-full py-4 pl-14 pr-6 rounded-[24px] bg-white border-2 border-black/5 text-lg text-[#555555] outline-none shadow-md focus:border-[#A8BDC9] transition-all font-bold"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            <img src="/search.png" alt="Search" className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 opacity-60" />
+            {loading ? (
+                showLoading ? <LoadingScreen message="Discovering your next adventure..." /> : null
+            ) : (
+                <main className="container mx-auto px-6 py-12">
+                    {/* Search & AI Section */}
+                    <div className="relative max-w-[2000px] mx-auto mb-16 px-1 mt-16" >
+                        {/* Mascot peeking */}
+                        <div className="absolute -top-14 left-8 w-20 z-0">
+                            <img src="/course.png" alt="Mascot" className="w-full h-auto drop-shadow-md" />
                         </div>
-                        <Link to="/ai-generator" className="bg-white border-2 border-black/10 p-3.5 rounded-2xl hover:bg-gray-50 transition-colors shadow-sm active:scale-95">
-                            <img src="/noto_magic-wand.png" alt="AI Generator" className="w-8 h-8" />
-                        </Link>
-                    </div>
-                </div>
 
-                {/* Course Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {courses.filter(c => c.title.toLowerCase().includes(searchTerm.toLowerCase())).map((course, idx) => (
-                        <div
-                            key={course.id || idx}
-                            className={`relative rounded-[40px] p-8 shadow-sm transition-all duration-500 hover:translate-y-[-10px] hover:shadow-2xl group overflow-hidden flex flex-col h-full border border-white/20 ${getCourseColor(course.title)}`}
-                        >
-                            {/* Favorite Icon */}
-                            <button
-                                onClick={(e) => toggleFavorite(e, course.id || idx)}
-                                className={`absolute top-6 right-6 cursor-pointer transition-all duration-300 z-20 p-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 backdrop-blur-sm ${favorites.includes(course.id || idx) ? 'text-red-500 fill-red-500 scale-110' : 'text-white/40 hover:text-white/60'
-                                    }`}
-                                aria-label={favorites.includes(course.id || idx) ? "Remove from favorites" : "Add to favorites"}
+                        <div className="flex gap-4 items-center relative z-10">
+                            <div className="relative flex-1">
+                                <input
+                                    type="text"
+                                    placeholder="Search roadmap..."
+                                    className="w-full py-4 pl-14 pr-6 rounded-[24px] bg-white border-2 border-black/5 text-lg text-[#555555] outline-none shadow-md focus:border-[#A8BDC9] transition-all font-bold"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                                <img src="/search.png" alt="Search" className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 opacity-60" />
+                            </div>
+                            <Link to="/ai-generator" className="bg-white border-2 border-black/10 p-3.5 rounded-2xl hover:bg-gray-50 transition-colors shadow-sm active:scale-95">
+                                <img src="/noto_magic-wand.png" alt="AI Generator" className="w-8 h-8" />
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {courses.filter(c => c.title.toLowerCase().includes(searchTerm.toLowerCase())).map((course, idx) => (
+                            <div
+                                key={course.id}
+                                className={`relative rounded-[40px] p-8 shadow-sm transition-all duration-500 hover:translate-y-[-10px] hover:shadow-2xl group overflow-hidden flex flex-col h-full border border-white/20 ${getCourseColor(course.title)}`}
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    className={`w-5 h-5 ${favorites.includes(course.id || idx) ? 'fill-current' : 'fill-none stroke-[2.5px] stroke-current'}`}
+                                {/* Favorite Icon */}
+                                <button
+                                    onClick={(e) => toggleFavorite(e, course.id)}
+                                    className={`absolute top-6 right-6 cursor-pointer transition-all duration-300 z-20 p-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 backdrop-blur-sm ${user?.favorites?.includes(course.id) ? 'text-red-500 fill-red-500 scale-110' : 'text-white/40 hover:text-white/60'
+                                        }`}
+                                    aria-label={user?.favorites?.includes(course.id) ? "Remove from favorites" : "Add to favorites"}
                                 >
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                </svg>
-                            </button>
-
-                            {/* Circular Badge Area on Right */}
-                            <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-white/20 rounded-full blur-[40px] z-0 group-hover:scale-125 transition-transform duration-700"></div>
-
-                            <div className="relative z-10 flex flex-col h-full flex-grow">
-                                <div className="mb-6 flex-grow">
-                                    <h3 className="text-2xl font-bold text-[#7F6E68] mb-4 leading-tight pr-12 line-clamp-2 min-h-[3.5rem]">{course.title}</h3>
-                                    <p className="text-[15px] text-[#7F6E68]/70 font-medium leading-relaxed max-w-[190px] line-clamp-3">
-                                        {course.description}
-                                    </p>
-                                </div>
-
-                                <div className="flex flex-col mb-8">
-                                    <span className="text-[11px] font-bold text-[#7F6E68]/60 ml-0.5 mb-1 tracking-wider">{getCourseRating(course.title)} / 5.0</span>
-                                    <div className="flex gap-1">
-                                        {[1, 2, 3, 4, 5].map((star) => {
-                                            const rating = parseFloat(getCourseRating(course.title));
-                                            const isFilled = star <= Math.round(rating);
-
-                                            return (
-                                                <svg
-                                                    key={star}
-                                                    viewBox="0 0 24 24"
-                                                    className={`w-4 h-4 transition-all duration-300 ${isFilled ? 'text-yellow-500 fill-current drop-shadow-[0_0_2px_rgba(234,179,8,0.3)]' : 'text-[#7F6E68]/20 fill-none stroke-[2px] stroke-current'}`}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                </svg>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-
-                                <div className="mt-auto">
-                                    <Link
-                                        to={`/roadmap/${course.id}`}
-                                        className="inline-flex items-center gap-2 bg-[#5A4D48] text-[#F5EFE1] font-bold py-3 px-7 rounded-2xl hover:bg-[#3D2E1F] active:scale-95 transition-all no-underline text-xs mb-8 shadow-md"
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        className={`w-5 h-5 ${user?.favorites?.includes(course.id) ? 'fill-current' : 'fill-none stroke-[2.5px] stroke-current'}`}
                                     >
-                                        Explore <span>→</span>
-                                    </Link>
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                </button>
 
-                                    <div className="flex flex-wrap gap-2.5">
-                                        <div className="bg-white/40 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[10px] font-bold text-[#7F6E68] border border-white/30 truncate max-w-[110px]">
-                                            Total XP: {course.lessons?.reduce((sum, lesson) => sum + (lesson.xp || 0), 0) || 1500}
+                                {/* Circular Badge Area on Right */}
+                                <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-white/20 rounded-full blur-[40px] z-0 group-hover:scale-125 transition-transform duration-700"></div>
+
+                                <div className="relative z-10 flex flex-col h-full flex-grow">
+                                    <div className="mb-6 flex-grow">
+                                        <h3 className="text-2xl font-bold text-[#7F6E68] mb-4 leading-tight pr-12 line-clamp-2 min-h-[3.5rem]">{course.title}</h3>
+                                        <p className="text-[15px] text-[#7F6E68]/70 font-medium leading-relaxed max-w-[190px] line-clamp-3">
+                                            {course.description}
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-col mb-8">
+                                        <span className="text-[11px] font-bold text-[#7F6E68]/60 ml-0.5 mb-1 tracking-wider">{getCourseRating(course.title)} / 5.0</span>
+                                        <div className="flex gap-1">
+                                            {[1, 2, 3, 4, 5].map((star) => {
+                                                const rating = parseFloat(getCourseRating(course.title));
+                                                const isFilled = star <= Math.round(rating);
+
+                                                return (
+                                                    <svg
+                                                        key={star}
+                                                        viewBox="0 0 24 24"
+                                                        className={`w-4 h-4 transition-all duration-300 ${isFilled ? 'text-yellow-500 fill-current drop-shadow-[0_0_2px_rgba(234,179,8,0.3)]' : 'text-[#7F6E68]/20 fill-none stroke-[2px] stroke-current'}`}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                                    </svg>
+                                                );
+                                            })}
                                         </div>
-                                        <div className="bg-white/40 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[10px] font-bold text-[#7F6E68] border border-white/30">
-                                            ⏱ 10h
-                                        </div>
-                                        <div className="bg-white/40 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[10px] font-bold text-[#7F6E68] border border-white/30">
-                                            {course.lessons?.length || 4} levels
+                                    </div>
+
+                                    <div className="mt-auto">
+                                        <Link
+                                            to={`/roadmap/${course.id}`}
+                                            className="inline-flex items-center gap-2 bg-[#5A4D48] text-[#F5EFE1] font-bold py-3 px-7 rounded-2xl hover:bg-[#3D2E1F] active:scale-95 transition-all no-underline text-xs mb-8 shadow-md"
+                                        >
+                                            Explore <span>→</span>
+                                        </Link>
+
+                                        <div className="flex flex-wrap gap-2.5">
+                                            <div className="bg-white/40 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[10px] font-bold text-[#7F6E68] border border-white/30 truncate max-w-[110px]">
+                                                Total XP: {course.lessons?.reduce((sum, lesson) => sum + (lesson.xp || 0), 0) || 1500}
+                                            </div>
+                                            <div className="bg-white/40 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[10px] font-bold text-[#7F6E68] border border-white/30">
+                                                ⏱ 10h
+                                            </div>
+                                            <div className="bg-white/40 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[10px] font-bold text-[#7F6E68] border border-white/30">
+                                                {course.lessons?.length || 4} levels
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Badge Icon Positioned Right */}
-                            <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-[140px] h-[140px] z-10 pointer-events-none group-hover:rotate-12 group-hover:scale-110 transition-all duration-700 opacity-90">
-                                {getCourseIcon(course.title)}
+                                {/* Badge Icon Positioned Right */}
+                                <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-[140px] h-[140px] z-10 pointer-events-none group-hover:rotate-12 group-hover:scale-110 transition-all duration-700 opacity-90">
+                                    {getCourseIcon(course.title)}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </main>
+                        ))}
+                    </div>
+                </main>
+            )}
         </div>
     );
 };

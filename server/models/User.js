@@ -12,7 +12,8 @@ const achievementSchema = new mongoose.Schema({
 const stageProgressSchema = new mongoose.Schema({
     read: { type: Boolean, default: false },
     practice: { type: Boolean, default: false },
-    notes: { type: Boolean, default: false }
+    notes: { type: Boolean, default: false },
+    userNotes: { type: String, default: "" }
 });
 
 const userSchema = new mongoose.Schema({
@@ -32,10 +33,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: function () {
             // Password required only for email/password auth (not OAuth)
-            return !this.clerkId;
+            return !this.googleId;
         }
     },
-    clerkId: {
+    googleId: {
         type: String,
         sparse: true, // Allows null values but enforces uniqueness when present
         unique: true
@@ -63,6 +64,19 @@ const userSchema = new mongoose.Schema({
     stageProgress: {
         type: Map,
         of: stageProgressSchema,
+        default: {}
+    },
+    favorites: {
+        type: [String],
+        default: []
+    },
+    history: {
+        type: [String],
+        default: []
+    },
+    calendarNotes: {
+        type: Map,
+        of: [String], // Array of notes for each date key
         default: {}
     }
 }, {

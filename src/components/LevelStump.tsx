@@ -107,7 +107,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         width: '380px',
         height: '180px',
         margin: '20px auto',
-        transition: 'all 0.3s ease'
+        transition: 'all 0.3s ease, filter 0.8s ease-out, opacity 0.5s ease-out'
     },
     stumpContainer: {
         position: 'relative',

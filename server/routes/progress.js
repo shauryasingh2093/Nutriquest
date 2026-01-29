@@ -155,6 +155,80 @@ router.get('/course/:courseId', authenticate, async (req, res) => {
     }
 });
 
+// Update course history
+router.post('/history', authenticate, async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        const user = req.user;
+
+        // Move to front if exists, else prepend
+        user.history = [courseId, ...user.history.filter(id => id !== courseId)].slice(0, 10);
+        await user.save();
+        res.json({ history: user.history });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Toggle favorite
+router.post('/favorite', authenticate, async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        const user = req.user;
+
+        if (user.favorites.includes(courseId)) {
+            user.favorites = user.favorites.filter(id => id !== courseId);
+        } else {
+            user.favorites.push(courseId);
+        }
+
+        await user.save();
+        res.json({ favorites: user.favorites });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Add calendar note
+router.post('/notes', authenticate, async (req, res) => {
+    try {
+        const { dateKey, note } = req.body;
+        const user = req.user;
+
+        if (!user.calendarNotes) user.calendarNotes = new Map();
+
+        const existingNotes = user.calendarNotes.get(dateKey) || [];
+        user.calendarNotes.set(dateKey, [...existingNotes, note]);
+
+        await user.save();
+        res.json({ calendarNotes: user.calendarNotes });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Delete calendar note
+router.delete('/notes', authenticate, async (req, res) => {
+    try {
+        const { dateKey, noteIndex } = req.body;
+        const user = req.user;
+
+        if (user.calendarNotes && user.calendarNotes.has(dateKey)) {
+            const notes = user.calendarNotes.get(dateKey);
+            notes.splice(noteIndex, 1);
+            if (notes.length === 0) {
+                user.calendarNotes.delete(dateKey);
+            } else {
+                user.calendarNotes.set(dateKey, notes);
+            }
+            await user.save();
+        }
+        res.json({ calendarNotes: user.calendarNotes });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 function checkAchievements(user) {
     const newAchievements = [];
     const potentialAchievements = [

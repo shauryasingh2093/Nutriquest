@@ -3,10 +3,13 @@ import React from 'react';
 interface NotesStageProps {
     summary: string;
     keyTakeaways: string[];
-    onComplete: () => void;
+    savedNotes?: string;
+    onComplete: (note: string) => void;
 }
 
-const NotesStage: React.FC<NotesStageProps> = ({ summary, keyTakeaways, onComplete }) => {
+const NotesStage: React.FC<NotesStageProps> = ({ summary, keyTakeaways, savedNotes = '', onComplete }) => {
+    const [note, setNote] = React.useState(savedNotes);
+
     return (
         <div style={styles.container}>
             <div style={styles.header}>
@@ -36,10 +39,12 @@ const NotesStage: React.FC<NotesStageProps> = ({ summary, keyTakeaways, onComple
                     style={styles.textarea}
                     placeholder="Write down your thoughts, questions, or anything you want to remember..."
                     rows={4}
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
                 />
             </div>
 
-            <button onClick={onComplete} style={styles.button}>
+            <button onClick={() => onComplete(note)} style={styles.button}>
                 Complete Stage & Earn 10 XP! 🎯
             </button>
         </div>

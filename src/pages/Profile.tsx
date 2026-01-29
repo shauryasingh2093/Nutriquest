@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import api from '../utils/api';
 import { Course } from '../types';
+import LoadingScreen from '../components/LoadingScreen';
 
 interface FormData {
     name: string;
@@ -16,7 +17,7 @@ interface HeatmapDay {
 }
 
 const Profile: React.FC = () => {
-    const { user, updateUser } = useAuth();
+    const { user, updateUser, updateProfile, logout } = useAuth();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<FormData>({
@@ -28,6 +29,7 @@ const Profile: React.FC = () => {
     const [loadingFavs, setLoadingFavs] = useState(true);
     const [loadingHistory, setLoadingHistory] = useState(true);
     const [completedCoursesCount, setCompletedCoursesCount] = useState(0);
+    const [ongoingCoursesCount, setOngoingCoursesCount] = useState(0);
     const [monthOffset, setMonthOffset] = useState(0);
 
     useEffect(() => {
@@ -46,28 +48,45 @@ const Profile: React.FC = () => {
             const response = await api.get('/courses');
             const allCourses: Course[] = response.data.courses || [];
 
-            // Process Favorites
-            const savedFavIds: string[] = JSON.parse(localStorage.getItem('nutriquest_favorites') || '[]');
+            // Process Favorites from user object (persisted in DB)
+            const savedFavIds = user.favorites || [];
             const filteredFavs = allCourses.filter(course => savedFavIds.includes(course.id));
             setFavoriteCourses(filteredFavs);
 
-            // Process History
-            const savedHistoryIds: string[] = JSON.parse(localStorage.getItem('nutriquest_history') || '[]');
+            // Process History from user object (persisted in DB)
+            const savedHistoryIds = user.history || [];
             const filteredHistory = savedHistoryIds
                 .map(id => allCourses.find(course => course.id === id))
                 .filter((course): course is Course => !!course);
             setHistoryCourses(filteredHistory);
 
-            // Calculate truly completed courses (all lessons finished)
-            const completed = allCourses.filter(course => {
+            // Calculate statistics
+            let completed = 0;
+            let ongoing = 0;
+
+            allCourses.forEach(course => {
                 const lessons = course.lessons || [];
-                if (lessons.length === 0) return false;
-                return lessons.every(lesson =>
+                if (lessons.length === 0) return;
+
+                const isCompleted = lessons.every(lesson =>
                     user.completedLessons?.includes(lesson.id) ||
                     user.completedLessons?.includes(`${course.id}-${lesson.id}`)
                 );
-            }).length;
+
+                if (isCompleted) {
+                    completed++;
+                } else {
+                    // Check if interacted or has partial progress
+                    const hasProgress = Object.keys(user.stageProgress || {}).some(key => key.startsWith(course.id));
+                    const inHistory = (user.history || []).includes(course.id);
+                    if (hasProgress || inHistory) {
+                        ongoing++;
+                    }
+                }
+            });
+
             setCompletedCoursesCount(completed);
+            setOngoingCoursesCount(ongoing);
 
         } catch (error) {
             console.error('Error fetching course data:', error);
@@ -77,7 +96,22 @@ const Profile: React.FC = () => {
         }
     };
 
-    if (!user) return <div className="min-h-screen bg-[#F5EFE1] flex items-center justify-center font-bold">Loading profile...</div>;
+    const [showLoading, setShowLoading] = useState(false);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (!user) {
+            timer = setTimeout(() => setShowLoading(true), 500);
+        } else {
+            setShowLoading(false);
+        }
+        return () => clearTimeout(timer);
+    }, [user]);
+
+    if (!user) {
+        if (!showLoading) return null;
+        return <LoadingScreen message="Loading your profile..." />;
+    }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -86,26 +120,27 @@ const Profile: React.FC = () => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        updateUser({
-            ...user,
-            name: formData.name,
-            email: formData.email
-        });
-        setIsEditing(false);
+        try {
+            await updateProfile({ name: formData.name });
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Failed to update profile:', error);
+        }
     };
 
-    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => {
+            reader.onloadend = async () => {
                 const base64String = reader.result as string;
-                updateUser({
-                    ...user,
-                    avatar: base64String
-                });
+                try {
+                    await updateProfile({ avatar: base64String });
+                } catch (error) {
+                    console.error('Failed to update avatar:', error);
+                }
             };
             reader.readAsDataURL(file);
         }
@@ -331,14 +366,24 @@ const Profile: React.FC = () => {
                                         <p className="font-bold text-[#333333] text-base">{(user.achievements || []).length} Badges Unlocked</p>
                                     </div>
                                 </div>
-                                {/* Courses Card */}
+                                {/* Completed Card */}
                                 <div className="bg-[#EFE7D6]/80 backdrop-blur-sm rounded-2xl p-4 flex flex-col gap-3 border border-white/40 shadow-sm group hover:scale-[1.02] transition-transform cursor-default">
                                     <div className="w-10 h-10 bg-white/60 rounded-xl flex items-center justify-center shadow-inner">
-                                        <img src="/courses_done.png" alt="Courses" className="w-6 h-6" />
+                                        <img src="/courses_done.png" alt="Completed" className="w-6 h-6" />
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-[#333333]/40 uppercase tracking-widest">Mastery</p>
-                                        <p className="font-bold text-[#333333] text-base">{completedCoursesCount} Course{completedCoursesCount !== 1 ? 's' : ''} Completed</p>
+                                        <p className="font-bold text-[#333333] text-base">{completedCoursesCount} Course{completedCoursesCount !== 1 ? 's' : ''} Done</p>
+                                    </div>
+                                </div>
+                                {/* Ongoing Card */}
+                                <div className="bg-[#EFE7D6]/80 backdrop-blur-sm rounded-2xl p-4 flex flex-col gap-3 border border-white/40 shadow-sm group hover:scale-[1.02] transition-transform cursor-default">
+                                    <div className="w-10 h-10 bg-white/60 rounded-xl flex items-center justify-center shadow-inner">
+                                        <img src="/progress.png" alt="Ongoing" className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-[#333333]/40 uppercase tracking-widest">In Motion</p>
+                                        <p className="font-bold text-[#333333] text-base">{ongoingCoursesCount} Active Path{ongoingCoursesCount !== 1 ? 's' : ''}</p>
                                     </div>
                                 </div>
                             </div>
@@ -477,20 +522,13 @@ const Profile: React.FC = () => {
                         className="w-24 h-auto drop-shadow-lg"
                     />
                     <div className="bg-[#9B8B7E] rounded-2xl p-2 flex gap-4 shadow-lg border border-white/20">
-                        <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                        <button
+                            onClick={logout}
+                            className="p-2 hover:bg-white/10 rounded-lg transition-colors group relative"
+                            title="Logout"
+                        >
                             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
-                        </button>
-                        <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
-                        <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h2.28a2 2 0 011.917 1.259l.722 2.166a2 2 0 01-.61 2.142l-1.59 1.59c.284.512.632 1.011 1.01 1.49l1.59 1.59a2 2 0 012.142.61l2.166.722a2 2 0 011.259 1.917V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
                         </button>
                     </div>

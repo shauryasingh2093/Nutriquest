@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { checkStreakStatus } from '../utils/streakHelper.js';
 import { authenticate } from '../middleware/auth.js';
+import passport from '../config/passport.js';
 
 const router = express.Router();
 
@@ -112,6 +113,60 @@ router.get('/me', authenticate, async (req, res) => {
         console.error('Auth error:', error);
         res.status(500).json({ error: 'Server error' });
     }
+});
+
+// Update profile
+router.patch('/profile', authenticate, async (req, res) => {
+    try {
+        const { name, avatar } = req.body;
+        const user = req.user;
+
+        if (name) user.name = name;
+        if (avatar) user.avatar = avatar;
+
+        await user.save();
+        res.json({ user });
+    } catch (error) {
+        console.error('Profile update error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// ========================================
+// Google OAuth Routes (Passport.js)
+// ========================================
+
+// Initiate Google OAuth
+router.get('/google', (req, res, next) => {
+    console.log('🔐 Initiating Google OAuth...');
+    passport.authenticate('google', {
+        scope: ['profile', 'email']
+    })(req, res, next);
+});
+
+// Google OAuth callback
+router.get('/google/callback', (req, res, next) => {
+    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login' })(req, res, async () => {
+        try {
+            // User is now authenticated and available in req.user
+            const user = req.user;
+
+            // Generate JWT token
+            const token = jwt.sign(
+                { userId: user._id },
+                process.env.JWT_SECRET,
+                { expiresIn: '7d' }
+            );
+
+            console.log('✅ Google OAuth successful, redirecting to frontend with token');
+
+            // Redirect to frontend with token
+            res.redirect(`http://localhost:5173/courses?token=${token}`);
+        } catch (error) {
+            console.error('❌ Google OAuth callback error:', error);
+            res.redirect('http://localhost:5173/login?error=oauth_failed');
+        }
+    });
 });
 
 export default router;

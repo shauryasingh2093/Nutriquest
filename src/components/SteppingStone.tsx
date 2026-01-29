@@ -83,11 +83,6 @@ const SteppingStone: React.FC<SteppingStoneProps> = ({
                     </div>
                 </div>
             )}
-
-            {/* Glow effect for active */}
-            {isActive && !isCompleted && (
-                <div style={styles.glow} />
-            )}
         </div>
     );
 };
@@ -97,7 +92,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         position: 'relative',
         width: '140px',
         height: '140px',
-        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.8s ease-out, opacity 0.5s ease-out',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

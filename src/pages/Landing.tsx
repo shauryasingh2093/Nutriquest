@@ -1,7 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Landing: React.FC = () => {
+    const { user, loading } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loading && user) {
+            navigate('/courses');
+        }
+    }, [user, loading, navigate]);
+
+    const [showLoading, setShowLoading] = React.useState(false);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (loading) {
+            timer = setTimeout(() => setShowLoading(true), 500);
+        } else {
+            setShowLoading(false);
+        }
+        return () => clearTimeout(timer);
+    }, [loading]);
+
+    if (loading) {
+        if (!showLoading) return null;
+        return <LoadingScreen message="Welcoming you back..." />;
+    }
     return (
         <div className="font-source-serif bg-landing-bg min-h-screen m-0 overflow-x-hidden text-landing-dark">
             {/* Navbar */}

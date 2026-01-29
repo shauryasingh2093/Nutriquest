@@ -3,6 +3,7 @@ import QuizQuestion from './QuizQuestion';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import { Lesson, QuizResults } from '../types';
+import LoadingScreen from './LoadingScreen';
 
 interface LessonViewerProps {
     courseId: string;
@@ -90,9 +91,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ courseId, lessonId, onClose
         return (
             <div style={styles.overlay}>
                 <div style={styles.modal}>
-                    <div style={{ textAlign: 'center', padding: '3rem' }}>
-                        <h2>Loading lesson...</h2>
-                    </div>
+                    <LoadingScreen message="Unfolding your lesson..." fullScreen={false} />
                 </div>
             </div>
         );

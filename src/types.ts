@@ -12,6 +12,9 @@ export interface User {
     completedLessons: string[];
     stageProgress?: Record<string, StageProgress>;
     lastActivityDate?: string;
+    favorites: string[];
+    history: string[];
+    calendarNotes: Record<string, string[]>;
 }
 
 export interface Achievement {

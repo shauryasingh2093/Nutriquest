@@ -11,13 +11,19 @@ const router = express.Router();
 // Get all courses
 router.get('/', async (req, res) => {
     try {
-        const courses = await Course.find({}).sort({ createdAt: -1 });
+        // Project only necessary fields - exclude lessons' stages which can be very large
+        const courses = await Course.find({})
+            .select('id title description thumbnail category difficulty totalXP isAIGenerated lessons.id lessons.title lessons.xp')
+            .sort({ createdAt: -1 })
+            .lean();
 
-        // Remove duplicates by title (keep the first occurrence) if necessary
-        // But with MongoDB and a seeding script, we shouldn't have duplicates
-        const uniqueCourses = courses.filter((course, index, self) =>
-            index === self.findIndex((c) => c.title === course.title)
-        );
+        // Remove duplicates by title (keep the first occurrence) 
+        const seen = new Set();
+        const uniqueCourses = courses.filter((course) => {
+            if (seen.has(course.title)) return false;
+            seen.add(course.title);
+            return true;
+        });
 
         res.json({ courses: uniqueCourses });
     } catch (error) {

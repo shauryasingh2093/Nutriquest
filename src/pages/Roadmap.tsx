@@ -10,6 +10,7 @@ import AchievementUnlock from '../components/AchievementUnlock';
 import SteppingStone from '../components/SteppingStone';
 import LevelStump from '../components/LevelStump';
 import MascotCharacter from '../components/MascotCharacter';
+import LoadingScreen from '../components/LoadingScreen';
 import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { Course, Lesson, Achievement, StageProgress } from '../types';
@@ -38,28 +39,15 @@ const Roadmap: React.FC = () => {
     const [mascotPos, setMascotPos] = useState<MascotPos>({ x: 50, y: 40, isMoving: false });
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [loading, setLoading] = useState(true);
-    const { user, updateUser } = useAuth();
+    const { user, updateUser, addToHistory } = useAuth();
 
     useEffect(() => {
         if (courseId) {
             fetchCourseData();
-            // Add to history
+            // Add to history via AuthContext (persists to DB)
             addToHistory(courseId);
         }
     }, [courseId]);
-
-    const addToHistory = (courseIdToAdd: string) => {
-        try {
-            const savedHistory: string[] = JSON.parse(localStorage.getItem('nutriquest_history') || '[]');
-            // Remove if already exists (to move to front)
-            const filtered = savedHistory.filter(id => id !== courseIdToAdd);
-            // Add to front
-            const newHistory = [courseIdToAdd, ...filtered].slice(0, 10); // Keep last 10
-            localStorage.setItem('nutriquest_history', JSON.stringify(newHistory));
-        } catch (error) {
-            console.error('Error updating history:', error);
-        }
-    };
 
     const fetchCourseData = async () => {
         try {
@@ -141,7 +129,7 @@ const Roadmap: React.FC = () => {
         await fetchLessonContent(lesson.id);
     };
 
-    const handleCompleteStage = async (stage: 'read' | 'practice' | 'notes', xp: number) => {
+    const handleCompleteStage = async (stage: 'read' | 'practice' | 'notes', xp: number, content?: string) => {
         const lessonId = lessons[currentLessonIndex].id;
 
         try {
@@ -149,7 +137,8 @@ const Roadmap: React.FC = () => {
                 courseId,
                 lessonId,
                 stage,
-                xp
+                xp,
+                content
             });
 
             updateUser(response.data.user);
@@ -287,15 +276,21 @@ const Roadmap: React.FC = () => {
         return !!(prevProgress.read && prevProgress.practice && prevProgress.notes);
     };
 
+    const [showLoading, setShowLoading] = useState(false);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (loading || !course) {
+            timer = setTimeout(() => setShowLoading(true), 500);
+        } else {
+            setShowLoading(false);
+        }
+        return () => clearTimeout(timer);
+    }, [loading, course]);
+
     if (loading || !course) {
-        return (
-            <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-                <Navbar />
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAF3E0' }}>
-                    <h2>Loading Roadmap...</h2>
-                </div>
-            </div>
-        );
+        if (!showLoading) return null;
+        return <LoadingScreen message="Unlocking your learning path..." />;
     }
 
     const currentLesson = lessons[currentLessonIndex];
@@ -419,7 +414,8 @@ const Roadmap: React.FC = () => {
                                         <NotesStage
                                             summary={lessonContent.stages.notes.summary}
                                             keyTakeaways={lessonContent.stages.notes.keyTakeaways}
-                                            onComplete={() => handleCompleteStage('notes', lessonContent.stages!.notes!.xp)}
+                                            savedNotes={stageProgress[`${courseId}-${lessons[currentLessonIndex]?.id}`]?.userNotes || ''}
+                                            onComplete={(note) => handleCompleteStage('notes', lessonContent.stages!.notes!.xp, note)}
                                         />
                                     </div>
                                 )}
@@ -474,7 +470,7 @@ const Roadmap: React.FC = () => {
                                                     stage={stage}
                                                     isCompleted={!!stageCompleted}
                                                     isActive={stageActive}
-                                                    isLocked={stageLocked}
+                                                    isLocked={!stageCompleted && !stageActive}
                                                     onClick={() => !stageLocked && handleStoneClick(lesson, lessonIndex, stage)}
                                                 />
                                             </div>
@@ -497,7 +493,7 @@ const Roadmap: React.FC = () => {
                                                     lessonTitle={lesson.title}
                                                     totalXP={lesson.xp}
                                                     isCompleted={!!isCompleted}
-                                                    isUnlocked={isLessonUnlocked(lessonIndex + 1)}
+                                                    isUnlocked={lessonIndex <= currentLessonIndex}
                                                 />
                                             </div>
                                         );
@@ -571,7 +567,7 @@ const styles: Record<string, React.CSSProperties> = {
         backgroundImage: 'url(/playground.png)',
         backgroundSize: '100% auto',
         backgroundRepeat: 'repeat-y',
-        backgroundAttachment: 'local',
+        backgroundAttachment: 'scroll',
         overflowY: 'auto',
         padding: '2rem 1rem',
         position: 'relative'

@@ -4,39 +4,14 @@
             "id": "html-basics",
             "title": "HTML Fundamentals",
             "type": "lesson",
-            "difficulty": "beginner",
-            "estimatedMinutes": 30,
             "stages": {
                 "read": {
                     "xp": 10,
-                    "introduction": "HTML (HyperText Markup Language) is the standard language used to create and structure content on the World Wide Web. Every website you see is built with HTML as its foundation. It tells the browser what to display and how to organize the content.",
+                    "introduction": "HTML basics.",
                     "sections": [
                         {
-                            "title": "What is HTML?",
-                            "content": "HTML works through the use of elements, also called tags. These tags are written inside angle brackets (< >) and often come in pairs: an opening tag and a closing tag. For example, <p> is the opening tag for a paragraph, and </p> is the closing tag. Together, they tell the browser to render a block of text as a paragraph.",
-                            "example": {
-                                "code": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>My First Page</title>\n  </head>\n  <body>\n    <h1>Welcome to HTML!</h1>\n    <p>This is a paragraph.</p>\n  </body>\n</html>",
-                                "explanation": "This is a basic HTML document structure. The <!DOCTYPE html> declaration defines the document type, <html> is the root element, <head> contains metadata, and <body> contains the visible content."
-                            }
-                        },
-                        {
-                            "title": "HTML Elements and Tags",
-                            "content": "HTML elements are the building blocks of web pages. Each element has a specific purpose: headings (<h1> to <h6>) create titles, paragraphs (<p>) contain text, links (<a>) navigate to other pages, and images (<img>) display pictures.",
-                            "keyPoints": [
-                                "Tags are written in angle brackets: <tagname>",
-                                "Most tags come in pairs: opening <p> and closing </p>",
-                                "Some tags are self-closing: <img /> or <br />",
-                                "Elements can be nested inside each other",
-                                "Proper nesting is crucial for valid HTML"
-                            ]
-                        },
-                        {
-                            "title": "Common HTML Tags",
-                            "content": "Let's explore the most frequently used HTML tags that you'll encounter in almost every web page.",
-                            "example": {
-                                "code": "<h1>Main Heading</h1>\n<h2>Subheading</h2>\n<p>This is a paragraph with <strong>bold text</strong> and <em>italic text</em>.</p>\n<a href=\"https: //example.com\">Click here</a>\n<img src=\"image.jpg\" alt=\"Description\" />\n<ul>\n  <li>List item 1</li>\n  <li>List item 2</li>\n</ul>",
-                                "explanation": "This example shows headings (h1, h2), a paragraph with formatting (strong, em), a link (a), an image (img), and an unordered list (ul with li items)."
-                            }
+                            "title": "Intro",
+                            "content": "Basic tags."
                         }
                     ]
                 },
@@ -45,210 +20,1993 @@
                     "questions": [
                         {
                             "id": "q1",
-                            "difficulty": "easy",
-                            "xpReward": 10,
-                            "question": "What is the full form of HTML?",
+                            "difficulty": "Easy",
+                            "question": "HTML?",
                             "options": [
-                                "HyperText Markup Language",
-                                "HighText Machine Language",
-                                "HyperTool Multi Language",
-                                "Home Tool Markup Language"
+                                "Yes",
+                                "No"
                             ],
-                            "correctAnswer": 0,
-                            "explanation": "HTML stands for HyperText Markup Language. 'HyperText' refers to links that connect web pages, and 'Markup' refers to the way tags are used to define elements within a document."
-                        },
-                        {
-                            "id": "q2",
-                            "difficulty": "easy",
-                            "xpReward": 10,
-                            "question": "Which tag is used to create a paragraph in HTML?",
-                            "options": [
-                                "<paragraph>",
-                                "<p>",
-                                "<para>",
-                                "<text>"
-                            ],
-                            "correctAnswer": 1,
-                            "explanation": "The <p> tag is used to define a paragraph in HTML. It's one of the most commonly used tags for structuring text content."
-                        },
-                        {
-                            "id": "q3",
-                            "difficulty": "medium",
-                            "xpReward": 20,
-                            "question": "What does the <a> tag represent?",
-                            "options": [
-                                "Article",
-                                "Anchor (link)",
-                                "Animation",
-                                "Audio"
-                            ],
-                            "correctAnswer": 1,
-                            "explanation": "The <a> tag stands for 'anchor' and is used to create hyperlinks. It allows users to navigate from one page to another or to different sections within the same page."
-                        },
-                        {
-                            "id": "q4",
-                            "difficulty": "medium",
-                            "xpReward": 20,
-                            "question": "Which of these is a self-closing tag?",
-                            "options": [
-                                "<p>",
-                                "<div>",
-                                "<img />",
-                                "<h1>"
-                            ],
-                            "correctAnswer": 2,
-                            "explanation": "The <img /> tag is self-closing, meaning it doesn't need a separate closing tag. It's used to embed images and includes attributes like 'src' for the image source and 'alt' for alternative text."
-                        },
-                        {
-                            "id": "q5",
-                            "difficulty": "hard",
-                            "xpReward": 30,
-                            "question": "What is the purpose of the <!DOCTYPE html> declaration?",
-                            "options": [
-                                "To define the document type and version",
-                                "To create a comment",
-                                "To link a stylesheet",
-                                "To add a title"
-                            ],
-                            "correctAnswer": 0,
-                            "explanation": "The <!DOCTYPE html> declaration tells the browser that this is an HTML5 document. It must be the very first line in your HTML file and helps the browser render the page correctly."
+                            "correctAnswer": 0
                         }
                     ]
                 },
                 "notes": {
                     "xp": 10,
-                    "summary": "You've learned the fundamentals of HTML! HTML is the backbone of every website, using tags to structure content. Remember: tags come in pairs, elements can be nested, and proper structure is essential.",
-                    "keyTakeaways": [
-                        "HTML uses tags in angle brackets to define elements",
-                        "Most tags have opening and closing pairs",
-                        "Common tags include <h1>, <p>, <a>, <img>, and <ul>",
-                        "The <!DOCTYPE html> declaration is required for HTML5",
-                        "Proper nesting and structure are crucial for valid HTML"
-                    ]
+                    "summary": "HTML summary"
                 }
             },
-            "totalXP": 50,
-            "unlockRequirement": null
+            "totalXP": 50
         },
         "css-styling": {
             "id": "css-styling",
-            "title": "CSS & Styling",
+            "title": "CSS & Modern Layouts",
             "type": "lesson",
-            "difficulty": "beginner",
-            "estimatedMinutes": 35,
             "stages": {
                 "read": {
-                    "xp": 10,
-                    "introduction": "CSS (Cascading Style Sheets) is the language used to style and layout web pages. While HTML provides the structure, CSS makes it beautiful by controlling colors, fonts, spacing, and positioning.",
+                    "xp": 20,
+                    "introduction": "CSS basics.",
                     "sections": [
                         {
-                            "title": "What is CSS?",
-                            "content": "CSS allows you to separate content from presentation. You can change the entire look of a website by modifying just the CSS file, without touching the HTML. This makes maintenance easier and keeps your code organized.",
-                            "example": {
-                                "code": "/* CSS Syntax */\nselector {\n  property: value;\n}\n\n/* Example */\np {\n  color: blue;\n  font-size: 16px;\n  margin: 10px;\n}",
-                                "explanation": "CSS uses selectors to target HTML elements, then applies style properties. Here, all <p> elements will have blue text, 16px font size, and 10px margin."
-                            }
-                        },
-                        {
-                            "title": "CSS Selectors",
-                            "content": "Selectors are patterns used to select the elements you want to style. There are several types: element selectors (p, h1), class selectors (.classname), ID selectors (#idname), and more advanced selectors.",
-                            "keyPoints": [
-                                "Element selector: targets all elements of a type (e.g., p, h1)",
-                                "Class selector: targets elements with a specific class (.btn)",
-                                "ID selector: targets a unique element (#header)",
-                                "Universal selector: targets all elements (*)",
-                                "Selectors can be combined for specificity"
-                            ],
-                            "example": {
-                                "code": "/* Element selector */\nh1 {\n  color: navy;\n}\n\n/* Class selector */\n.highlight {\n  background-color: yellow;\n}\n\n/* ID selector */\n#main-title {\n  font-size: 32px;\n}\n\n/* Combining selectors */\np.intro {\n  font-weight: bold;\n}",
-                                "explanation": "Different selector types allow you to target elements precisely. Classes can be reused, IDs should be unique, and you can combine selectors for more specific targeting."
-                            }
-                        },
-                        {
-                            "title": "The Box Model",
-                            "content": "Every HTML element is essentially a box. The CSS box model describes how these boxes are structured with content, padding, border, and margin.",
-                            "example": {
-                                "code": ".box {\n  width: 200px;\n  height: 100px;\n  padding: 20px;\n  border: 2px solid black;\n  margin: 10px;\n}",
-                                "explanation": "This creates a box with 200px width, 100px height, 20px padding inside, a 2px border, and 10px margin outside. The total width = width + padding + border + margin."
-                            }
+                            "title": "Flex",
+                            "content": "Flexbox."
                         }
                     ]
                 },
                 "practice": {
-                    "xp": 40,
+                    "xp": 50,
                     "questions": [
                         {
                             "id": "q1",
-                            "difficulty": "easy",
-                            "xpReward": 10,
-                            "question": "What does CSS stand for?",
+                            "difficulty": "Medium",
+                            "question": "Flex?",
                             "options": [
-                                "Creative Style Sheets",
-                                "Cascading Style Sheets",
-                                "Computer Style Sheets",
-                                "Colorful Style Sheets"
+                                "Y",
+                                "N"
                             ],
-                            "correctAnswer": 1,
-                            "explanation": "CSS stands for Cascading Style Sheets. 'Cascading' refers to the way styles can inherit and override each other based on specificity and order."
-                        },
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 20,
+                    "summary": "CSS summary"
+                }
+            },
+            "totalXP": 90
+        },
+        "javascript-core": {
+            "id": "javascript-core",
+            "title": "JS Core",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "JS core.",
+                    "sections": [
                         {
-                            "id": "q2",
-                            "difficulty": "medium",
-                            "xpReward": 20,
-                            "question": "Which selector targets elements with class='button'?",
-                            "options": [
-                                "#button",
-                                ".button",
-                                "button",
-                                "*button"
-                            ],
-                            "correctAnswer": 1,
-                            "explanation": "The dot (.) prefix is used for class selectors. So .button targets all elements with class='button'. The # is for IDs, plain text is for element selectors."
-                        },
+                            "title": "Async",
+                            "content": "Promises."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
                         {
-                            "id": "q3",
-                            "difficulty": "hard",
-                            "xpReward": 30,
-                            "question": "In the box model, what is the correct order from inside to outside?",
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Await?",
                             "options": [
-                                "Margin, Border, Padding, Content",
-                                "Content, Padding, Border, Margin",
-                                "Content, Border, Padding, Margin",
-                                "Padding, Content, Border, Margin"
+                                "Y",
+                                "N"
                             ],
-                            "correctAnswer": 1,
-                            "explanation": "The box model order from inside to outside is: Content (the actual content), Padding (space around content), Border (surrounds padding), and Margin (space outside border)."
-                        },
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "JS summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "dom-web-apis": {
+            "id": "dom-web-apis",
+            "title": "DOM",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 20,
+                    "introduction": "DOM basics.",
+                    "sections": [
                         {
-                            "id": "q4",
-                            "difficulty": "medium",
-                            "xpReward": 20,
-                            "question": "Which property is used to change the text color?",
+                            "title": "Nodes",
+                            "content": "DOM Tree."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 50,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Easy",
+                            "question": "selector?",
                             "options": [
-                                "text-color",
-                                "font-color",
-                                "color",
-                                "text-style"
+                                "Y",
+                                "N"
                             ],
-                            "correctAnswer": 2,
-                            "explanation": "The 'color' property is used to set the text color in CSS. Despite its simple name, it specifically controls text color, not background or border colors."
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 20,
+                    "summary": "DOM summary"
+                }
+            },
+            "totalXP": 90
+        },
+        "react-basics": {
+            "id": "react-basics",
+            "title": "React Basics",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "React intro.",
+                    "sections": [
+                        {
+                            "title": "State",
+                            "content": "useState."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "state?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "React summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "react-advanced": {
+            "id": "react-advanced",
+            "title": "Advanced React",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Context/Refs.",
+                    "sections": [
+                        {
+                            "title": "Context",
+                            "content": "Global state."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Context?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "React Advanced summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "backend-node": {
+            "id": "backend-node",
+            "title": "Node.js",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Node/Express.",
+                    "sections": [
+                        {
+                            "title": "Express",
+                            "content": "Middleware."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Listen?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Node summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "rest-apis": {
+            "id": "rest-apis",
+            "title": "REST APIs",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Endpoint design.",
+                    "sections": [
+                        {
+                            "title": "Methods",
+                            "content": "GET/POST."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "POST?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "REST summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "auth-jwt": {
+            "id": "auth-jwt",
+            "title": "Auth/JWT",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Security.",
+                    "sections": [
+                        {
+                            "title": "JWT",
+                            "content": "Tokens."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "JWT?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Auth summary"
+                }
+            },
+            "totalXP": 200
+        },
+        "deployment-ci-cd": {
+            "id": "deployment-ci-cd",
+            "title": "Deployment",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Cloud/Docker.",
+                    "sections": [
+                        {
+                            "title": "CI/CD",
+                            "content": "GitHub Actions."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Docker?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Deploy summary"
+                }
+            },
+            "totalXP": 160
+        }
+    },
+    "databases": {
+        "db-intro": {
+            "id": "db-intro",
+            "title": "DB Intro",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "Persistence.",
+                    "sections": [
+                        {
+                            "title": "SQL",
+                            "content": "Table."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 30,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Easy",
+                            "question": "SQL?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
                         }
                     ]
                 },
                 "notes": {
                     "xp": 10,
-                    "summary": "Great work mastering CSS basics! You now understand how to style web pages using selectors, properties, and the box model. CSS is what makes websites beautiful and user-friendly.",
-                    "keyTakeaways": [
-                        "CSS separates content (HTML) from presentation (styles)",
-                        "Selectors target elements: element, .class, #id",
-                        "The box model: content → padding → border → margin",
-                        "CSS properties control colors, fonts, spacing, and layout",
-                        "Cascading means styles can inherit and override each other"
-                    ]
+                    "summary": "DB summary"
                 }
             },
-            "totalXP": 60,
-            "unlockRequirement": "html-basics"
+            "totalXP": 50
+        },
+        "relational-design": {
+            "id": "relational-design",
+            "title": "Relational",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 20,
+                    "introduction": "Design.",
+                    "sections": [
+                        {
+                            "title": "ERD",
+                            "content": "Keys."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 50,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Keys?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 20,
+                    "summary": "Design summary"
+                }
+            },
+            "totalXP": 90
+        },
+        "sql-mastery": {
+            "id": "sql-mastery",
+            "title": "SQL Mastery",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Queries.",
+                    "sections": [
+                        {
+                            "title": "JOIN",
+                            "content": "Merging."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "JOIN?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "SQL summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "nosql-mongodb": {
+            "id": "nosql-mongodb",
+            "title": "NoSQL",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Mongo.",
+                    "sections": [
+                        {
+                            "title": "Docs",
+                            "content": "BSON."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "BSON?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "Mongo summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "indexing-perf": {
+            "id": "indexing-perf",
+            "title": "Indexing",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Speed.",
+                    "sections": [
+                        {
+                            "title": "Indexes",
+                            "content": "B-Trees."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "B-Tree?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Index summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "transactions-acid": {
+            "id": "transactions-acid",
+            "title": "Transactions",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "ACID.",
+                    "sections": [
+                        {
+                            "title": "Atomicity",
+                            "content": "All or none."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "ACID?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "ACID summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "distributed-dbs": {
+            "id": "distributed-dbs",
+            "title": "Distributed",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "CAP Theorem.",
+                    "sections": [
+                        {
+                            "title": "Partitioning",
+                            "content": "Scaling."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "CAP?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Dist summary"
+                }
+            },
+            "totalXP": 200
+        }
+    },
+    "python": {
+        "python-setup": {
+            "id": "python-setup",
+            "title": "Setup",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 10,
+                    "introduction": "Python intro.",
+                    "sections": [
+                        {
+                            "title": "Install",
+                            "content": "Python 3."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 30,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Easy",
+                            "question": "Python?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 10,
+                    "summary": "Setup summary"
+                }
+            },
+            "totalXP": 50
+        },
+        "python-control": {
+            "id": "python-control",
+            "title": "Control Flow",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 20,
+                    "introduction": "Logic.",
+                    "sections": [
+                        {
+                            "title": "Loops",
+                            "content": "for/while."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 50,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Easy",
+                            "question": "If?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 20,
+                    "summary": "Control summary"
+                }
+            },
+            "totalXP": 90
+        },
+        "python-ds": {
+            "id": "python-ds",
+            "title": "Data Structures",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Lists/Dicts.",
+                    "sections": [
+                        {
+                            "title": "Lists",
+                            "content": "Ordered."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Dict?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "DS summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "python-functions": {
+            "id": "python-functions",
+            "title": "Functions",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Reuse.",
+                    "sections": [
+                        {
+                            "title": "Def",
+                            "content": "Arguments."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "params?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "Function summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "python-oop": {
+            "id": "python-oop",
+            "title": "OOP",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Objects.",
+                    "sections": [
+                        {
+                            "title": "Classes",
+                            "content": "Methods."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Self?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "OOP summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "python-modules": {
+            "id": "python-modules",
+            "title": "Modules",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Packages.",
+                    "sections": [
+                        {
+                            "title": "Import",
+                            "content": "Pip."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Pip?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "Module summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "python-exceptions": {
+            "id": "python-exceptions",
+            "title": "Exceptions",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Errors.",
+                    "sections": [
+                        {
+                            "title": "Try/Except",
+                            "content": "Safety."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Try?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "Exception summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "python-advanced": {
+            "id": "python-advanced",
+            "title": "Advanced Python",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Decorators.",
+                    "sections": [
+                        {
+                            "title": "Generators",
+                            "content": "Yield."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Yield?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Advanced summary"
+                }
+            },
+            "totalXP": 200
+        }
+    },
+    "system-design": {
+        "sd-intro": {
+            "id": "sd-intro",
+            "title": "SD Intro",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Scaling.",
+                    "sections": [
+                        {
+                            "title": "Load",
+                            "content": "Traffic."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "SD?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "SD summary"
+                }
+            },
+            "totalXP": 130
+        },
+        "load-balancers": {
+            "id": "load-balancers",
+            "title": "LB",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Balancing.",
+                    "sections": [
+                        {
+                            "title": "RR",
+                            "content": "Round Robin."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "LB?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "LB summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "caching-cdn": {
+            "id": "caching-cdn",
+            "title": "Caching",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Speed up.",
+                    "sections": [
+                        {
+                            "title": "CDN",
+                            "content": "Edge."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Redis?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Cache summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "database-scaling": {
+            "id": "database-scaling",
+            "title": "DB Scaling",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Sharding.",
+                    "sections": [
+                        {
+                            "title": "Shards",
+                            "content": "Splitting."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Shard?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Scale summary"
+                }
+            },
+            "totalXP": 200
+        },
+        "msg-queues": {
+            "id": "msg-queues",
+            "title": "Queues",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Async.",
+                    "sections": [
+                        {
+                            "title": "MQ",
+                            "content": "RabbitMQ."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Kafka?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Queue summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "microservices-sd": {
+            "id": "microservices-sd",
+            "title": "Microservices",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Decoupling.",
+                    "sections": [
+                        {
+                            "title": "API GW",
+                            "content": "Gateway."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Micro?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Micro summary"
+                }
+            },
+            "totalXP": 200
+        },
+        "sd-case-studies": {
+            "id": "sd-case-studies",
+            "title": "Case Studies",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 60,
+                    "introduction": "Real world.",
+                    "sections": [
+                        {
+                            "title": "Netflix",
+                            "content": "Availability."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 140,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Study?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 60,
+                    "summary": "Case summary"
+                }
+            },
+            "totalXP": 260
+        }
+    },
+    "machine-learning": {
+        "ml-math": {
+            "id": "ml-math",
+            "title": "ML Math",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Linear Algebra.",
+                    "sections": [
+                        {
+                            "title": "Vectors",
+                            "content": "Arrays."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Math?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Math summary"
+                }
+            },
+            "totalXP": 160
+        },
+        "supervised-classic": {
+            "id": "supervised-classic",
+            "title": "Supervised",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Regression.",
+                    "sections": [
+                        {
+                            "title": "LR",
+                            "content": "Linear."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Linear?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Sup summary"
+                }
+            },
+            "totalXP": 200
+        },
+        "ml-unsupervised": {
+            "id": "ml-unsupervised",
+            "title": "Unsupervised",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Clustering.",
+                    "sections": [
+                        {
+                            "title": "K-Means",
+                            "content": "Groups."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Cluster?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Unsup summary"
+                }
+            },
+            "totalXP": 200
+        },
+        "deep-learning-nn": {
+            "id": "deep-learning-nn",
+            "title": "Deep Learning",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 60,
+                    "introduction": "Neural Nets.",
+                    "sections": [
+                        {
+                            "title": "Layers",
+                            "content": "Neurons."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 140,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "NN?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 60,
+                    "summary": "DL summary"
+                }
+            },
+            "totalXP": 260
+        },
+        "computer-vision": {
+            "id": "computer-vision",
+            "title": "CV",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 60,
+                    "introduction": "Images.",
+                    "sections": [
+                        {
+                            "title": "CNN",
+                            "content": "Conv."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 140,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "CNN?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 60,
+                    "summary": "CV summary"
+                }
+            },
+            "totalXP": 260
+        },
+        "nlp-transformers": {
+            "id": "nlp-transformers",
+            "title": "NLP",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 70,
+                    "introduction": "Transformers.",
+                    "sections": [
+                        {
+                            "title": "Attention",
+                            "content": "Self-attention."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 180,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "GPT?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 70,
+                    "summary": "NLP summary"
+                }
+            },
+            "totalXP": 320
+        },
+        "ml-ops": {
+            "id": "ml-ops",
+            "title": "MLOps",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Monitoring.",
+                    "sections": [
+                        {
+                            "title": "Deploy",
+                            "content": "Serve."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "MLOps?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 50,
+                    "summary": "Ops summary"
+                }
+            },
+            "totalXP": 200
+        }
+    },
+    "dsa": {
+        "complexity-analysis": {
+            "id": "complexity-analysis",
+            "title": "Complexity Analysis",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 20,
+                    "introduction": "Analysis...",
+                    "sections": [
+                        {
+                            "title": "Big O",
+                            "content": "Measure."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 60,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Complexity?",
+                            "options": [
+                                "n",
+                                "n2"
+                            ],
+                            "correctAnswer": 1
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 20,
+                    "summary": "Big O"
+                }
+            },
+            "totalXP": 100
+        },
+        "arrays-strings": {
+            "id": "arrays-strings",
+            "title": "Arrays & Strings",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "A/S...",
+                    "sections": [
+                        {
+                            "title": "Two Pointers",
+                            "content": "Indices."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Search?",
+                            "options": [
+                                "W",
+                                "B"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Array"
+                }
+            },
+            "totalXP": 150
+        },
+        "recursion-backtracking": {
+            "id": "recursion-backtracking",
+            "title": "Recursion",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Recursion...",
+                    "sections": [
+                        {
+                            "title": "Base",
+                            "content": "Stop."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Crash?",
+                            "options": [
+                                "O",
+                                "U"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 60,
+                    "summary": "Rec"
+                }
+            },
+            "totalXP": 200
+        },
+        "linked-lists": {
+            "id": "linked-lists",
+            "title": "Linked Lists",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Lists.",
+                    "sections": [
+                        {
+                            "title": "Pointers",
+                            "content": "Link."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "O?",
+                            "options": [
+                                "1",
+                                "n"
+                            ],
+                            "correctAnswer": 1
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "List"
+                }
+            },
+            "totalXP": 130
+        },
+        "stacks-queues": {
+            "id": "stacks-queues",
+            "title": "Stacks & Queues",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "S/Q.",
+                    "sections": [
+                        {
+                            "title": "LIFO",
+                            "content": "Order."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 70,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "BFS?",
+                            "options": [
+                                "S",
+                                "Q"
+                            ],
+                            "correctAnswer": 1
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 30,
+                    "summary": "S/Q"
+                }
+            },
+            "totalXP": 130
+        },
+        "hashing": {
+            "id": "hashing",
+            "title": "Hashing",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Hash.",
+                    "sections": [
+                        {
+                            "title": "Col",
+                            "content": "Conflict."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "O?",
+                            "options": [
+                                "1",
+                                "n"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Hash"
+                }
+            },
+            "totalXP": 160
+        },
+        "trees": {
+            "id": "trees",
+            "title": "Trees",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Tree.",
+                    "sections": [
+                        {
+                            "title": "BST",
+                            "content": "Sort."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "In?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 60,
+                    "summary": "Tree"
+                }
+            },
+            "totalXP": 200
+        },
+        "heaps-priority-queues": {
+            "id": "heaps-priority-queues",
+            "title": "Heaps",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Heap.",
+                    "sections": [
+                        {
+                            "title": "Root",
+                            "content": "Prop."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "n?",
+                            "options": [
+                                "1",
+                                "n"
+                            ],
+                            "correctAnswer": 1
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Heap"
+                }
+            },
+            "totalXP": 160
+        },
+        "sorting-searching": {
+            "id": "sorting-searching",
+            "title": "Sorting",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Sort.",
+                    "sections": [
+                        {
+                            "title": "BS",
+                            "content": "log."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "Q?",
+                            "options": [
+                                "n",
+                                "n2"
+                            ],
+                            "correctAnswer": 1
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Sort"
+                }
+            },
+            "totalXP": 160
+        },
+        "graphs-basics": {
+            "id": "graphs-basics",
+            "title": "Graph Basics",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 40,
+                    "introduction": "Graph.",
+                    "sections": [
+                        {
+                            "title": "BFS",
+                            "content": "Level."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 100,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "BFS?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 60,
+                    "summary": "Graph"
+                }
+            },
+            "totalXP": 200
+        },
+        "advanced-graphs": {
+            "id": "advanced-graphs",
+            "title": "Adv Graphs",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Shortest.",
+                    "sections": [
+                        {
+                            "title": "Dijkstra",
+                            "content": "PQ."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 120,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "MST?",
+                            "options": [
+                                "K",
+                                "D"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 80,
+                    "summary": "Short"
+                }
+            },
+            "totalXP": 250
+        },
+        "dp-foundations": {
+            "id": "dp-foundations",
+            "title": "DP Foundations",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 50,
+                    "introduction": "Sub.",
+                    "sections": [
+                        {
+                            "title": "Mem",
+                            "content": "Cache."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 120,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "DP?",
+                            "options": [
+                                "Y",
+                                "N"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 80,
+                    "summary": "DP"
+                }
+            },
+            "totalXP": 250
+        },
+        "dp-advanced": {
+            "id": "dp-advanced",
+            "title": "DP Advanced",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 60,
+                    "introduction": "2D.",
+                    "sections": [
+                        {
+                            "title": "LCS",
+                            "content": "Subsequence."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 150,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Knapsack?",
+                            "options": [
+                                "nW",
+                                "n"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 100,
+                    "summary": "DP Adv"
+                }
+            },
+            "totalXP": 310
+        },
+        "bit-manipulation": {
+            "id": "bit-manipulation",
+            "title": "Bit Manipulation",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 30,
+                    "introduction": "Bit.",
+                    "sections": [
+                        {
+                            "title": "Bitwise",
+                            "content": "Ops."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 80,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Medium",
+                            "question": "5 XOR 5?",
+                            "options": [
+                                "0",
+                                "5"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 40,
+                    "summary": "Bit"
+                }
+            },
+            "totalXP": 150
+        },
+        "advanced-dsa": {
+            "id": "advanced-dsa",
+            "title": "Advanced DSA",
+            "type": "lesson",
+            "stages": {
+                "read": {
+                    "xp": 60,
+                    "introduction": "Tries.",
+                    "sections": [
+                        {
+                            "title": "Trie",
+                            "content": "Prefix."
+                        }
+                    ]
+                },
+                "practice": {
+                    "xp": 140,
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "difficulty": "Hard",
+                            "question": "Auto?",
+                            "options": [
+                                "T",
+                                "H"
+                            ],
+                            "correctAnswer": 0
+                        }
+                    ]
+                },
+                "notes": {
+                    "xp": 100,
+                    "summary": "Adv"
+                }
+            },
+            "totalXP": 300
         }
     }
 }

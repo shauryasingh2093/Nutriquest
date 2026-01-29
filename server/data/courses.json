@@ -2,17 +2,29 @@
   {
     "id": "dsa",
     "title": "Data Structures & Algorithms",
-    "description": "Master fundamental data structures and algorithmic thinking",
+    "description": "Master fundamental data structures and algorithmic thinking from Big O to Segment Trees",
     "icon": "🌳",
     "color": "#7FB069",
     "difficulty": "Intermediate",
     "estimatedHours": 120,
-    "rating": 4,
+    "rating": 5,
     "lessons": [
       {
-        "id": "arrays",
-        "title": "Arrays & Strings",
+        "id": "complexity-analysis",
+        "title": "Complexity Analysis",
         "xp": 100,
+        "type": "lesson"
+      },
+      {
+        "id": "arrays-strings",
+        "title": "Arrays & Strings (Deep Dive)",
+        "xp": 150,
+        "type": "lesson"
+      },
+      {
+        "id": "recursion-backtracking",
+        "title": "Recursion & Backtracking",
+        "xp": 200,
         "type": "lesson"
       },
       {
@@ -28,32 +40,62 @@
         "type": "lesson"
       },
       {
-        "id": "trees",
-        "title": "Trees & BST",
-        "xp": 200,
-        "type": "lesson"
-      },
-      {
-        "id": "graphs",
-        "title": "Graphs",
-        "xp": 250,
-        "type": "lesson"
-      },
-      {
-        "id": "sorting",
-        "title": "Sorting Algorithms",
-        "xp": 200,
-        "type": "lesson"
-      },
-      {
-        "id": "searching",
-        "title": "Searching Algorithms",
+        "id": "hashing",
+        "title": "Hashing & HashMaps",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "dp",
-        "title": "Dynamic Programming",
+        "id": "trees",
+        "title": "Tree Data Structures",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "heaps-priority-queues",
+        "title": "Heaps & Priority Queues",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "sorting-searching",
+        "title": "Sorting & Searching",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "graphs-basics",
+        "title": "Graph Fundamentals",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "advanced-graphs",
+        "title": "Advanced Graph Algorithms",
+        "xp": 250,
+        "type": "lesson"
+      },
+      {
+        "id": "dp-foundations",
+        "title": "Dynamic Programming (Foundations)",
+        "xp": 250,
+        "type": "lesson"
+      },
+      {
+        "id": "dp-advanced",
+        "title": "Dynamic Programming (Advanced)",
+        "xp": 300,
+        "type": "lesson"
+      },
+      {
+        "id": "bit-manipulation",
+        "title": "Bit Manipulation",
+        "xp": 150,
+        "type": "lesson"
+      },
+      {
+        "id": "advanced-dsa",
+        "title": "Advanced Data Structures",
         "xp": 300,
         "type": "lesson"
       }
@@ -62,7 +104,7 @@
   {
     "id": "web-dev",
     "title": "Web Development",
-    "description": "Build modern, responsive web applications from scratch",
+    "description": "Build modern, responsive full-stack applications from HTML to Cloud Deployment",
     "icon": "🌐",
     "color": "#6A9FB5",
     "difficulty": "Beginner",
@@ -77,38 +119,56 @@
       },
       {
         "id": "css-styling",
-        "title": "CSS & Styling",
+        "title": "CSS & Modern Layouts",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "javascript",
-        "title": "JavaScript Basics",
+        "id": "javascript-core",
+        "title": "JavaScript Core Concepts",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "dom",
-        "title": "DOM Manipulation",
+        "id": "dom-web-apis",
+        "title": "DOM & Web APIs",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "react",
+        "id": "react-basics",
         "title": "React Fundamentals",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "react-advanced",
+        "title": "Advanced React & State",
         "xp": 250,
         "type": "lesson"
       },
       {
-        "id": "apis",
-        "title": "Working with APIs",
+        "id": "backend-node",
+        "title": "Node.js & Express Basics",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "deployment",
-        "title": "Deployment & Hosting",
-        "xp": 150,
+        "id": "rest-apis",
+        "title": "RESTful API Design",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "auth-jwt",
+        "title": "Authentication & JWT",
+        "xp": 250,
+        "type": "lesson"
+      },
+      {
+        "id": "deployment-ci-cd",
+        "title": "Deployment & CI/CD",
+        "xp": 200,
         "type": "lesson"
       }
     ]
@@ -116,12 +176,12 @@
   {
     "id": "databases",
     "title": "Database Systems",
-    "description": "Learn SQL, NoSQL, and database design principles",
+    "description": "Master SQL, NoSQL, and advanced database architecture",
     "icon": "🗄️",
     "color": "#F4A261",
     "difficulty": "Intermediate",
     "estimatedHours": 80,
-    "rating": 4,
+    "rating": 5,
     "lessons": [
       {
         "id": "db-intro",
@@ -130,33 +190,39 @@
         "type": "lesson"
       },
       {
-        "id": "sql-basics",
-        "title": "SQL Basics",
+        "id": "relational-design",
+        "title": "Relational Design & ERD",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "sql-advanced",
-        "title": "Advanced SQL",
+        "id": "sql-mastery",
+        "title": "SQL Mastery",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "nosql",
-        "title": "NoSQL Databases",
+        "id": "nosql-mongodb",
+        "title": "NoSQL & MongoDB",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "design",
-        "title": "Database Design",
+        "id": "indexing-perf",
+        "title": "Indexing & Performance",
         "xp": 250,
         "type": "lesson"
       },
       {
-        "id": "optimization",
-        "title": "Query Optimization",
-        "xp": 200,
+        "id": "transactions-acid",
+        "title": "Transactions & ACID",
+        "xp": 250,
+        "type": "lesson"
+      },
+      {
+        "id": "distributed-dbs",
+        "title": "Distributed Databases",
+        "xp": 300,
         "type": "lesson"
       }
     ]
@@ -164,7 +230,7 @@
   {
     "id": "python",
     "title": "Python Programming",
-    "description": "Master Python from basics to advanced concepts",
+    "description": "Master Python from basics to advanced automation and data analysis",
     "icon": "🐍",
     "color": "#E76F51",
     "difficulty": "Beginner",
@@ -172,39 +238,51 @@
     "rating": 5,
     "lessons": [
       {
-        "id": "python-basics",
-        "title": "Python Basics",
+        "id": "python-setup",
+        "title": "Environment & Basics",
         "xp": 100,
         "type": "lesson"
       },
       {
-        "id": "data-types",
-        "title": "Data Types & Structures",
+        "id": "python-control",
+        "title": "Control Flow & Logic",
+        "xp": 100,
+        "type": "lesson"
+      },
+      {
+        "id": "python-ds",
+        "title": "Python Data Structures",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "functions",
-        "title": "Functions & Modules",
+        "id": "python-functions",
+        "title": "Functions & Scopes",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "oop",
-        "title": "Object-Oriented Programming",
+        "id": "python-oop",
+        "title": "Object Oriented Python",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "file-io",
-        "title": "File I/O & Exceptions",
+        "id": "python-modules",
+        "title": "Modules & Packages",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "libraries",
-        "title": "Popular Libraries",
-        "xp": 200,
+        "id": "python-exceptions",
+        "title": "Exception Handling",
+        "xp": 150,
+        "type": "lesson"
+      },
+      {
+        "id": "python-advanced",
+        "title": "Decorators & Generators",
+        "xp": 250,
         "type": "lesson"
       }
     ]
@@ -212,46 +290,52 @@
   {
     "id": "system-design",
     "title": "System Design",
-    "description": "Design scalable and reliable distributed systems",
+    "description": "Design high-scale, reliable distributed systems for millions of users",
     "icon": "🏗️",
     "color": "#D4A5A5",
     "difficulty": "Advanced",
     "estimatedHours": 150,
-    "rating": 4,
+    "rating": 5,
     "lessons": [
       {
-        "id": "fundamentals",
-        "title": "System Design Fundamentals",
+        "id": "sd-intro",
+        "title": "Fundamentals of Scaling",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "scalability",
-        "title": "Scalability Principles",
+        "id": "load-balancers",
+        "title": "Load Balancers & Proxies",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "load-balancing",
-        "title": "Load Balancing",
+        "id": "caching-cdn",
+        "title": "Caching & CDNs",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "caching",
-        "title": "Caching Strategies",
-        "xp": 200,
-        "type": "lesson"
-      },
-      {
-        "id": "microservices",
-        "title": "Microservices Architecture",
+        "id": "database-scaling",
+        "title": "Database Scaling (Sharding)",
         "xp": 250,
         "type": "lesson"
       },
       {
-        "id": "case-studies",
-        "title": "Real-World Case Studies",
+        "id": "msg-queues",
+        "title": "Message Queues & Pub-Sub",
+        "xp": 200,
+        "type": "lesson"
+      },
+      {
+        "id": "microservices-sd",
+        "title": "Microservices Design",
+        "xp": 250,
+        "type": "lesson"
+      },
+      {
+        "id": "sd-case-studies",
+        "title": "Large Scale Case Studies",
         "xp": 300,
         "type": "lesson"
       }
@@ -260,7 +344,7 @@
   {
     "id": "machine-learning",
     "title": "Machine Learning",
-    "description": "Introduction to ML algorithms and applications",
+    "description": "Master ML algorithms from Linear Regression to Modern Transformers",
     "icon": "🤖",
     "color": "#8B6F47",
     "difficulty": "Advanced",
@@ -268,193 +352,45 @@
     "rating": 5,
     "lessons": [
       {
-        "id": "ml-intro",
-        "title": "Introduction to ML",
+        "id": "ml-math",
+        "title": "Mathematics for ML",
         "xp": 150,
         "type": "lesson"
       },
       {
-        "id": "supervised",
-        "title": "Supervised Learning",
+        "id": "supervised-classic",
+        "title": "Classic Supervised Learning",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "unsupervised",
-        "title": "Unsupervised Learning",
+        "id": "ml-unsupervised",
+        "title": "Clustering & Unsupervised",
         "xp": 200,
         "type": "lesson"
       },
       {
-        "id": "neural-networks",
-        "title": "Neural Networks",
+        "id": "deep-learning-nn",
+        "title": "Neural Networks (DL)",
         "xp": 250,
         "type": "lesson"
       },
       {
-        "id": "deep-learning",
-        "title": "Deep Learning Basics",
+        "id": "computer-vision",
+        "title": "Computer Vision (CNNs)",
+        "xp": 250,
+        "type": "lesson"
+      },
+      {
+        "id": "nlp-transformers",
+        "title": "NLP & Transformers",
         "xp": 300,
         "type": "lesson"
       },
       {
-        "id": "projects",
-        "title": "ML Projects",
+        "id": "ml-ops",
+        "title": "MLOps & Deployment",
         "xp": 250,
-        "type": "lesson"
-      }
-    ]
-  },
-  {
-    "id": "ai-generated-1767891391439",
-    "title": "Python Basics for Beginners",
-    "description": "An interactive and gamified course designed to teach the fundamentals of Python programming to beginners.",
-    "icon": "🎯",
-    "color": "#A06B92",
-    "difficulty": "beginner",
-    "estimatedHours": 9,
-    "rating": 5,
-    "lessons": [
-      {
-        "id": "lesson-1",
-        "title": "Introduction to Python",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-2",
-        "title": "Basic Syntax and Data Types",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-3",
-        "title": "Control Structures",
-        "xp": 100,
-        "type": "lesson"
-      }
-    ]
-  },
-  {
-    "id": "ai-1767892936736-ne0q48v91",
-    "title": "UI/UX Design Fundamentals with Figma",
-    "description": "A beginner-friendly course to introduce UI/UX design principles using Figma as the primary tool.",
-    "icon": "🤖",
-    "color": "from-purple-500 to-pink-500",
-    "difficulty": "beginner",
-    "duration": "Self-paced",
-    "totalLessons": 3,
-    "isAIGenerated": true,
-    "lessons": [
-      {
-        "id": "lesson-1",
-        "title": "Introduction to UI/UX Design",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-2",
-        "title": "Getting Started with Figma",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-3",
-        "title": "Designing a Simple User Interface in Figma",
-        "xp": 100,
-        "type": "lesson"
-      }
-    ]
-  },
-  {
-    "id": "ai-1767893166678-cx6tg6ety",
-    "title": "Mastering React for Web Development",
-    "description": "A comprehensive guide to learning React, tailored for web development enthusiasts.",
-    "icon": "🤖",
-    "color": "from-purple-500 to-pink-500",
-    "difficulty": "Intermediate",
-    "duration": "Self-paced",
-    "totalLessons": 3,
-    "isAIGenerated": true,
-    "lessons": [
-      {
-        "id": "lesson-1",
-        "title": "Introduction to React",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-2",
-        "title": "Components and Props",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-3",
-        "title": "State and Lifecycle",
-        "xp": 100,
-        "type": "lesson"
-      }
-    ]
-  },
-  {
-    "id": "ai-1767897346712-e59hw39cm",
-    "title": "Data Science Mastery",
-    "description": "A comprehensive roadmap to enhance your data science skills with practical applications.",
-    "icon": "🤖",
-    "color": "from-purple-500 to-pink-500",
-    "difficulty": "intermediate",
-    "duration": "Self-paced",
-    "totalLessons": 3,
-    "isAIGenerated": true,
-    "lessons": [
-      {
-        "id": "lesson-1",
-        "title": "Exploratory Data Analysis (EDA)",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-2",
-        "title": "Machine Learning Models Overview",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-3",
-        "title": "Data Preprocessing Techniques",
-        "xp": 100,
-        "type": "lesson"
-      }
-    ]
-  },
-  {
-    "id": "ai-1767961025761-0v2h6hqc2",
-    "title": "Data Science Mastery",
-    "description": "A comprehensive roadmap to enhance your data science skills, focusing on practical applications and theory.",
-    "icon": "🤖",
-    "color": "from-purple-500 to-pink-500",
-    "difficulty": "intermediate",
-    "duration": "Self-paced",
-    "totalLessons": 3,
-    "isAIGenerated": true,
-    "lessons": [
-      {
-        "id": "lesson-1",
-        "title": "Exploratory Data Analysis (EDA)",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-2",
-        "title": "Feature Engineering",
-        "xp": 100,
-        "type": "lesson"
-      },
-      {
-        "id": "lesson-3",
-        "title": "Machine Learning Algorithms",
-        "xp": 100,
         "type": "lesson"
       }
     ]

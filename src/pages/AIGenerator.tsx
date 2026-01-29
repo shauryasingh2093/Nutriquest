@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import api from '../utils/api';
+import LoadingScreen from '../components/LoadingScreen';
 
 interface AIFormData {
     goal: string;
@@ -188,14 +189,17 @@ const AIGenerator: React.FC = () => {
                     {/* Right Panel: Result */}
                     <div className="flex flex-col h-full">
                         {loading && (
-                            <div className="h-full bg-white rounded-[48px] p-12 shadow-2xl border border-white/50 flex flex-col items-center justify-center text-center">
-                                <div className="w-32 h-32 mb-10 relative">
-                                    <div className="absolute inset-0 bg-[#A8BDC9]/20 rounded-full animate-pulse scale-110"></div>
-                                    <div className="relative z-10 w-full h-full bg-[#A8BDC9]/10 rounded-full flex items-center justify-center text-5xl">🔮</div>
-                                </div>
-                                <h3 className="text-3xl font-extrabold text-[#7F6E68] mb-4">AI is crafting your roadmap...</h3>
-                                <p className="text-[#7F6E68]/60 font-bold max-w-sm leading-relaxed tracking-wide">Hang tight! We're personalizing every phase based on your experience and goals.</p>
-                            </div>
+                            <LoadingScreen
+                                message="AI is crafting your roadmap..."
+                                fullScreen={false}
+                            />
+                        )}
+
+                        {saving && (
+                            <LoadingScreen
+                                message="Enrolling you in the course..."
+                                fullScreen={true}
+                            />
                         )}
 
                         {roadmap && !loading && (

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Signup: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -11,9 +12,15 @@ const Signup: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { signup, socialLogin } = useAuth();
+    const { signup, socialLogin, user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const [socialLoading, setSocialLoading] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!authLoading && user) {
+            navigate('/courses');
+        }
+    }, [user, authLoading, navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -23,16 +30,11 @@ const Signup: React.FC = () => {
         setError('');
     };
 
-    const handleSocialLogin = async (provider: 'google' | 'apple') => {
+    const handleSocialLogin = (provider: 'google') => {
         setError('');
-        setSocialLoading(provider === 'google' ? 'Google' : 'Apple');
-        try {
-            await socialLogin(provider);
-            // Redirection is handled by Clerk's authenticateWithRedirect
-        } catch (err: any) {
-            setError(err.message || `Failed to login with ${provider}`);
-            setSocialLoading(null);
-        }
+        setSocialLoading('Google');
+        // socialLogin will redirect to backend OAuth route
+        socialLogin(provider);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -56,6 +58,22 @@ const Signup: React.FC = () => {
         }
     };
 
+    const [showAuthLoading, setShowAuthLoading] = useState(false);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (authLoading) {
+            timer = setTimeout(() => setShowAuthLoading(true), 500);
+        } else {
+            setShowAuthLoading(false);
+        }
+        return () => clearTimeout(timer);
+    }, [authLoading]);
+
+    if (socialLoading || (authLoading && showAuthLoading)) {
+        return <LoadingScreen message={socialLoading ? `Connecting with ${socialLoading}...` : "Preparing your profile..."} />;
+    }
+
     return (
         <div className="bg-auth-bg min-h-screen flex justify-center items-center relative p-8 font-source-serif overflow-hidden">
 
@@ -78,14 +96,6 @@ const Signup: React.FC = () => {
                     >
                         <img src="/devicon_google.png" alt="Google" className={`w-6 h-6 ${socialLoading === 'Google' ? 'animate-spin' : ''}`} />
                         {socialLoading === 'Google' ? 'Connecting...' : 'Continue with Google'}
-                    </button>
-                    <button
-                        onClick={() => handleSocialLogin('apple')}
-                        disabled={loading || !!socialLoading}
-                        className="bg-white border-1.5 border-auth-brown rounded-xl p-[11px] flex items-center justify-center gap-3 font-bold text-base cursor-pointer text-auth-brown hover:bg-gray-50 transition-colors shadow-sm disabled:opacity-50"
-                    >
-                        <img src="/ic_baseline-apple.png" alt="Apple" className={`w-6 h-6 ${socialLoading === 'Apple' ? 'animate-spin' : ''}`} />
-                        {socialLoading === 'Apple' ? 'Connecting...' : 'Continue with Apple'}
                     </button>
                 </div>
 

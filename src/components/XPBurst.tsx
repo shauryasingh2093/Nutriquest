@@ -79,19 +79,19 @@ const XPBurst: React.FC<XPBurstProps> = ({ xp, onComplete }) => {
 
     return (
         <div style={styles.container}>
-            {/* Floating Particles */}
+            {/* Floating Particles - Acorns */}
             {particles.map(particle => (
                 <img
                     key={particle.id}
-                    src="/nut.png"
-                    alt="particle"
+                    src="/acron.png"
+                    alt="acorn"
                     style={{
                         ...styles.particle,
                         left: `${50 + Math.cos(particle.angle) * particle.distance}%`,
                         top: `${50 + Math.sin(particle.angle) * particle.distance}%`,
                         animationDelay: `${particle.delay}s`,
-                        width: '30px',
-                        height: '30px'
+                        width: '35px',
+                        height: '35px'
                     }}
                 />
             ))}
@@ -101,8 +101,8 @@ const XPBurst: React.FC<XPBurstProps> = ({ xp, onComplete }) => {
                 +{count} XP
             </div>
 
-            {/* Nut icon */}
-            <img src="/nut.png" alt="XP" style={styles.nut} />
+            {/* Acorn icon */}
+            <img src="/acron.png" alt="XP" style={styles.nut} />
         </div>
     );
 };

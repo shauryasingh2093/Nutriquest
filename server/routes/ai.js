@@ -98,14 +98,32 @@ Return ONLY valid JSON (no markdown, no code blocks):
             response_format: { type: "json_object" } // Force JSON response
         });
 
-        // Parse the response
+        // Sanitize and parse the response
         let roadmapText = completion.choices[0].message.content.trim();
         console.log('GPT Raw Response:', roadmapText);
 
-        // Remove markdown code blocks if present
-        roadmapText = roadmapText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        // More robust JSON cleaning
+        roadmapText = roadmapText
+            .replace(/```json\n?/g, '')
+            .replace(/```\n?/g, '')
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, "") // Remove control characters
+            .trim();
 
-        const roadmap = JSON.parse(roadmapText);
+        let roadmap;
+        try {
+            roadmap = JSON.parse(roadmapText);
+        } catch (parseError) {
+            console.error('Failed to parse OpenAI JSON directly, attempting aggressive cleanup');
+            // Attempt to find the first { and last }
+            const startIdx = roadmapText.indexOf('{');
+            const endIdx = roadmapText.lastIndexOf('}');
+            if (startIdx !== -1 && endIdx !== -1) {
+                roadmap = JSON.parse(roadmapText.substring(startIdx, endIdx + 1));
+            } else {
+                throw parseError;
+            }
+        }
+
         console.log('Parsed Roadmap:', JSON.stringify(roadmap, null, 2));
 
         res.json({ roadmap });
@@ -326,12 +344,16 @@ function generateFallbackRoadmap(goal, experience, timeCommitment, interests) {
     };
 
     if (experience === 'beginner') {
-        result.phases.forEach(phase => {
-            phase.duration = phase.duration.replace(/(\d+)/g, (match) => parseInt(match) + 2);
+        result.lessons.forEach(lesson => {
+            if (lesson.duration) {
+                lesson.duration = lesson.duration.replace(/(\d+)/g, (match) => parseInt(match) + 2);
+            }
         });
     } else if (experience === 'advanced') {
-        result.phases.forEach(phase => {
-            phase.duration = phase.duration.replace(/(\d+)/g, (match) => Math.max(1, parseInt(match) - 1));
+        result.lessons.forEach(lesson => {
+            if (lesson.duration) {
+                lesson.duration = lesson.duration.replace(/(\d+)/g, (match) => Math.max(1, parseInt(match) - 1));
+            }
         });
     }
 

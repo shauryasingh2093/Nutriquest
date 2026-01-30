@@ -1,0 +1,263 @@
+
+> nutriquest@1.0.0 dev
+> concurrently "vite" "node server/index.js"
+
+[0] 
+[0]   VITE v5.4.21  ready in 279 ms
+[0] 
+[0]   ➜  Local:   http://localhost:5173/
+[0]   ➜  Network: use --host to expose
+[1] 🚀 Server running on http://localhost:3001
+[1] ✅ MongoDB Connected: ac-xdjbeu7-shard-00-00.x6sayay.mongodb.net
+[1] GPT Raw Response: {
+[1]   "courseId": "ai-generated-1769801053874",
+[1]   "title": "React Fundamentals",
+[1]   "description": "A beginner-friendly course to learn the basics of React, a popular JavaScript library for building user interfaces.",
+[1]   "icon": "⚛️",
+[1]   "difficulty": "beginner",
+[1]   "lessons": [
+[1]     {
+[1]       "id": "lesson-1",
+[1]       "title": "Introduction to React",
+[1]       "xp": 100,
+[1]       "stages": {
+[1]         "read": {
+[1]           "xp": 20,
+[1]           "introduction": "In this lesson, we will explore the basics of React and its core concepts.",
+[1]           "sections": [
+[1]             {
+[1]               "title": "What is React?",
+[1]               "content": "React is a JavaScript library for building user interfaces. It allows developers to create large web applications that can change data without reloading the page."
+[1]             },
+[1]             {
+[1]               "title": "Why Use React?",
+[1]               "content": "React's component-based architecture promotes reusability, making it easier to manage and maintain code."
+[1]             },
+[1]             {
+[1]               "title": "Core Concepts",
+[1]               "content": "In this section, we'll cover components, JSX, and props, which are essential for building React applications."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "practice": {
+[1]           "xp": 50,
+[1]           "questions": [
+[1]             {
+[1]               "id": "q1",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What is React primarily used for?",
+[1]               "options": ["Server-side scripting", "Building user interfaces", "Database management", "Animation"],
+[1]               "correctAnswer": 1,
+[1]               "explanation": "React is primarily used for building user interfaces."
+[1]             },
+[1]             {
+[1]               "id": "q2",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What is JSX?",
+[1]               "options": ["A JavaScript syntax extension", "A framework", "A database", "A styling language"],
+[1]               "correctAnswer": 0,
+[1]               "explanation": "JSX is a JavaScript syntax extension used in React to describe UI elements."
+[1]             },
+[1]             {
+[1]               "id": "q3",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What do props in React do?",
+[1]               "options": ["Style components", "Pass data to components", "Handle events", "Manage state"],
+[1]               "correctAnswer": 1,
+[1]               "explanation": "Props are used to pass data to components in React."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "notes": {
+[1]           "xp": 30,
+[1]           "summary": "This lesson introduced React, its purpose, and core concepts like components, JSX, and props.",
+[1]           "keyTakeaways": [
+[1]             "React is a library for building user interfaces.",
+[1]             "JSX is a syntax extension that allows mixing HTML with JavaScript.",
+[1]             "Props are used to pass data between components."
+[1]           ]
+[1]         }
+[1]       }
+[1]     },
+[1]     {
+[1]       "id": "lesson-2",
+[1]       "title": "Components and State",
+[1]       "xp": 100,
+[1]       "stages": {
+[1]         "read": {
+[1]           "xp": 20,
+[1]           "introduction": "In this lesson, we'll dive deeper into components and state management in React.",
+[1]           "sections": [
+[1]             {
+[1]               "title": "Understanding Components",
+[1]               "content": "Components are the building blocks of a React application. They can be class-based or functional."
+[1]             },
+[1]             {
+[1]               "title": "What is State?",
+[1]               "content": "State is a built-in object that allows components to create and manage dynamic data."
+[1]             },
+[1]             {
+[1]               "title": "Using State in Components",
+[1]               "content": "Learn how to use the useState hook to manage state in functional components."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "practice": {
+[1]           "xp": 50,
+[1]           "questions": [
+[1]             {
+[1]               "id": "q1",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What are components in React?",
+[1]               "options": ["Functions that return UI", "Variables", "Databases", "HTML tags"],
+[1]               "correctAnswer": 0,
+[1]               "explanation": "Components are functions that return UI elements in React."
+[1]             },
+[1]             {
+[1]               "id": "q2",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What does state allow a component to do?",
+[1]               "options": ["Store data", "Style elements", "Handle events", "Make API calls"],
+[1]               "correctAnswer": 0,
+[1]               "explanation": "State allows a component to store and manage dynamic data."
+[1]             },
+[1]             {
+[1]               "id": "q3",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "Which hook is used to manage state in functional components?",
+[1]               "options": ["useEffect", "useState", "useReducer", "useContext"],
+[1]               "correctAnswer": 1,
+[1]               "explanation": "The useState hook is used to manage state in functional components."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "notes": {
+[1]           "xp": 30,
+[1]           "summary": "This lesson covered components and state management in React, including the use of the useState hook.",
+[1]           "keyTakeaways": [
+[1]             "Components can be functional or class-based.",
+[1]             "State allows components to manage dynamic data.",
+[1]             "The useState hook is essential for state management in functional components."
+[1]           ]
+[1]         }
+[1]       }
+[1]     },
+[1]     {
+[1]       "id": "lesson-3",
+[1]       "title": "Handling Events",
+[1]       "xp": 100,
+[1]       "stages": {
+[1]         "read": {
+[1]           "xp": 20,
+[1]           "introduction": "In this lesson, we'll learn about handling events in React applications.",
+[1]           "sections": [
+[1]             {
+[1]               "title": "What are Events?",
+[1]               "content": "Events are actions that occur as a result of user interaction, such as clicks or key presses."
+[1]             },
+[1]             {
+[1]               "title": "Handling Events in React",
+[1]               "content": "Learn how to handle events using event handlers in React components."
+[1]             },
+[1]             {
+[1]               "title": "Binding Event Handlers",
+[1]               "content": "Understand how to bind event handlers to ensure 'this' refers to the component instance."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "practice": {
+[1]           "xp": 50,
+[1]           "questions": [
+[1]             {
+[1]               "id": "q1",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What do events in React represent?",
+[1]               "options": ["User interactions", "Data storage", "API responses", "CSS styles"],
+[1]               "correctAnswer": 0,
+[1]               "explanation": "Events in React represent user interactions like clicks or key presses."
+[1]             },
+[1]             {
+[1]               "id": "q2",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "How do you bind an event handler in a class component?",
+[1]               "options": ["Using bind()", "Using arrow functions", "Using a constructor", "All of the above"],
+[1]               "correctAnswer": 3,
+[1]               "explanation": "You can bind an event handler in class components using bind(), arrow functions, or the constructor."
+[1]             },
+[1]             {
+[1]               "id": "q3",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "How do you handle a click event in React?",
+[1]               "options": ["onClick={handleClick}", "handleClick()", "addEventListener()", "click(handleClick)"],
+[1]               "correctAnswer": 0,
+[1]               "explanation": "In React, you handle a click event using the onClick={handleClick} syntax."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "notes": {
+[1]           "xp": 30,
+[1]           "summary": "This lesson focused on handling events in React, including binding event handlers and using onClick.",
+[1]           "keyTakeaways": [
+[1]             "Events in React correspond to user interactions.",
+[1]             "Event handlers can be bound using various methods.",
+[1]             "The onClick syntax is used to handle click events in React."
+[1]           ]
+[1]         }
+[1]       }
+[1]     },
+[1]     {
+[1]       "id": "lesson-4",
+[1]       "title": "Props and Component Composition",
+[1]       "xp": 100,
+[1]       "stages": {
+[1]         "read": {
+[1]           "xp": 20,
+[1]           "introduction": "In this lesson, we'll learn about props and how to compose components effectively.",
+[1]           "sections": [
+[1]             {
+[1]               "title": "Understanding Props",
+[1]               "content": "Props are short for properties and allow data to be passed to components."
+[1]             },
+[1]             {
+[1]               "title": "Component Composition",
+[1]               "content": "Learn how to combine components to build complex UIs by passing props."
+[1]             },
+[1]             {
+[1]               "title": "Default Props and PropTypes",
+[1]               "content": "Understand how to set default props and validate props using PropTypes."
+[1]             }
+[1]           ]
+[1]         },
+[1]         "practice": {
+[1]           "xp": 50,
+[1]           "questions": [
+[1]             {
+[1]               "id": "q1",
+[1]               "difficulty": "easy",
+[1]               "xpReward": 15,
+[1]               "question": "What are props used for in React?",
+[1]               "options": ["To pass data to components", "To manage state", "To style components
+[1] Failed to parse OpenAI JSON directly, attempting aggressive cleanup
+[1] Error generating roadmap: SyntaxError: Expected ',' or '}' after property value in JSON at position 8953 (line 1 column 8954)
+[1]     at JSON.parse (<anonymous>)
+[1]     at file:///Users/shauryasingh/Downloads/projects/nutriquest/server/routes/ai.js:121:32
+[1]     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[1] 📥 Received save-course request
+[1] ✅ AI-generated course saved to MongoDB: ai-1769801122644-5p4p4
+[1] [Streak] Checking streak update: {
+[1]   today: 'Sat Jan 31 2026',
+[1]   lastActivity: 'Sat Jan 31 2026',
+[1]   currentStreak: 1
+[1] }
+[1] [Streak] Already active today, no update needed
+[0] vite exited with code SIGHUP
+[1] node server/index.js exited with code SIGHUP

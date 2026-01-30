@@ -7,8 +7,8 @@ interface StageIndicatorProps {
 }
 
 const StageIndicator: React.FC<StageIndicatorProps> = ({ currentStage, completedStages }) => {
-    const stages: (keyof StageProgress)[] = ['read', 'practice', 'notes'];
-    const stageLabels: Record<keyof StageProgress, string> = {
+    const stages: ('read' | 'practice' | 'notes')[] = ['read', 'practice', 'notes'];
+    const stageLabels: Record<'read' | 'practice' | 'notes', string> = {
         read: 'READ',
         practice: 'QUIZ',
         notes: 'NOTES'

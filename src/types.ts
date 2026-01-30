@@ -29,6 +29,7 @@ export interface StageProgress {
     read: boolean;
     practice: boolean;
     notes: boolean;
+    userNotes?: string;
 }
 
 export interface Course {

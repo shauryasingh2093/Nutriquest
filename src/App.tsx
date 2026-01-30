@@ -13,6 +13,15 @@ import Progress from './pages/Progress';
 import AIGenerator from './pages/AIGenerator';
 import Achievements from './pages/Achievements';
 import Profile from './pages/Profile';
+import About from './pages/About';
+import Features from './pages/Features';
+import Updates from './pages/Updates';
+import Documentation from './pages/Documentation';
+import Tutorials from './pages/Tutorials';
+import Support from './pages/Support';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import Licenses from './pages/Licenses';
 
 const App: React.FC = () => {
     return (
@@ -24,7 +33,19 @@ const App: React.FC = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
 
+                    {/* Marketing & Support Pages */}
+                    <Route path="/about" element={<About />} />
+                    <Route path="/features" element={<Features />} />
+                    <Route path="/updates" element={<Updates />} />
+                    <Route path="/documentation" element={<Documentation />} />
+                    <Route path="/tutorials" element={<Tutorials />} />
+                    <Route path="/support" element={<Support />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="/terms" element={<TermsOfService />} />
+                    <Route path="/licenses" element={<Licenses />} />
+
                     {/* Protected Routes */}
+
                     <Route
                         path="/courses"
                         element={

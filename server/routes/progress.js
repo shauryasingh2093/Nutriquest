@@ -16,6 +16,8 @@ router.post('/complete-stage', authenticate, async (req, res) => {
         if (!user.stageProgress) user.stageProgress = new Map();
 
         let progress = user.stageProgress.get(stageKey);
+        console.log(`[DEBUG] Completing stage: ${stage} for ${stageKey}`);
+        console.log(`[DEBUG] Current progress for key:`, progress);
         if (!progress) {
             progress = {
                 read: false,
@@ -32,7 +34,6 @@ router.post('/complete-stage', authenticate, async (req, res) => {
         if (isFirstTime || isNotesUpdate) {
             if (isFirstTime) {
                 progress[stage] = true;
-                // Award XP for stage completion
                 user.xp += (xp || 0);
             }
 
@@ -41,12 +42,14 @@ router.post('/complete-stage', authenticate, async (req, res) => {
             }
 
             user.stageProgress.set(stageKey, progress);
+            user.markModified('stageProgress');
+
+            const allStagesComplete = !!(progress.read && progress.practice && progress.notes);
 
             const previousLevel = user.level;
             user.level = Math.floor(user.xp / 1000) + 1;
             const leveledUp = user.level > previousLevel;
 
-            // Update streak using helper function
             const { updated, user: updatedUserData } = updateUserStreak(user.toObject());
             if (updated) {
                 user.streak = updatedUserData.streak;
@@ -54,15 +57,10 @@ router.post('/complete-stage', authenticate, async (req, res) => {
                 user.longestStreak = updatedUserData.longestStreak;
             }
 
-            // Check if all stages complete
-            const allStagesComplete = progress.read && progress.practice && progress.notes;
-
-            // If all stages complete, mark lesson as complete
             if (allStagesComplete && !user.completedLessons.includes(stageKey)) {
                 user.completedLessons.push(stageKey);
             }
 
-            // Check for achievements
             const newAchievements = checkAchievements(user);
 
             await user.save();
@@ -76,7 +74,8 @@ router.post('/complete-stage', authenticate, async (req, res) => {
                 allStagesComplete
             });
         } else {
-            res.json({ user, earnedXP: 0, leveledUp: false, newAchievements: [], allStagesComplete: false });
+            const allStagesComplete = !!(progress.read && progress.practice && progress.notes);
+            res.json({ user, earnedXP: 0, leveledUp: false, newAchievements: [], allStagesComplete });
         }
     } catch (error) {
         console.error('Error completing stage:', error);

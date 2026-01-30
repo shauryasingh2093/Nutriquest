@@ -7,7 +7,7 @@ interface NotesStageProps {
     onComplete: (note: string) => void;
 }
 
-const NotesStage: React.FC<NotesStageProps> = ({ summary, keyTakeaways, savedNotes = '', onComplete }) => {
+const NotesStage: React.FC<NotesStageProps> = ({ summary, keyTakeaways = [], savedNotes = '', onComplete }) => {
     const [note, setNote] = React.useState(savedNotes);
 
     return (

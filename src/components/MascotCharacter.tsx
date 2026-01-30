@@ -59,8 +59,9 @@ const MascotCharacter: React.FC<MascotCharacterProps> = ({
                             key={i}
                             style={{
                                 ...styles.dustCircle,
-                                animationDelay: `${i * 0.1}s`
-                            }}
+                                animationDelay: `${i * 0.1}s`,
+                                '--x': (i - 2).toString()
+                            } as React.CSSProperties}
                         />
                     ))}
                 </div>
@@ -135,9 +136,7 @@ if (typeof document !== 'undefined') {
     styleSheet.textContent = `
         @keyframes mascotBounce {
             0%, 100% { transform: translateY(0); }
-            25% { transform: translateY(-20px); }
-            50% { transform: translateY(-10px); }
-            75% { transform: translateY(-15px); }
+            50% { transform: translateY(-15px); }
         }
         
         @keyframes dustFloat {

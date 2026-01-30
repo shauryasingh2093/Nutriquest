@@ -80,7 +80,9 @@ const userSchema = new mongoose.Schema({
         default: {}
     }
 }, {
-    timestamps: true // Automatically adds createdAt and updatedAt
+    timestamps: true,
+    toObject: { flattenMaps: true },
+    toJSON: { flattenMaps: true }
 });
 
 // Hash password before saving

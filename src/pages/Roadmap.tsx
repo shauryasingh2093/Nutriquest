@@ -39,21 +39,34 @@ const Roadmap: React.FC = () => {
     const [mascotPos, setMascotPos] = useState<MascotPos>({ x: 50, y: 40, isMoving: false });
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const { user, updateUser, addToHistory } = useAuth();
+    const hasFetchedRef = React.useRef(false);
+    const lastCourseIdRef = React.useRef<string | null>(null);
 
     useEffect(() => {
-        if (courseId) {
+        if (courseId && (courseId !== lastCourseIdRef.current)) {
+            hasFetchedRef.current = false;
+            lastCourseIdRef.current = courseId;
             fetchCourseData();
-            // Add to history via AuthContext (persists to DB)
             addToHistory(courseId);
         }
     }, [courseId]);
+
+    // Sync with AuthContext user updates
+    useEffect(() => {
+        if (user?.stageProgress) {
+            console.log('[DEBUG] Syncing stageProgress from AuthContext user');
+            setStageProgress(user.stageProgress);
+        }
+    }, [user]);
 
     const fetchCourseData = async () => {
         try {
             const courseRes = await api.get(`/courses/${courseId}`);
             setCourse(courseRes.data.course);
             setLessons(courseRes.data.course.lessons);
+            console.log('[DEBUG] Fetched course lessons:', courseRes.data.course.lessons.map((l: any) => l.id));
 
             if (user?.stageProgress) {
                 setStageProgress(user.stageProgress);
@@ -66,19 +79,23 @@ const Roadmap: React.FC = () => {
             let targetIndex = firstUnlockedIndex >= 0 ? firstUnlockedIndex : 0;
             for (let i = 0; i < courseRes.data.course.lessons.length; i++) {
                 const key = `${courseId}-${courseRes.data.course.lessons[i].id}`;
-                const prog = (user?.stageProgress || {})[key] || {};
+                const prog: StageProgress = (user?.stageProgress || {})[key] || { read: false, practice: false, notes: false };
+                console.log(`[DEBUG] Lesson ${i} (${key}) progress:`, prog);
                 if (!(prog.read && prog.practice && prog.notes)) {
                     targetIndex = i;
+                    console.log(`[DEBUG] Setting targetIndex to ${i} because it is incomplete.`);
                     break;
                 }
             }
 
-            setCurrentLessonIndex(targetIndex);
-            if (courseRes.data.course.lessons.length > 0) {
+            if (courseRes.data.course.lessons.length > 0 && !hasFetchedRef.current) {
+                setCurrentLessonIndex(targetIndex);
                 await fetchLessonContent(courseRes.data.course.lessons[targetIndex].id, user?.stageProgress || {});
             }
+            hasFetchedRef.current = true;
         } catch (error) {
             console.error('Error fetching course:', error);
+            setError('Failed to load course. It might not exist or the server is down.');
         } finally {
             setLoading(false);
         }
@@ -89,14 +106,19 @@ const Roadmap: React.FC = () => {
         const prevLesson = lessonsList[index - 1];
         if (!prevLesson) return false;
         const key = `${courseId}-${prevLesson.id}`;
-        const prevProgress = progress[key] || {};
+        const prevProgress: StageProgress = progress[key] || { read: false, practice: false, notes: false };
         return prevProgress.read && prevProgress.practice && prevProgress.notes;
     };
 
-    const fetchLessonContent = async (lessonId: string, currentProg = stageProgress) => {
+    const fetchLessonContent = async (lessonId: string, currentProg = stageProgress, forcedStage?: 'read' | 'practice' | 'notes') => {
         try {
             const response = await api.get(`/lessons/${courseId}/${lessonId}`);
             setLessonContent(response.data.lesson);
+
+            if (forcedStage) {
+                setCurrentStage(forcedStage);
+                return;
+            }
 
             const lessonKey = `${courseId}-${lessonId}`;
             const progress = currentProg[lessonKey] || { read: false, practice: false, notes: false };
@@ -107,6 +129,7 @@ const Roadmap: React.FC = () => {
             else setCurrentStage('read');
         } catch (error) {
             console.error('Error fetching lesson:', error);
+            setError('Failed to load lesson content.');
         }
     };
 
@@ -126,11 +149,13 @@ const Roadmap: React.FC = () => {
         setCurrentQuestion(0);
         setAnswers([]);
         setShowFeedback(false);
-        await fetchLessonContent(lesson.id);
+        await fetchLessonContent(lesson.id, stageProgress, stage);
     };
 
     const handleCompleteStage = async (stage: 'read' | 'practice' | 'notes', xp: number, content?: string) => {
-        const lessonId = lessons[currentLessonIndex].id;
+        const currentLesson = lessons[currentLessonIndex];
+        if (!currentLesson) return;
+        const lessonId = currentLesson.id;
 
         try {
             const response = await api.post('/progress/complete-stage', {
@@ -188,8 +213,13 @@ const Roadmap: React.FC = () => {
             setCurrentQuestion(currentQuestion + 1);
             setShowFeedback(false);
         } else if (lessonContent?.stages?.practice) {
-            const totalXP = lessonContent.stages.practice.questions.reduce((sum, q, i) => {
-                return answers[i] === q.correctAnswer ? sum + q.xpReward : sum;
+            const stageXP = lessonContent.stages.practice.xp;
+            const questions = lessonContent.stages.practice.questions;
+            const xpPerQuestion = Math.floor(stageXP / questions.length);
+
+            const totalXP = questions.reduce((sum, q, i) => {
+                const reward = q.xpReward || xpPerQuestion;
+                return answers[i] === q.correctAnswer ? sum + reward : sum;
             }, 0);
             handleCompleteStage('practice', totalXP);
         }
@@ -201,24 +231,24 @@ const Roadmap: React.FC = () => {
         const path: MascotPos[] = [];
         const baseCenter = 50;
         const offset = 20;
-        const verticalSpacing = 400;
+        const verticalSpacing = 500; // Increased from 400 to prevent mascot dipping
 
         path.push({ x: 50, y: 40, type: 'start' });
 
         for (let i = 0; i < count; i++) {
             const isLeft = i % 2 === 0;
-            const baseY = (i * verticalSpacing) + 120;
+            const baseY = (i * verticalSpacing) + 260; // Increased to 260 to ensure clear upward jump from start stump (40 + 150 = 190, 260 + 20 = 280)
 
             if (isLeft) {
                 path.push({ x: baseCenter - (offset * 1.5), y: baseY, type: 'stone' });
-                path.push({ x: baseCenter - (offset * 0.5), y: baseY + 80, type: 'stone' });
-                path.push({ x: baseCenter + (offset * 0.5), y: baseY + 160, type: 'stone' });
+                path.push({ x: baseCenter - (offset * 0.5), y: baseY + 100, type: 'stone' });
+                path.push({ x: baseCenter + (offset * 0.5), y: baseY + 200, type: 'stone' });
             } else {
                 path.push({ x: baseCenter + (offset * 1.5), y: baseY, type: 'stone' });
-                path.push({ x: baseCenter + (offset * 0.5), y: baseY + 80, type: 'stone' });
-                path.push({ x: baseCenter - (offset * 0.5), y: baseY + 160, type: 'stone' });
+                path.push({ x: baseCenter + (offset * 0.5), y: baseY + 100, type: 'stone' });
+                path.push({ x: baseCenter - (offset * 0.5), y: baseY + 200, type: 'stone' });
             }
-            path.push({ x: 50, y: baseY + 280, type: 'stump' });
+            path.push({ x: 50, y: baseY + 320, type: 'stump' });
         }
         return path;
     };
@@ -234,7 +264,8 @@ const Roadmap: React.FC = () => {
 
             let targetPosIndex = 0;
 
-            if (levelIdx === 0 && !progress.read && currentStage === 'read') {
+            // Only stay at START if we haven't even started any lesson yet
+            if (!lessonContent && currentLessonIndex === 0) {
                 targetPosIndex = 0;
             } else {
                 targetPosIndex = levelIdx * 4 + stageIdx + 1;
@@ -246,7 +277,7 @@ const Roadmap: React.FC = () => {
                 setTimeout(() => setMascotPos(prev => ({ ...prev, isMoving: false })), 800);
             }
         }
-    }, [currentLessonIndex, currentStage, lessons, stageProgress]);
+    }, [currentLessonIndex, currentStage, lessons, stageProgress, lessonContent]);
 
     useEffect(() => {
         if (!loading && mascotPos.y !== 0) {
@@ -288,8 +319,21 @@ const Roadmap: React.FC = () => {
         return () => clearTimeout(timer);
     }, [loading, course]);
 
-    if (loading || !course) {
-        if (!showLoading) return null;
+    if (loading || !course || error) {
+        if (!showLoading && !error) return null;
+        if (error) return (
+            <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAF3E0', padding: '2rem', textAlign: 'center' }}>
+                <img src="/mascot_game.png" alt="Mascot" style={{ width: '150px', marginBottom: '2rem', filter: 'grayscale(0.5)' }} />
+                <h1 style={{ color: '#8B4513', marginBottom: '1rem' }}>Oops!</h1>
+                <p style={{ color: '#5D4037', fontSize: '1.25rem', marginBottom: '2rem' }}>{error}</p>
+                <button
+                    onClick={() => window.location.href = '/courses'}
+                    style={{ ...styles.nextButton, boxShadow: 'none' }}
+                >
+                    Back to Courses
+                </button>
+            </div>
+        );
         return <LoadingScreen message="Unlocking your learning path..." />;
     }
 
@@ -324,7 +368,7 @@ const Roadmap: React.FC = () => {
                                     <div style={styles.lessonContent}>
                                         <h2 style={{ fontSize: '1.75rem', color: '#8B4513', marginBottom: '1.5rem' }}>{lessonContent.title}</h2>
                                         <p style={styles.intro}>{lessonContent.stages.read.introduction}</p>
-                                        {lessonContent.stages.read.sections.map((section, index) => (
+                                        {(lessonContent.stages.read.sections || []).map((section, index) => (
                                             <div key={index} style={{ marginBottom: '2rem' }}>
                                                 <h3 style={styles.sectionTitle}>{section.title}</h3>
                                                 <p style={styles.sectionContent}>{section.content}</p>
@@ -365,7 +409,9 @@ const Roadmap: React.FC = () => {
                                             <p style={styles.quizSubtitle}>Question {currentQuestion + 1} of {lessonContent.stages.practice.questions.length}</p>
                                         </div>
                                         {(() => {
-                                            const question = lessonContent.stages!.practice!.questions[currentQuestion];
+                                            const questions = lessonContent.stages!.practice!.questions || [];
+                                            const question = questions[currentQuestion];
+                                            if (!question) return <div style={{ textAlign: 'center', padding: '2rem' }}>Practice content not available.</div>;
                                             return (
                                                 <>
                                                     <QuizDifficulty difficulty={question.difficulty} />
@@ -388,7 +434,7 @@ const Roadmap: React.FC = () => {
                                                             </div>
                                                         ))}
                                                     </div>
-                                                    {showFeedback && (
+                                                    {showFeedback && question.explanation && (
                                                         <div style={styles.feedbackBox}>
                                                             <p style={{ margin: 0, lineHeight: '1.6' }}>{question.explanation}</p>
                                                         </div>
@@ -511,7 +557,7 @@ const Roadmap: React.FC = () => {
                                 left: `${mascotPos.x}%`,
                                 transform: 'translateX(-50%)',
                                 zIndex: 10,
-                                transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
                             }}
                         >
                             <MascotCharacter

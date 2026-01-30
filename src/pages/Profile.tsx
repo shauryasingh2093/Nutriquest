@@ -426,8 +426,8 @@ const Profile: React.FC = () => {
 
                                 <div className="grid grid-cols-7 gap-1.5 md:gap-2">
                                     {/* Day Headers */}
-                                    {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(d => (
-                                        <div key={d} className="text-[9px] font-bold text-[#333333]/20 flex items-center justify-center mb-1">{d}</div>
+                                    {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => (
+                                        <div key={`${d}-${i}`} className="text-[9px] font-bold text-[#333333]/20 flex items-center justify-center mb-1">{d}</div>
                                     ))}
                                     {/* Month Days */}
                                     {currentMonthData.days.map((day: any) => (

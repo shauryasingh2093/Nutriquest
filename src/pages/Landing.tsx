@@ -122,14 +122,13 @@ const Landing: React.FC = () => {
                         <ul className="list-none p-0 m-0 space-y-8 mt-6">
                             {[
                                 { text: "Unlocking achievements as you learn.", icon: "✧" },
-                                { text: "Track progress with daily quests.", icon: "✧", extra: "▶" },
+                                { text: "Track progress with daily quests.", icon: "✧" },
                                 { text: "Turn skills into streaks and milestones.", icon: "✧" }
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center text-xl font-bold text-[#7F6E68] group/item cursor-default transition-all duration-300 hover:translate-x-2">
                                     <span className="text-3xl mr-6 text-landing-logo transition-transform duration-300 group-hover/item:scale-125">{item.icon}</span>
                                     <div className="flex-1 flex justify-between items-center opacity-90 group-hover/item:opacity-100">
                                         {item.text}
-                                        {item.extra && <span className="ml-4 text-2xl animate-pulse text-landing-logo">{item.extra}</span>}
                                     </div>
                                 </li>
                             ))}
@@ -148,9 +147,15 @@ const Landing: React.FC = () => {
                     <Link to="/signup" className="bg-transparent border-2 border-[#8b7355] text-[#8b7355] px-12 py-4 rounded-full text-xl font-bold cursor-pointer mb-16 transition-all no-underline inline-block hover:bg-[#8b7355] hover:text-white hover:scale-105 shadow-sm">Join the Quest</Link>
 
                     <div className="flex justify-center gap-6 mb-8">
-                        {['X', 'D', 'I', 'T'].map((social, index) => (
-                            <a key={index} href="#" className="flex items-center justify-center w-14 h-14 bg-[#8b7355] rounded-xl text-white no-underline text-2xl transition-all hover:bg-landing-dark hover:scale-110 hover:shadow-md">{social}</a>
-                        ))}
+                        <a href="#" className="flex items-center justify-center w-14 h-14 bg-[#8b7355] rounded-full text-white transition-all hover:bg-landing-dark hover:scale-110 hover:shadow-md">
+                            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z" /></svg>
+                        </a>
+                        <a href="#" className="flex items-center justify-center w-14 h-14 bg-[#8b7355] rounded-full text-white transition-all hover:bg-landing-dark hover:scale-110 hover:shadow-md">
+                            <svg className="w-6 h-6 fill-current" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.31,80.1a105.77,105.77,0,0,0,32.32,16.25,80.06,80.06,0,0,0,6.89-11.11,68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.35-16.27c2.47-27.14-4.27-50.84-18.7-72.04ZM42.45,65.69C36.18,65.69,31,60,31,53s5.09-12.73,11.48-12.73S54,46,53.92,53,48.81,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5.09-12.73,11.44-12.73S96.23,46,96.15,53,91,65.69,84.69,65.69Z" /></svg>
+                        </a>
+                        <a href="#" className="flex items-center justify-center w-14 h-14 bg-[#8b7355] rounded-full text-white transition-all hover:bg-landing-dark hover:scale-110 hover:shadow-md">
+                            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
+                        </a>
                     </div>
 
                     <img src="/5.png" alt="Community Mascot" className="absolute w-48 md:w-64 h-auto -bottom-4 -left-12 drop-shadow-lg hidden md:block" />
@@ -163,38 +168,35 @@ const Landing: React.FC = () => {
                     <div>
                         <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Product</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Features</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Updates</a></li>
+                            <li><Link to="/features" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Features</Link></li>
+                            <li><Link to="/updates" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Updates</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Company</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">About</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Blog</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Press</a></li>
+                            <li><Link to="/about" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">About</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Services</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Documentation</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Community</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Tutorials</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Support</a></li>
+                            <li><Link to="/documentation" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Documentation</Link></li>
+                            <li><Link to="/tutorials" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Tutorials</Link></li>
+                            <li><Link to="/support" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Support</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h4 className="text-xl font-bold mb-6 opacity-80 uppercase tracking-widest text-sm text-landing-dark">Values</h4>
                         <ul className="list-none p-0 m-0 space-y-4">
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Privacy Policy</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Terms</a></li>
-                            <li><a href="#" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Licenses</a></li>
+                            <li><Link to="/privacy" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Privacy Policy</Link></li>
+                            <li><Link to="/terms" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Terms</Link></li>
+                            <li><Link to="/licenses" className="no-underline text-landing-dark font-medium hover:opacity-70 transition-opacity">Licenses</Link></li>
                         </ul>
                     </div>
                 </div>
                 <div className="text-center pt-12 border-t border-landing-logo/10">
-                    <p className="m-0 text-sm font-bold opacity-60">© 2025 NutriQuest | All Rights Reserved</p>
+                    <p className="m-0 text-sm font-bold opacity-60">© 2025 NutriQuest | Made by Shaurya Singh</p>
                 </div>
             </footer>
         </div>

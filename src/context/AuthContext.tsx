@@ -20,6 +20,17 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const normalizeUser = (userData: any): User => {
+    return {
+        ...userData,
+        favorites: userData.favorites || [],
+        history: userData.history || [],
+        calendarNotes: userData.calendarNotes || {},
+        completedLessons: userData.completedLessons || [],
+        stageProgress: userData.stageProgress || {}
+    };
+};
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(() => {
         // Initialize from localStorage immediately
@@ -28,14 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (token && savedUser) {
             try {
                 const parsed = JSON.parse(savedUser);
-                // Return normalized user to ensure fields like favorites exist
-                return {
-                    ...parsed,
-                    favorites: parsed.favorites || [],
-                    history: parsed.history || [],
-                    calendarNotes: parsed.calendarNotes || {},
-                    completedLessons: parsed.completedLessons || []
-                };
+                return normalizeUser(parsed);
             } catch {
                 return null;
             }
@@ -134,16 +138,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
     };
 
-    const normalizeUser = (userData: User): User => {
-        return {
-            ...userData,
-            favorites: userData.favorites || [],
-            history: userData.history || [],
-            calendarNotes: userData.calendarNotes || {},
-            completedLessons: userData.completedLessons || [],
-            stageProgress: userData.stageProgress || {}
-        };
-    };
+
 
     const updateUser = (updatedUser: User) => {
         const normalized = normalizeUser(updatedUser);

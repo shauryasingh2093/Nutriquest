@@ -29,7 +29,6 @@ NutriQuest is a gamified learning platform that transforms educational journeys 
 ### Prerequisites
 - Node.js (v18 or higher)
 - MongoDB account (local or Atlas)
-- Clerk account (for authentication)
 - OpenAI API Key (for AI features)
 
 ### Installation
@@ -48,7 +47,7 @@ NutriQuest is a gamified learning platform that transforms educational journeys 
 3. **Environment Setup**:
    Create a `.env` file in the root directory based on `.env.example`:
    ```env
-   VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
+  
    OPENAI_API_KEY=your_openai_key
    MONGODB_URI=your_mongodb_uri
    SESSION_SECRET=your_session_secret

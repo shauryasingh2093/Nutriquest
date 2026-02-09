@@ -146,7 +146,9 @@ router.get('/google', (req, res, next) => {
 
 // Google OAuth callback
 router.get('/google/callback', (req, res, next) => {
-    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login' })(req, res, async () => {
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
+    passport.authenticate('google', { failureRedirect: `${frontendUrl}/login` })(req, res, async () => {
         try {
             // User is now authenticated and available in req.user
             const user = req.user;
@@ -161,10 +163,10 @@ router.get('/google/callback', (req, res, next) => {
             console.log('✅ Google OAuth successful, redirecting to frontend with token');
 
             // Redirect to frontend with token
-            res.redirect(`http://localhost:5173/courses?token=${token}`);
+            res.redirect(`${frontendUrl}/courses?token=${token}`);
         } catch (error) {
             console.error('❌ Google OAuth callback error:', error);
-            res.redirect('http://localhost:5173/login?error=oauth_failed');
+            res.redirect(`${frontendUrl}/login?error=oauth_failed`);
         }
     });
 });

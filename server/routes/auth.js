@@ -165,7 +165,11 @@ router.get('/google/callback', (req, res, next) => {
             // Redirect to frontend with token
             res.redirect(`${frontendUrl}/courses?token=${token}`);
         } catch (error) {
-            console.error('❌ Google OAuth callback error:', error);
+            console.error('❌ Detailed Google OAuth callback error:', {
+                message: error.message,
+                stack: error.stack,
+                user: req.user ? 'User present' : 'User MISSING'
+            });
             res.redirect(`${frontendUrl}/login?error=oauth_failed`);
         }
     });

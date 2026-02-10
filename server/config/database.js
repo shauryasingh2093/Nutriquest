@@ -4,6 +4,11 @@ const connectDB = async () => {
     try {
         if (mongoose.connection.readyState >= 1) return;
 
+        if (!process.env.MONGODB_URI) {
+            console.error('❌ MONGODB_URI is missing from environment variables!');
+            return;
+        }
+
         const conn = await mongoose.connect(process.env.MONGODB_URI, {
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,

@@ -22,6 +22,7 @@ import Support from './pages/Support';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Licenses from './pages/Licenses';
+import SSOCallback from './pages/SSOCallback';
 
 const App: React.FC = () => {
     return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
                     <Route path="/" element={<Landing />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/auth/callback" element={<SSOCallback />} />
 
                     {/* Marketing & Support Pages */}
                     <Route path="/about" element={<About />} />

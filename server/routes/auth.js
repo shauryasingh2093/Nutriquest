@@ -148,31 +148,28 @@ router.get('/google', (req, res, next) => {
 router.get('/google/callback', (req, res, next) => {
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-    passport.authenticate('google', { failureRedirect: `${frontendUrl}/login` })(req, res, async () => {
+    passport.authenticate('google', { session: false }, async (err, user, info) => {
         try {
-            // User is now authenticated and available in req.user
-            const user = req.user;
+            if (err || !user) {
+                console.error('❌ Passport auth failed:', err || 'No user found', info);
+                return res.redirect(`${frontendUrl}/login?error=oauth_failed&reason=${encodeURIComponent(err?.message || 'auth_failed')}`);
+            }
 
             // Generate JWT token
             const token = jwt.sign(
                 { userId: user._id },
-                process.env.JWT_SECRET,
+                process.env.JWT_SECRET || 'fallback-secret',
                 { expiresIn: '7d' }
             );
 
-            console.log('✅ Google OAuth successful, redirecting to frontend with token');
-
-            // Redirect to frontend with token
-            res.redirect(`${frontendUrl}/courses?token=${token}`);
+            console.log('✅ Google OAuth successful, redirecting to frontend');
+            // Redirect to our new frontend callback route
+            res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
         } catch (error) {
-            console.error('❌ Detailed Google OAuth callback error:', {
-                message: error.message,
-                stack: error.stack,
-                user: req.user ? 'User present' : 'User MISSING'
-            });
+            console.error('❌ Detailed Google OAuth callback error:', error);
             res.redirect(`${frontendUrl}/login?error=oauth_failed`);
         }
-    });
+    })(req, res, next);
 });
 
 export default router;

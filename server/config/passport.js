@@ -20,11 +20,16 @@ passport.use(
             try {
                 console.log('🔐 Google OAuth callback received for:', profile.emails[0].value);
 
-                // Extract user info from Google profile
-                const email = profile.emails[0].value;
+                // Extract user info from Google profile safely
+                const email = profile.emails?.[0]?.value;
                 const googleId = profile.id;
                 const name = profile.displayName;
-                const avatar = profile.photos[0]?.value;
+                const avatar = profile.photos?.[0]?.value;
+
+                if (!email) {
+                    console.error('❌ Google OAuth Error: No email found in profile');
+                    return done(new Error('No email found in Google profile'), null);
+                }
 
                 // Check if user already exists by googleId or email
                 let user = await User.findOne({

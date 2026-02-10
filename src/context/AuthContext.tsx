@@ -46,58 +46,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
         return null;
     });
-    const [loading, setLoading] = useState(() => {
-        const params = new URLSearchParams(window.location.search);
-        return params.has('token');
-    });
+    const [loading, setLoading] = useState(true);
 
-    // Handle OAuth token from URL query params
+    // Initial check for session on mount
     useEffect(() => {
-        const handleOAuthCallback = async () => {
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get('token');
-            const error = params.get('error');
-
-            if (error) {
-                console.error('❌ OAuth error:', error);
-                setLoading(false);
-                return;
-            }
-
-            if (token) {
-                console.log('✅ OAuth token received from URL');
-                setLoading(true);
-
+        const initAuth = async () => {
+            const token = localStorage.getItem('token');
+            if (token && !user) {
                 try {
-                    // Save token
-                    localStorage.setItem('token', token);
-                    sessionStorage.setItem('token', token);
-
-                    // Fetch user data with the token
                     const response = await api.get('/auth/me');
-                    const loggedInUser = response.data.user;
-
-                    // Save user data
-                    const normalizedUser = normalizeUser(loggedInUser);
-                    localStorage.setItem('user', JSON.stringify(normalizedUser));
-                    sessionStorage.setItem('user', JSON.stringify(normalizedUser));
-
+                    const normalizedUser = normalizeUser(response.data.user);
                     setUser(normalizedUser);
-                    console.log('✅ OAuth login successful:', loggedInUser.email);
-
-                    // Clean up URL (remove token from query params)
-                    window.history.replaceState({}, document.title, window.location.pathname);
                 } catch (error) {
-                    console.error('❌ Failed to fetch user after OAuth:', error);
-                    localStorage.removeItem('token');
-                    sessionStorage.removeItem('token');
-                } finally {
-                    setLoading(false);
+                    console.error('❌ Session initialization failed:', error);
+                    logout();
                 }
             }
+            setLoading(false);
         };
-
-        handleOAuthCallback();
+        initAuth();
     }, []);
 
     const login = async (email: string, password: string): Promise<User> => {

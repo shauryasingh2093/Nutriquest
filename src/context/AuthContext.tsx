@@ -114,8 +114,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const socialLogin = (provider: 'google'): void => {
         console.log(`🔐 Redirecting to ${provider} OAuth...`);
-        // Redirect to backend OAuth route
-        window.location.href = `http://localhost:3001/api/auth/${provider}`;
+        // Use the same API base URL as the rest of the app
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+        window.location.href = `${apiBaseUrl}/auth/${provider}`;
     };
 
     const signup = async (name: string, email: string, password: string): Promise<User> => {

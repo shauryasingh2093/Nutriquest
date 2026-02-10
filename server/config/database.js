@@ -2,26 +2,19 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
     try {
+        if (mongoose.connection.readyState >= 1) return;
+
         const conn = await mongoose.connect(process.env.MONGODB_URI, {
-            // These options help with connection stability
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
         });
 
         console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-
-        // Handle connection events
-        mongoose.connection.on('error', (err) => {
-            console.error('❌ MongoDB connection error:', err);
-        });
-
-        mongoose.connection.on('disconnected', () => {
-            console.log('⚠️  MongoDB disconnected');
-        });
-
+        return conn;
     } catch (error) {
         console.error(`❌ Error connecting to MongoDB: ${error.message}`);
-        process.exit(1); // Exit process with failure
+        // Do not use process.exit(1) in a serverless environment like Vercel
+        throw error;
     }
 };
 

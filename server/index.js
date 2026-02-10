@@ -15,7 +15,9 @@ const app = express();
 const PORT = 3001;
 
 // Connect to MongoDB
-connectDB();
+connectDB().catch(err => {
+    console.error('❌ Failed to connect to MongoDB at startup:', err.message);
+});
 
 // Middleware
 const allowedOrigins = [

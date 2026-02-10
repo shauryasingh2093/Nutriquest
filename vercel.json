@@ -19,7 +19,7 @@
             "destination": "/server/index.js"
         },
         {
-            "source": "/auth/(.*)",
+            "source": "/auth/google(.*)",
             "destination": "/server/index.js"
         },
         {

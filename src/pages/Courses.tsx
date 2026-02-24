@@ -27,8 +27,11 @@ const Courses: React.FC = () => {
             );
 
             setCourses(uniqueCourses);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error fetching courses:', error);
+            if (error.code === 'ECONNABORTED') {
+                console.error('Fetch timed out. This might be due to server cold start. Retrying is recommended.');
+            }
         } finally {
             setLoading(false);
         }

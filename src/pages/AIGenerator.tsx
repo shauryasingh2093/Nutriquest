@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import api from '../utils/api';
 import LoadingScreen from '../components/LoadingScreen';
+import ErrorState from '../components/ErrorState';
 
 interface AIFormData {
     goal: string;
@@ -44,6 +45,7 @@ const AIGenerator: React.FC = () => {
     const [roadmap, setRoadmap] = useState<AIRoadmap | null>(null);
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({
@@ -55,6 +57,7 @@ const AIGenerator: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setError(null);
 
         try {
             const response = await api.post('/ai/generate-roadmap', formData);
@@ -65,11 +68,11 @@ const AIGenerator: React.FC = () => {
                 setRoadmap(response.data.roadmap);
             } else {
                 console.error('No roadmap in response');
-                alert('Failed to generate roadmap. Please try again.');
+                setError('Our AI wizard is briefly out of mana. Please try again in a moment.');
             }
         } catch (error) {
             console.error('Error generating roadmap:', error);
-            alert('Failed to generate roadmap. Please try again.');
+            setError('Something went wrong while crafting your roadmap. Check your connection and try again.');
         } finally {
             setLoading(false);
         }
@@ -77,7 +80,7 @@ const AIGenerator: React.FC = () => {
 
     const handlePlayRoadmap = async () => {
         if (!roadmap) return;
-
+        setError(null);
         setSaving(true);
         try {
             const response = await api.post('/ai/save-course', { roadmap });
@@ -87,7 +90,7 @@ const AIGenerator: React.FC = () => {
             }
         } catch (error) {
             console.error('Error saving course:', error);
-            alert('Failed to save course. Please try again.');
+            setError('Failed to save your course. Please try again.');
         } finally {
             setSaving(false);
         }
@@ -202,6 +205,16 @@ const AIGenerator: React.FC = () => {
                             />
                         )}
 
+                        {error && !loading && !saving && (
+                            <div className="mb-8">
+                                <ErrorState
+                                    title="AI Generator Issue"
+                                    message={error}
+                                    onRetry={() => setError(null)}
+                                    showHome={false}
+                                />
+                            </div>
+                        )}
                         {roadmap && !loading && (
                             <div className="bg-white rounded-[48px] p-12 shadow-2xl border border-white/50">
                                 <div className="flex gap-8 mb-12 items-start">
@@ -214,11 +227,11 @@ const AIGenerator: React.FC = () => {
 
                                 <div className="flex gap-4 mb-12">
                                     <span className="bg-[#7F6E68]/5 px-5 py-2 rounded-full text-sm font-black text-[#7F6E68] border border-[#7F6E68]/10 tracking-wide uppercase">
-                                        📚 {roadmap.lessons?.length || roadmap.phases?.length || 0} {roadmap.lessons ? 'lessons' : 'phases'}
+                                        📚 {(roadmap.lessons?.length || roadmap.phases?.length || 0)} {roadmap.lessons ? 'lessons' : 'phases'}
                                     </span>
-                                    {roadmap.lessons && (
+                                    {roadmap.lessons && roadmap.lessons.length > 0 && (
                                         <span className="bg-[#A8BDC9]/15 px-5 py-2 rounded-full text-sm font-black text-[#555555] border border-[#A8BDC9]/10 tracking-wide uppercase">
-                                            ⚡ {roadmap.lessons.reduce((sum, l) => sum + l.xp, 0)} Total XP
+                                            ⚡ {roadmap.lessons.reduce((sum, l) => sum + (l.xp || 0), 0)} Total XP
                                         </span>
                                     )}
                                 </div>

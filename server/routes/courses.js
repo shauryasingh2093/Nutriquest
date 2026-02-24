@@ -11,11 +11,13 @@ const router = express.Router();
 // Get all courses
 router.get('/', async (req, res) => {
     try {
+        console.time('DB_FETCH_COURSES');
         // Project only necessary fields - exclude lessons' stages which can be very large
         const courses = await Course.find({})
             .select('id title description thumbnail category difficulty totalXP isAIGenerated lessons.id lessons.title lessons.xp')
             .sort({ createdAt: -1 })
             .lean();
+        console.timeEnd('DB_FETCH_COURSES');
 
         // Remove duplicates by title (keep the first occurrence) 
         const seen = new Set();

@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import api from '../utils/api';
 import { Course } from '../types';
 import LoadingScreen from '../components/LoadingScreen';
+import ErrorState from '../components/ErrorState';
 
 interface CourseProgress {
     id: string;
@@ -31,6 +32,7 @@ const Progress: React.FC = () => {
 
     const [courses, setCourses] = useState<CourseProgress[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [viewDate, setViewDate] = useState(new Date());
 
@@ -43,6 +45,7 @@ const Progress: React.FC = () => {
     const fetchCourses = async () => {
         if (!user) return;
         try {
+            setError(null);
             const response = await api.get('/courses');
             const coursesData: Course[] = response.data.courses || response.data;
 
@@ -76,6 +79,7 @@ const Progress: React.FC = () => {
             setLoading(false);
         } catch (error) {
             console.error('Error fetching courses:', error);
+            setError('Failed to load your progress. Please check your connection.');
             setLoading(false);
         }
     };
@@ -242,6 +246,12 @@ const Progress: React.FC = () => {
                             <div className="flex-1 space-y-6">
                                 {loading ? (
                                     showDataLoading ? <LoadingScreen message="Calculating your progress..." fullScreen={false} /> : null
+                                ) : error ? (
+                                    <ErrorState
+                                        message={error}
+                                        onRetry={fetchCourses}
+                                        showHome={false}
+                                    />
                                 ) : filteredCourses.length === 0 ? (
                                     <div className="bg-white rounded-[40px] p-20 text-center">
                                         <p className="text-[#7F6E68]/60 font-bold text-lg">No courses found</p>

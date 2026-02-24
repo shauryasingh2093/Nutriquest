@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
-    timeout: 10000, // 10s timeout to prevent infinite loading
+    timeout: 30000, // Increased to 30s to handle cold starts/latency
 });
 
 // Add token to requests

@@ -11,6 +11,7 @@ import SteppingStone from '../components/SteppingStone';
 import LevelStump from '../components/LevelStump';
 import MascotCharacter from '../components/MascotCharacter';
 import LoadingScreen from '../components/LoadingScreen';
+import ErrorState from '../components/ErrorState';
 import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { Course, Lesson, Achievement, StageProgress } from '../types';
@@ -167,6 +168,8 @@ const Roadmap: React.FC = () => {
             });
 
             updateUser(response.data.user);
+            console.log('🔥 [Streak Update] New streak value:', response.data.user.streak);
+            console.log('🔥 [Streak Update] Full user object:', response.data.user);
             setStageProgress(response.data.user.stageProgress || {});
 
             setEarnedXP(xp);
@@ -322,16 +325,13 @@ const Roadmap: React.FC = () => {
     if (loading || !course || error) {
         if (!showLoading && !error) return null;
         if (error) return (
-            <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAF3E0', padding: '2rem', textAlign: 'center' }}>
-                <img src="/mascot_game.png" alt="Mascot" style={{ width: '150px', marginBottom: '2rem', filter: 'grayscale(0.5)' }} />
-                <h1 style={{ color: '#8B4513', marginBottom: '1rem' }}>Oops!</h1>
-                <p style={{ color: '#5D4037', fontSize: '1.25rem', marginBottom: '2rem' }}>{error}</p>
-                <button
-                    onClick={() => window.location.href = '/courses'}
-                    style={{ ...styles.nextButton, boxShadow: 'none' }}
-                >
-                    Back to Courses
-                </button>
+            <div className="bg-[#FAF3E0] min-h-screen">
+                <Navbar />
+                <ErrorState
+                    title="Roadmap Error"
+                    message={error}
+                    onRetry={fetchCourseData}
+                />
             </div>
         );
         return <LoadingScreen message="Unlocking your learning path..." />;
@@ -368,29 +368,35 @@ const Roadmap: React.FC = () => {
                                     <div style={styles.lessonContent}>
                                         <h2 style={{ fontSize: '1.75rem', color: '#8B4513', marginBottom: '1.5rem' }}>{lessonContent.title}</h2>
                                         <p style={styles.intro}>{lessonContent.stages.read.introduction}</p>
-                                        {(lessonContent.stages.read.sections || []).map((section, index) => (
-                                            <div key={index} style={{ marginBottom: '2rem' }}>
-                                                <h3 style={styles.sectionTitle}>{section.title}</h3>
-                                                <p style={styles.sectionContent}>{section.content}</p>
-                                                {section.keyPoints && (
-                                                    <div style={styles.keyPointsBox}>
-                                                        <h4 style={styles.keyPointsTitle}>Key Points:</h4>
-                                                        <ul style={styles.list}>
-                                                            {section.keyPoints.map((point, i) => (
-                                                                <li key={i} style={styles.listItem}>{point}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                )}
-                                                {section.example && (
-                                                    <div style={styles.exampleBox}>
-                                                        <h4 style={styles.exampleTitle}>💡 Example:</h4>
-                                                        <pre style={styles.codeBlock}><code>{section.example.code}</code></pre>
-                                                        <p style={styles.exampleExplanation}>{section.example.explanation}</p>
-                                                    </div>
-                                                )}
+                                        {(lessonContent.stages.read.sections || []).length > 0 ? (
+                                            (lessonContent.stages.read.sections || []).map((section, index) => (
+                                                <div key={index} style={{ marginBottom: '2rem' }}>
+                                                    <h3 style={styles.sectionTitle}>{section.title}</h3>
+                                                    <p style={styles.sectionContent}>{section.content}</p>
+                                                    {section.keyPoints && section.keyPoints.length > 0 && (
+                                                        <div style={styles.keyPointsBox}>
+                                                            <h4 style={styles.keyPointsTitle}>Key Points:</h4>
+                                                            <ul style={styles.list}>
+                                                                {section.keyPoints.map((point, i) => (
+                                                                    <li key={i} style={styles.listItem}>{point}</li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                    {section.example && section.example.code && (
+                                                        <div style={styles.exampleBox}>
+                                                            <h4 style={styles.exampleTitle}>💡 Example:</h4>
+                                                            <pre style={styles.codeBlock}><code>{section.example.code}</code></pre>
+                                                            <p style={styles.exampleExplanation}>{section.example.explanation}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="p-8 text-center text-[#7F6E68]/60 bg-white/30 rounded-2xl border border-dashed border-[#7F6E68]/20">
+                                                No content sections available for this lesson yet.
                                             </div>
-                                        ))}
+                                        )}
                                         <div style={styles.footer}>
                                             <button
                                                 onClick={() => handleCompleteStage('read', lessonContent.stages!.read!.xp)}

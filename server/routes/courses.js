@@ -11,6 +11,14 @@ const router = express.Router();
 // Get all courses
 router.get('/', async (req, res) => {
     try {
+        // Check DB connection status
+        if (req.app.get('dbStatus') === 'error') {
+            return res.status(503).json({
+                error: 'Database connection failed',
+                message: 'The server is currently unable to reach the database.'
+            });
+        }
+
         console.time('DB_FETCH_COURSES');
         // Project only necessary fields - exclude lessons' stages which can be very large
         const courses = await Course.find({})
@@ -29,8 +37,17 @@ router.get('/', async (req, res) => {
 
         res.json({ courses: uniqueCourses });
     } catch (error) {
-        console.error('Error fetching courses:', error);
-        res.status(500).json({ error: 'Server error' });
+        console.error('❌ Error fetching courses:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code,
+            name: error.name
+        });
+        res.status(500).json({
+            error: 'Server error',
+            message: error.message,
+            code: error.code
+        });
     }
 });
 
